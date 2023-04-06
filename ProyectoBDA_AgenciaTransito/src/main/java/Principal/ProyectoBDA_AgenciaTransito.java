@@ -5,6 +5,8 @@
 
 package Principal;
 
+import Implementaciones.frmMenu;
+
 /**
  *
  * @author Joel Antonio Lopez Cota ID:228926
@@ -13,5 +15,6 @@ public class ProyectoBDA_AgenciaTransito {
 
     public static void main(String[] args) {
         System.out.println("Hello World!");
+        new frmMenu().setVisible(true);
     }
 }
