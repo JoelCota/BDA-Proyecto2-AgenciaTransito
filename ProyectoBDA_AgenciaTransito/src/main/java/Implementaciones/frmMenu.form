@@ -292,9 +292,9 @@
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="txtConsultas" alignment="1" min="-2" pref="183" max="-2" attributes="0"/>
+                                  <Component id="txtLicencias" alignment="1" min="-2" pref="183" max="-2" attributes="0"/>
                                   <Component id="txtReportes" alignment="1" min="-2" pref="183" max="-2" attributes="0"/>
                                   <Component id="txtPlacas" alignment="1" min="-2" pref="183" max="-2" attributes="0"/>
-                                  <Component id="txtLicencias" alignment="1" min="-2" pref="183" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -306,13 +306,13 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="txtLicencias" min="-2" pref="35" max="-2" attributes="0"/>
+                      <Component id="txtPlacas" min="-2" pref="35" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="pnlPlacas" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="txtReportes" min="-2" pref="35" max="-2" attributes="0"/>
+                      <Component id="txtLicencias" min="-2" pref="35" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="txtPlacas" min="-2" pref="35" max="-2" attributes="0"/>
+                      <Component id="txtReportes" min="-2" pref="35" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="txtConsultas" min="-2" pref="35" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -378,6 +378,9 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="-Automovil Nuevo"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="txtAutomovilNuevoMouseClicked"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JSeparator" name="jSeparator3">
                   <Properties>
@@ -396,6 +399,9 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="- Automovil Usado"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="txtAutomovilUsadoMouseClicked"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JSeparator" name="jSeparator1">
                   <Properties>
@@ -409,15 +415,15 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JLabel" name="txtPlacas">
+            <Component class="javax.swing.JLabel" name="txtReportes">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="14" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Placas"/>
+                <Property name="text" type="java.lang.String" value="Reportes"/>
               </Properties>
               <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="txtPlacasMouseClicked"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="txtReportesMouseClicked"/>
               </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="txtConsultas">
@@ -431,17 +437,6 @@
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="txtConsultasMouseClicked"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JLabel" name="txtReportes">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="14" style="1"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Reportes"/>
-              </Properties>
-              <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="txtReportesMouseClicked"/>
-              </Events>
-            </Component>
             <Component class="javax.swing.JLabel" name="txtLicencias">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -451,6 +446,17 @@
               </Properties>
               <Events>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="txtLicenciasMouseClicked"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="txtPlacas">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Segoe UI" size="14" style="1"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Placas"/>
+              </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="txtPlacasMouseClicked"/>
               </Events>
             </Component>
           </SubComponents>

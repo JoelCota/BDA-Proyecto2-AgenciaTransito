@@ -50,10 +50,10 @@ public class frmMenu extends javax.swing.JFrame {
         jSeparator3 = new javax.swing.JSeparator();
         txtAutomovilUsado = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
-        txtPlacas = new javax.swing.JLabel();
-        txtConsultas = new javax.swing.JLabel();
         txtReportes = new javax.swing.JLabel();
+        txtConsultas = new javax.swing.JLabel();
         txtLicencias = new javax.swing.JLabel();
+        txtPlacas = new javax.swing.JLabel();
         txtGeneraClientes = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -186,12 +186,22 @@ public class frmMenu extends javax.swing.JFrame {
 
         txtAutomovilNuevo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtAutomovilNuevo.setText("-Automovil Nuevo");
+        txtAutomovilNuevo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtAutomovilNuevoMouseClicked(evt);
+            }
+        });
 
         jSeparator3.setBackground(new java.awt.Color(0, 0, 0));
         jSeparator3.setForeground(new java.awt.Color(0, 0, 0));
 
         txtAutomovilUsado.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtAutomovilUsado.setText("- Automovil Usado");
+        txtAutomovilUsado.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtAutomovilUsadoMouseClicked(evt);
+            }
+        });
 
         jSeparator1.setBackground(new java.awt.Color(0, 0, 0));
         jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
@@ -227,11 +237,11 @@ public class frmMenu extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        txtPlacas.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        txtPlacas.setText("Placas");
-        txtPlacas.addMouseListener(new java.awt.event.MouseAdapter() {
+        txtReportes.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txtReportes.setText("Reportes");
+        txtReportes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txtPlacasMouseClicked(evt);
+                txtReportesMouseClicked(evt);
             }
         });
 
@@ -243,19 +253,19 @@ public class frmMenu extends javax.swing.JFrame {
             }
         });
 
-        txtReportes.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        txtReportes.setText("Reportes");
-        txtReportes.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txtReportesMouseClicked(evt);
-            }
-        });
-
         txtLicencias.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txtLicencias.setText("Licencias");
         txtLicencias.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 txtLicenciasMouseClicked(evt);
+            }
+        });
+
+        txtPlacas.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txtPlacas.setText("Placas");
+        txtPlacas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtPlacasMouseClicked(evt);
             }
         });
 
@@ -271,22 +281,22 @@ public class frmMenu extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(pnlTramitesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtConsultas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtLicencias, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtReportes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtPlacas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtLicencias, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(txtPlacas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
         pnlTramitesLayout.setVerticalGroup(
             pnlTramitesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlTramitesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(txtLicencias, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtPlacas, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(pnlPlacas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtReportes, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtLicencias, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtPlacas, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtReportes, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtConsultas, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -366,13 +376,13 @@ public class frmMenu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtTramitesMouseClicked
 
-    private void txtLicenciasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtLicenciasMouseClicked
+    private void txtPlacasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtPlacasMouseClicked
      if (pnlPlacas.isVisible()) {
             pnlPlacas.setVisible(false);
         }else{
             pnlPlacas.setVisible(true);
         }
-    }//GEN-LAST:event_txtLicenciasMouseClicked
+    }//GEN-LAST:event_txtPlacasMouseClicked
 
     private void txtGeneraClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtGeneraClientesMouseClicked
         if (pnlDatosClientes.isVisible()) {
@@ -383,17 +393,24 @@ public class frmMenu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtGeneraClientesMouseClicked
 
-    private void txtPlacasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtPlacasMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPlacasMouseClicked
-
     private void txtReportesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtReportesMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_txtReportesMouseClicked
 
+    private void txtLicenciasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtLicenciasMouseClicked
+      new frmSolicitarLicencia().setVisible(true);
+    }//GEN-LAST:event_txtLicenciasMouseClicked
+
     private void txtConsultasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtConsultasMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_txtConsultasMouseClicked
+       private void txtAutomovilNuevoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtAutomovilNuevoMouseClicked
+     new frmSolicitarPlacasAutoNuevo().setVisible(true);
+    }//GEN-LAST:event_txtAutomovilNuevoMouseClicked
+
+    private void txtAutomovilUsadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtAutomovilUsadoMouseClicked
+       new frmSolicitarPlacasAutoUsado().setVisible(true);
+    }//GEN-LAST:event_txtAutomovilUsadoMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
