@@ -20,11 +20,17 @@ import javax.persistence.Id;
 @Entity
 public class Automovil implements Serializable {
 
+    //Atributos
+    private String modelo;
+    private String linea;
+    private String serie;
+    
+    
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
+    
     /**
      * 
      */

@@ -5,7 +5,7 @@
 
 package Principal;
 
-import Implementaciones.frmMenu;
+import Frames.frmMenu;
 
 /**
  *

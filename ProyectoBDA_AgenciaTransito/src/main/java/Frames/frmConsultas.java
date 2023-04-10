@@ -4,7 +4,7 @@
 * 
 */ 
 
-package Implementaciones;
+package Frames;
 
 /**
  * Descripción de la clase: 

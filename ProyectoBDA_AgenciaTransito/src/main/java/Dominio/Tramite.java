@@ -20,6 +20,7 @@ import javax.persistence.Id;
 @Entity
 public class Tramite implements Serializable {
 
+    //Atributos
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

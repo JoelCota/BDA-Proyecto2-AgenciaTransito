@@ -1,10 +1,8 @@
-/**
-* Placa.java
-* Apr 8, 2023 2:12:01 PM
-*/ 
-
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package Dominio;
-//importanciones
 
 import java.io.Serializable;
 import javax.persistence.Entity;
@@ -14,28 +12,19 @@ import javax.persistence.Id;
 
 /**
  *
- * 
- * @author Joel Antonio Lopez Cota ID:228926
+ * @author deivi
  */
 @Entity
-public class Placa implements Serializable { //PONER QUE EXTIENDE DE TRAMITE
+public class Transporte implements Serializable {
 
     //Atributos
-    private String numeroPlaca;
-    private String serieVehiculo;
-    
+    private String marca;
+    private String color;
     
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    /**
-     * 
-     */
-    public Placa(){
-
-    }
 
     public Long getId() {
         return id;
@@ -55,10 +44,10 @@ public class Placa implements Serializable { //PONER QUE EXTIENDE DE TRAMITE
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Placa)) {
+        if (!(object instanceof Transporte)) {
             return false;
         }
-        Placa other = (Placa) object;
+        Transporte other = (Transporte) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -67,6 +56,7 @@ public class Placa implements Serializable { //PONER QUE EXTIENDE DE TRAMITE
 
     @Override
     public String toString() {
-        return "Dominio.Placa[ id=" + id + " ]";
+        return "Dominio.Transporte[ id=" + id + " ]";
     }
+    
 }

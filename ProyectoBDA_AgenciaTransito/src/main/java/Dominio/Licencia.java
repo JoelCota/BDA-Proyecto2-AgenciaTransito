@@ -7,6 +7,7 @@ package Dominio;
 //importanciones
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,8 +19,13 @@ import javax.persistence.Id;
  * @author Joel Antonio Lopez Cota ID:228926
  */
 @Entity
-public class Licencia implements Serializable {
+public class Licencia implements Serializable  { //PONER QUE EXTIENDE DE TRAMITE
 
+    //Atributos
+    private String rfcPersona;
+    private tipoLicencia tipo;
+    private Date vigencia;
+    
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
