@@ -1,74 +1,105 @@
 /**
-* Persona.java
-* Apr 8, 2023 1:42:53 PM
-*/ 
-
+ * Persona.java
+ * Apr 8, 2023 1:42:53 PM
+ */
 package Dominio;
-//importanciones
+
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.Calendar;
+import java.util.Objects;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
- * 
+ *
  * @author Joel Antonio Lopez Cota ID:228926
  */
 @Entity
+@Table(name = "personas")
 public class Persona implements Serializable {
 
     //Atributos
-    private String RFC;
-    private String telefono;
-    private String nombreCompleto;
-    private Date fechaNacimiento;
-    
-    private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @Column(name = "rfc", nullable = false, length = 13)
+    private String RFC;
+    @Column(name = "telefono", nullable = false, length = 20)
+    private String telefono;
+    @Column(name = "nombreCompleto", nullable = false, length = 60)
+    private String nombreCompleto;
+    @Column(name = "fechaNacimiento", nullable = false, length = 13)
+    @Temporal(TemporalType.DATE)
+    private Calendar fechaNacimiento;
 
     /**
-     * 
+     *
      */
-    public Persona(){
+    public Persona() {
 
     }
 
-    public Long getId() {
-        return id;
+    public String getRFC() {
+        return RFC;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setRFC(String RFC) {
+        this.RFC = RFC;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getNombreCompleto() {
+        return nombreCompleto;
+    }
+
+    public void setNombreCompleto(String nombreCompleto) {
+        this.nombreCompleto = nombreCompleto;
+    }
+
+    public Calendar getFechaNacimiento() {
+        return fechaNacimiento;
+    }
+
+    public void setFechaNacimiento(Calendar fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
     }
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 7;
+        hash = 71 * hash + Objects.hashCode(this.RFC);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Persona)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Persona other = (Persona) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
             return false;
         }
-        return true;
+        final Persona other = (Persona) obj;
+        return Objects.equals(this.RFC, other.RFC);
     }
 
     @Override
     public String toString() {
-        return "Dominio.Persona[ id=" + id + " ]";
+        return "Persona{" + "RFC=" + RFC + ", telefono=" + telefono + ", nombreCompleto=" + nombreCompleto + ", fechaNacimiento=" + fechaNacimiento + '}';
     }
-}
+
+    }
