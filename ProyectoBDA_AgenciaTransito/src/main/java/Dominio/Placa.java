@@ -1,73 +1,55 @@
 /**
-* Placa.java
-* Apr 8, 2023 2:12:01 PM
-*/ 
-
+ * Placa.java
+ * Apr 8, 2023 2:12:01 PM
+ */
 package Dominio;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 /**
  *
- * 
+ *
  * @author Joel Antonio Lopez Cota ID:228926
  */
 @Entity
-@Table(name="placas")
-public class Placa extends Tramite implements Serializable { 
+@PrimaryKeyJoinColumn(name = "id_placa")
+@Table(name = "placas")
+public class Placa extends Tramite implements Serializable {
 
     //Atributos
+    @Column(name = "numeroPlaca", nullable = false, length = 7)
     private String numeroPlaca;
-    private String serieVehiculo;
+   @ManyToOne
+    @JoinColumn(name = "numSerie",nullable = false)
+    private Transporte transporte;
     
-    
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
     /**
-     * 
+     *
      */
-    public Placa(){
+    public Placa() {
 
     }
 
-    public Long getId() {
-        return id;
+    public String getNumeroPlaca() {
+        return numeroPlaca;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setNumeroPlaca(String numeroPlaca) {
+        this.numeroPlaca = numeroPlaca;
+    }
+    
+    public Transporte getTransporte() {
+        return transporte;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
+    public void setTransporte(Transporte transporte) {
+        this.transporte = transporte;
     }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Placa)) {
-            return false;
-        }
-        Placa other = (Placa) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "Dominio.Placa[ id=" + id + " ]";
-    }
+    
 }

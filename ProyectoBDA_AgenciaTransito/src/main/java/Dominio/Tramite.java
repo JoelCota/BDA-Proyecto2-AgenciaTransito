@@ -1,36 +1,56 @@
 /**
-* Tramite.java
-* Apr 8, 2023 2:11:24 PM
-*/ 
-
+ * Tramite.java
+ * Apr 8, 2023 2:11:24 PM
+ */
 package Dominio;
 
 import java.io.Serializable;
+import java.util.Calendar;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
- * 
+ *
  * @author Joel Antonio Lopez Cota ID:228926
  */
 @Entity
-@Table(name="tramites")
+@Table(name = "tramites")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Tramite implements Serializable {
 
     //Atributos
-    private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
     private Long id;
-
+    @Column(name = "costo", nullable = false)
+    private float costo;
+    @Column(name = "fechaExpedicion", nullable = false)
+    @Temporal(TemporalType.DATE)
+    private Calendar fechaExpedicion;
+    @Column(name = "fechaVigencia", nullable = false)
+    @Temporal(TemporalType.DATE)
+    private Calendar fechaVigencia;
+    @ManyToOne
+    @JoinColumn(name = "rfc",nullable = false)
+    private Persona persona;
+    
+    
     /**
-     * 
+     *
      */
-    public Tramite(){
+    public Tramite() {
 
     }
 
@@ -42,6 +62,39 @@ public class Tramite implements Serializable {
         this.id = id;
     }
 
+    public float getCosto() {
+        return costo;
+    }
+
+    public void setCosto(float costo) {
+        this.costo = costo;
+    }
+
+    public Calendar getFechaExpedicion() {
+        return fechaExpedicion;
+    }
+
+    public void setFechaExpedicion(Calendar fechaExpedicion) {
+        this.fechaExpedicion = fechaExpedicion;
+    }
+
+    public Calendar getFechaVigencia() {
+        return fechaVigencia;
+    }
+
+    public void setFechaVigencia(Calendar fechaVigencia) {
+        this.fechaVigencia = fechaVigencia;
+    }
+
+    public Persona getPersona() {
+        return persona;
+    }
+
+    public void setPersona(Persona persona) {
+        this.persona = persona;
+    }
+
+    
     @Override
     public int hashCode() {
         int hash = 0;

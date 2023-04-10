@@ -7,10 +7,12 @@ package Dominio;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -35,6 +37,9 @@ public class Persona implements Serializable {
     @Column(name = "fechaNacimiento", nullable = false, length = 13)
     @Temporal(TemporalType.DATE)
     private Calendar fechaNacimiento;
+
+     @OneToMany(mappedBy = "Persona")
+    private List<Tramite> listaTramites;
 
     /**
      *
@@ -75,6 +80,15 @@ public class Persona implements Serializable {
         this.fechaNacimiento = fechaNacimiento;
     }
 
+    public List<Tramite> getListaTramites() {
+        return listaTramites;
+    }
+
+    public void setListaTramites(List<Tramite> listaTramites) {
+        this.listaTramites = listaTramites;
+    }
+
+    
     @Override
     public int hashCode() {
         int hash = 7;

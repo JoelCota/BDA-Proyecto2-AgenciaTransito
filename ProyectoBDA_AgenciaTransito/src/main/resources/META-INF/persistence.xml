@@ -3,6 +3,11 @@
   <persistence-unit name="persistenciaDatos" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>Dominio.Transporte</class>
+    <class>Dominio.Persona</class>
+    <class>Dominio.Licencia</class>
+    <class>Dominio.Placa</class>
+    <class>Dominio.Automovil</class>
+    <class>Dominio.Tramite</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/agenciaTransito?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
