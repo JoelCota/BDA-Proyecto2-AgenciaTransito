@@ -420,105 +420,10 @@ public class frmMenu extends javax.swing.JFrame {
 
     }//GEN-LAST:event_txtAutomovilUsadoMouseClicked
 
-    public void invocarPersonas() throws PersistenciaException {
-        
-        
-        Calendar fechaNacimiento1 = new GregorianCalendar(1990, Calendar.AUGUST, 15);
-        Persona persona1 = new Persona("ABC123456", "555-1234", "Juan Perez", fechaNacimiento1);
-
-        Calendar fechaNacimiento2 = new GregorianCalendar(1991, Calendar.JANUARY, 25);
-        Persona persona2 = new Persona("DEF123456", "555-5678", "Maria Garcia", fechaNacimiento2);
-
-        Calendar fechaNacimiento3 = new GregorianCalendar(1989, Calendar.DECEMBER, 5);
-        Persona persona3 = new Persona("GHI123456", "555-9101", "Pedro Hernandez", fechaNacimiento3);
-
-        Calendar fechaNacimiento4 = new GregorianCalendar(1992, Calendar.APRIL, 10);
-        Persona persona4 = new Persona("JKL123456", "555-1213", "Laura Rodriguez", fechaNacimiento4);
-
-        Calendar fechaNacimiento5 = new GregorianCalendar(1995, Calendar.JULY, 20);
-        Persona persona5 = new Persona("MNO123456", "555-1415", "Francisco Gomez", fechaNacimiento5);
-
-        Calendar fechaNacimiento6 = new GregorianCalendar(1987, Calendar.MARCH, 2);
-        Persona persona6 = new Persona("PQR123456", "555-1617", "Ana Torres", fechaNacimiento6);
-
-        Calendar fechaNacimiento7 = new GregorianCalendar(1993, Calendar.SEPTEMBER, 12);
-        Persona persona7 = new Persona("STU123456", "555-1819", "Luisa Vargas", fechaNacimiento7);
-
-        Calendar fechaNacimiento8 = new GregorianCalendar(1996, Calendar.MAY, 30);
-        Persona persona8 = new Persona("VWX123456", "555-2021", "Roberto Sanchez", fechaNacimiento8);
-
-        Calendar fechaNacimiento9 = new GregorianCalendar(1988, Calendar.FEBRUARY, 8);
-        Persona persona9 = new Persona("YZA123456", "555-2223", "Isabel Cruz", fechaNacimiento9);
-
-        Calendar fechaNacimiento10 = new GregorianCalendar(1994, Calendar.OCTOBER, 18);
-        Persona persona10 = new Persona("BCD123456", "555-2425", "Javier Mendoza", fechaNacimiento10);
-
-        Calendar fechaNacimiento11 = new GregorianCalendar(1997, Calendar.AUGUST, 9);
-        Persona persona11 = new Persona("EFG123456", "555-2627", "Miguel Castro", fechaNacimiento11);
-
-        Calendar fechaNacimiento12 = new GregorianCalendar(1985, Calendar.NOVEMBER, 27);
-        Persona persona12 = new Persona("HIJ123456", "555-2829", "Carolina Aguilar", fechaNacimiento12);
-
-        Calendar fechaNacimiento13 = new GregorianCalendar(1998, Calendar.JANUARY, 7);
-        Persona persona13 = new Persona("KLM123456", "555-3031", "Fernando Hernandez", fechaNacimiento13);
-
-        Calendar fechaNacimiento14 = new GregorianCalendar(1999, Calendar.MAY, 17);
-        Persona persona14 = new Persona("NOP123456", "555-3233", "Martha Ruiz", fechaNacimiento14);
-
-        Calendar fechaNacimiento15 = new GregorianCalendar(1986, Calendar.JULY, 22);
-        Persona persona15 = new Persona("QRS123456", "555-3435", "Luis Martinez", fechaNacimiento15);
-
-        Calendar fechaNacimiento16 = new GregorianCalendar(1992, Calendar.MARCH, 14);
-        Persona persona16 = new Persona("TUV123456", "555-3637", "Sofia Hernandez", fechaNacimiento16);
-
-        Calendar fechaNacimiento17 = new GregorianCalendar(1993, Calendar.APRIL, 16);
-        Persona persona17 = new Persona("WXY123456", "555-3839", "Daniel Ramirez", fechaNacimiento17);
-
-        Calendar fechaNacimiento18 = new GregorianCalendar(1989, Calendar.DECEMBER, 12);
-        Persona persona18 = new Persona("ZAB123456", "555-4041", "Lucia Garcia", fechaNacimiento18);
-
-        Calendar fechaNacimiento19 = new GregorianCalendar(1997, Calendar.JUNE, 28);
-        Persona persona19 = new Persona("CDE123456", "555-4243", "David Gonzalez", fechaNacimiento19);
-
-        Calendar fechaNacimiento20 = new GregorianCalendar(1988, Calendar.SEPTEMBER, 8);
-        Persona persona20 = new Persona("FGH123456", "555-4445", "Elena Torres", fechaNacimiento20);
-
-        List<Persona> listaPersonas = new LinkedList<>();
-
-// Agregar personas a la lista
-        listaPersonas.add(persona1);
-        listaPersonas.add(persona2);
-        listaPersonas.add(persona3);
-        listaPersonas.add(persona4);
-        listaPersonas.add(persona5);
-        listaPersonas.add(persona6);
-        listaPersonas.add(persona7);
-        listaPersonas.add(persona8);
-        listaPersonas.add(persona9);
-        listaPersonas.add(persona10);
-        listaPersonas.add(persona11);
-        listaPersonas.add(persona12);
-        listaPersonas.add(persona13);
-        listaPersonas.add(persona14);
-        listaPersonas.add(persona15);
-        listaPersonas.add(persona16);
-        listaPersonas.add(persona17);
-        listaPersonas.add(persona18);
-        listaPersonas.add(persona19);
-        listaPersonas.add(persona20);
-        
-        for (Persona persona: listaPersonas) {
-            personaDao.agregarPersona(persona);
-        }
-    }
+   
 
     private void btnGeneraClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGeneraClienteActionPerformed
-        // TODO add your handling code here:
-        try {
-            this.invocarPersonas();
-        } catch (PersistenciaException ex) {
-            Logger.getLogger(frmMenu.class.getName()).log(Level.SEVERE, null, ex);
-        }
+       
     }//GEN-LAST:event_btnGeneraClienteActionPerformed
 
 

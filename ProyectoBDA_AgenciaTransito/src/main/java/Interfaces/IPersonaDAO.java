@@ -13,4 +13,6 @@ import excepciones.PersistenciaException;
  */
 public interface IPersonaDAO {
     public void agregarPersona (Persona persona) throws PersistenciaException;
+    public Persona buscarPersonaRFC (String RFC) throws PersistenciaException;
+    public void invocarPersonas() throws PersistenciaException;
 }
