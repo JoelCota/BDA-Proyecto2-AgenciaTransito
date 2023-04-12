@@ -7,6 +7,7 @@ package Dominio;
 import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,7 +27,8 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "tramites")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@DiscriminatorColumn(name = "tipoTramite")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Tramite implements Serializable {
 
     //Atributos
