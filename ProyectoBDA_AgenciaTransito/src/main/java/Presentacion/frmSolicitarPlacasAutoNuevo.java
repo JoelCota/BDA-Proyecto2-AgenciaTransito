@@ -15,14 +15,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
-
 /**
  * Descripción de la clase:
  *
  * @author Joel Antonio Lopez Cota ID:228926
  */
 public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
-    private Validadores validadores= new Validadores();
+
+    private Validadores validadores = new Validadores();
     private PersonasDAO personaDAO;
     private Persona personaProspecto;
 
@@ -404,36 +404,39 @@ public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
-  private void validacionCamposAlfabeto(java.awt.event.KeyEvent evt) {
+    private void validacionCamposAlfabeto(java.awt.event.KeyEvent evt) {
         char txt = evt.getKeyChar();
         if (!(Character.isAlphabetic(txt) || txt == KeyEvent.VK_SPACE)) {
             evt.consume();
         }
     }
-   private void validacionNumeroLetra(java.awt.event.KeyEvent evt){
-       char txt = evt.getKeyChar();
+
+    private void validacionNumeroLetra(java.awt.event.KeyEvent evt) {
+        char txt = evt.getKeyChar();
         if (!(Character.isLetterOrDigit(txt))) {
             evt.consume();
         }
-   }
-   private void validacionCamposSerie(java.awt.event.KeyEvent evt) {
+    }
+
+    private void validacionCamposSerie(java.awt.event.KeyEvent evt) {
         char txt = evt.getKeyChar();
-        if (!(txt == KeyEvent.VK_UNDERSCORE || Character.isLetterOrDigit(txt))) {
+        if (!(txt == KeyEvent.VK_MINUS || Character.isLetterOrDigit(txt))) {
             evt.consume();
         }
     }
-   private void validacionNumero(java.awt.event.KeyEvent evt){
+
+    private void validacionNumero(java.awt.event.KeyEvent evt) {
         char txt = evt.getKeyChar();
         if (!(Character.isDigit(txt))) {
             evt.consume();
         }
-   }
+    }
     private void txtCampoRFCKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCampoRFCKeyTyped
-      validacionNumeroLetra(evt);
+        validacionNumeroLetra(evt);
     }//GEN-LAST:event_txtCampoRFCKeyTyped
 
     private void txtCampoSerieKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCampoSerieKeyTyped
-      validacionCamposSerie(evt);
+        validacionCamposSerie(evt);
     }//GEN-LAST:event_txtCampoSerieKeyTyped
 
     private void txtCampoModeloKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCampoModeloKeyTyped
@@ -445,7 +448,7 @@ public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCampoLineaKeyTyped
 
     private void txtCampoColorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCampoColorKeyTyped
-      validacionCamposAlfabeto(evt);
+        validacionCamposAlfabeto(evt);
     }//GEN-LAST:event_txtCampoColorKeyTyped
 
     private void txtCampoMarcaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCampoMarcaKeyTyped

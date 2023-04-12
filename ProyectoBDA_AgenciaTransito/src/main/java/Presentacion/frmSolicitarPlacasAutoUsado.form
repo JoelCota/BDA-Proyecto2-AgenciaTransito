@@ -76,26 +76,18 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace pref="56" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
-                              <Component id="txtCostoPlacas" min="-2" pref="37" max="-2" attributes="0"/>
-                              <EmptySpace pref="291" max="32767" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="txtRFC" min="-2" pref="37" max="-2" attributes="0"/>
-                                  <Component id="txtPlacas" min="-2" pref="37" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="txtCampoPlacas" min="-2" pref="237" max="-2" attributes="0"/>
-                                  <Component id="txtCampoRFC" min="-2" pref="237" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="txtRFC" alignment="1" min="-2" pref="37" max="-2" attributes="0"/>
+                          <Component id="txtPlacas" alignment="1" min="-2" pref="37" max="-2" attributes="0"/>
+                          <Component id="txtCostoPlacas" alignment="1" min="-2" pref="37" max="-2" attributes="0"/>
                       </Group>
+                      <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="txtCampoPlacas" min="-2" pref="237" max="-2" attributes="0"/>
+                          <Component id="txtCampoRFC" min="-2" pref="237" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="pnlInfoCarro" alignment="1" min="-2" max="-2" attributes="0"/>
                           <Component id="pnlInfoPersona" alignment="1" min="-2" max="-2" attributes="0"/>
@@ -147,7 +139,7 @@
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="txtCostoPlacas" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Component id="Separator1" min="-2" pref="10" max="-2" attributes="0"/>
