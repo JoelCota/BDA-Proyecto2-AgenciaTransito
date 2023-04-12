@@ -20,14 +20,14 @@ import javax.persistence.OneToOne;
  * @author deivi
  */
 @Entity
-@DiscriminatorValue(value = "pagos")
+
 public class Pagos implements Serializable {
 
     
     
     //atributos
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column (name= "monto", nullable = false)
     private Integer monto;

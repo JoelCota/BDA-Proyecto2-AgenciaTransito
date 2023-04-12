@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
@@ -21,7 +22,8 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "transportes")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@DiscriminatorColumn (name = "tipoTransporte")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Transporte implements Serializable {
 
     //Atributos
@@ -83,6 +85,28 @@ public class Transporte implements Serializable {
         return listaPlacas;
     }
 
+    public Transporte() {
+    }
+
+    public Transporte(String numSerie, String modelo, String linea, String marca, String color, List<Placa> listaPlacas) {
+        this.numSerie = numSerie;
+        this.modelo = modelo;
+        this.linea = linea;
+        this.marca = marca;
+        this.color = color;
+        this.listaPlacas = listaPlacas;
+    }
+
+    public Transporte(String numSerie, String modelo, String linea, String marca, String color) {
+        this.numSerie = numSerie;
+        this.modelo = modelo;
+        this.linea = linea;
+        this.marca = marca;
+        this.color = color;
+    }
+
+    
+    
     public void setListaPlacas(List<Placa> listaPlacas) {
         this.listaPlacas = listaPlacas;
     }
