@@ -17,11 +17,14 @@ import javax.persistence.Persistence;
 public class ProyectoBDA_AgenciaTransito {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
-        new frmMenu().setVisible(true);
-         EntityManagerFactory managerFactory = Persistence.createEntityManagerFactory("persistenciaDatos");
-        EntityManager em = managerFactory.createEntityManager();
-        em.getTransaction().begin();
-        em.getTransaction().commit();
+//        System.out.println("Hello World!");
+//        new frmMenu().setVisible(true);
+//         EntityManagerFactory managerFactory = Persistence.createEntityManagerFactory("persistenciaDatos");
+//        EntityManager em = managerFactory.createEntityManager();
+//        em.getTransaction().begin();
+//        em.getTransaction().commit();
+        
+            frmMenu menu = new frmMenu();
+            menu.setVisible(true);
     }
 }

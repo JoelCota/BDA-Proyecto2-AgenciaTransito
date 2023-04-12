@@ -5,9 +5,17 @@
  */
 package Frames;
 
+import Dominio.Persona;
 import java.awt.Color;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.LinkedList;
+import java.util.List;
 import javax.swing.JOptionPane;
-
+import Implementaciones.PersonalDAO;
+import excepciones.PersistenciaException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  * Descripción de la clase:
  *
@@ -15,6 +23,8 @@ import javax.swing.JOptionPane;
  */
 public class frmMenu extends javax.swing.JFrame {
 
+    private PersonalDAO personaDao;
+    
     /**
      * Creates new form frmMenu
      */
@@ -23,6 +33,7 @@ public class frmMenu extends javax.swing.JFrame {
         pnlTramites.setVisible(false);
         pnlPlacas.setVisible(false);
         pnlDatosClientes.setVisible(false);
+        this.personaDao = new PersonalDAO();
     }
 
     /**
@@ -55,7 +66,7 @@ public class frmMenu extends javax.swing.JFrame {
         txtConsultas = new javax.swing.JLabel();
         txtLicencias = new javax.swing.JLabel();
         txtPlacas = new javax.swing.JLabel();
-        txtGeneraClientes = new javax.swing.JLabel();
+        btnGeneraCliente = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menu");
@@ -303,11 +314,10 @@ public class frmMenu extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        txtGeneraClientes.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        txtGeneraClientes.setText("Generar Clientes");
-        txtGeneraClientes.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txtGeneraClientesMouseClicked(evt);
+        btnGeneraCliente.setText("Generar Clientes");
+        btnGeneraCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGeneraClienteActionPerformed(evt);
             }
         });
 
@@ -316,18 +326,17 @@ public class frmMenu extends javax.swing.JFrame {
         pnlMenuLayout.setHorizontalGroup(
             pnlMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlMenuLayout.createSequentialGroup()
-                .addGroup(pnlMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addComponent(pnlRectangulo1, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtTramites, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlMenuLayout.createSequentialGroup()
+                .addGroup(pnlMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(pnlMenuLayout.createSequentialGroup()
                         .addComponent(pnlRectangulo2, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtGeneraClientes, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlMenuLayout.createSequentialGroup()
-                        .addComponent(pnlRectangulo1, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtTramites, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(pnlMenuLayout.createSequentialGroup()
-                .addComponent(pnlTramites, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnGeneraCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(pnlTramites, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(384, 384, 384))
         );
         pnlMenuLayout.setVerticalGroup(
@@ -341,7 +350,7 @@ public class frmMenu extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(pnlMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(pnlRectangulo2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtGeneraClientes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnGeneraCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -385,15 +394,6 @@ public class frmMenu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtPlacasMouseClicked
 
-    private void txtGeneraClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtGeneraClientesMouseClicked
-        if (pnlDatosClientes.isVisible()) {
-            JOptionPane.showMessageDialog(this, "Los clientes ya se han generado");
-        } else {
-            JOptionPane.showMessageDialog(this, "Se han generado los clientes");
-            pnlDatosClientes.setVisible(true);
-        }
-    }//GEN-LAST:event_txtGeneraClientesMouseClicked
-
     private void txtReportesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtReportesMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_txtReportesMouseClicked
@@ -420,8 +420,110 @@ public class frmMenu extends javax.swing.JFrame {
 
     }//GEN-LAST:event_txtAutomovilUsadoMouseClicked
 
+    public void invocarPersonas() throws PersistenciaException {
+        
+        
+        Calendar fechaNacimiento1 = new GregorianCalendar(1990, Calendar.AUGUST, 15);
+        Persona persona1 = new Persona("ABC123456", "555-1234", "Juan Perez", fechaNacimiento1);
+
+        Calendar fechaNacimiento2 = new GregorianCalendar(1991, Calendar.JANUARY, 25);
+        Persona persona2 = new Persona("DEF123456", "555-5678", "Maria Garcia", fechaNacimiento2);
+
+        Calendar fechaNacimiento3 = new GregorianCalendar(1989, Calendar.DECEMBER, 5);
+        Persona persona3 = new Persona("GHI123456", "555-9101", "Pedro Hernandez", fechaNacimiento3);
+
+        Calendar fechaNacimiento4 = new GregorianCalendar(1992, Calendar.APRIL, 10);
+        Persona persona4 = new Persona("JKL123456", "555-1213", "Laura Rodriguez", fechaNacimiento4);
+
+        Calendar fechaNacimiento5 = new GregorianCalendar(1995, Calendar.JULY, 20);
+        Persona persona5 = new Persona("MNO123456", "555-1415", "Francisco Gomez", fechaNacimiento5);
+
+        Calendar fechaNacimiento6 = new GregorianCalendar(1987, Calendar.MARCH, 2);
+        Persona persona6 = new Persona("PQR123456", "555-1617", "Ana Torres", fechaNacimiento6);
+
+        Calendar fechaNacimiento7 = new GregorianCalendar(1993, Calendar.SEPTEMBER, 12);
+        Persona persona7 = new Persona("STU123456", "555-1819", "Luisa Vargas", fechaNacimiento7);
+
+        Calendar fechaNacimiento8 = new GregorianCalendar(1996, Calendar.MAY, 30);
+        Persona persona8 = new Persona("VWX123456", "555-2021", "Roberto Sanchez", fechaNacimiento8);
+
+        Calendar fechaNacimiento9 = new GregorianCalendar(1988, Calendar.FEBRUARY, 8);
+        Persona persona9 = new Persona("YZA123456", "555-2223", "Isabel Cruz", fechaNacimiento9);
+
+        Calendar fechaNacimiento10 = new GregorianCalendar(1994, Calendar.OCTOBER, 18);
+        Persona persona10 = new Persona("BCD123456", "555-2425", "Javier Mendoza", fechaNacimiento10);
+
+        Calendar fechaNacimiento11 = new GregorianCalendar(1997, Calendar.AUGUST, 9);
+        Persona persona11 = new Persona("EFG123456", "555-2627", "Miguel Castro", fechaNacimiento11);
+
+        Calendar fechaNacimiento12 = new GregorianCalendar(1985, Calendar.NOVEMBER, 27);
+        Persona persona12 = new Persona("HIJ123456", "555-2829", "Carolina Aguilar", fechaNacimiento12);
+
+        Calendar fechaNacimiento13 = new GregorianCalendar(1998, Calendar.JANUARY, 7);
+        Persona persona13 = new Persona("KLM123456", "555-3031", "Fernando Hernandez", fechaNacimiento13);
+
+        Calendar fechaNacimiento14 = new GregorianCalendar(1999, Calendar.MAY, 17);
+        Persona persona14 = new Persona("NOP123456", "555-3233", "Martha Ruiz", fechaNacimiento14);
+
+        Calendar fechaNacimiento15 = new GregorianCalendar(1986, Calendar.JULY, 22);
+        Persona persona15 = new Persona("QRS123456", "555-3435", "Luis Martinez", fechaNacimiento15);
+
+        Calendar fechaNacimiento16 = new GregorianCalendar(1992, Calendar.MARCH, 14);
+        Persona persona16 = new Persona("TUV123456", "555-3637", "Sofia Hernandez", fechaNacimiento16);
+
+        Calendar fechaNacimiento17 = new GregorianCalendar(1993, Calendar.APRIL, 16);
+        Persona persona17 = new Persona("WXY123456", "555-3839", "Daniel Ramirez", fechaNacimiento17);
+
+        Calendar fechaNacimiento18 = new GregorianCalendar(1989, Calendar.DECEMBER, 12);
+        Persona persona18 = new Persona("ZAB123456", "555-4041", "Lucia Garcia", fechaNacimiento18);
+
+        Calendar fechaNacimiento19 = new GregorianCalendar(1997, Calendar.JUNE, 28);
+        Persona persona19 = new Persona("CDE123456", "555-4243", "David Gonzalez", fechaNacimiento19);
+
+        Calendar fechaNacimiento20 = new GregorianCalendar(1988, Calendar.SEPTEMBER, 8);
+        Persona persona20 = new Persona("FGH123456", "555-4445", "Elena Torres", fechaNacimiento20);
+
+        List<Persona> listaPersonas = new LinkedList<>();
+
+// Agregar personas a la lista
+        listaPersonas.add(persona1);
+        listaPersonas.add(persona2);
+        listaPersonas.add(persona3);
+        listaPersonas.add(persona4);
+        listaPersonas.add(persona5);
+        listaPersonas.add(persona6);
+        listaPersonas.add(persona7);
+        listaPersonas.add(persona8);
+        listaPersonas.add(persona9);
+        listaPersonas.add(persona10);
+        listaPersonas.add(persona11);
+        listaPersonas.add(persona12);
+        listaPersonas.add(persona13);
+        listaPersonas.add(persona14);
+        listaPersonas.add(persona15);
+        listaPersonas.add(persona16);
+        listaPersonas.add(persona17);
+        listaPersonas.add(persona18);
+        listaPersonas.add(persona19);
+        listaPersonas.add(persona20);
+        
+        for (Persona persona: listaPersonas) {
+            personaDao.agregarPersona(persona);
+        }
+    }
+
+    private void btnGeneraClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGeneraClienteActionPerformed
+        // TODO add your handling code here:
+        try {
+            this.invocarPersonas();
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(frmMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnGeneraClienteActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnGeneraCliente;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
@@ -439,7 +541,6 @@ public class frmMenu extends javax.swing.JFrame {
     private javax.swing.JLabel txtAutomovilNuevo;
     private javax.swing.JLabel txtAutomovilUsado;
     private javax.swing.JLabel txtConsultas;
-    private javax.swing.JLabel txtGeneraClientes;
     private javax.swing.JLabel txtLicencias;
     private javax.swing.JLabel txtPlacas;
     private javax.swing.JLabel txtReportes;

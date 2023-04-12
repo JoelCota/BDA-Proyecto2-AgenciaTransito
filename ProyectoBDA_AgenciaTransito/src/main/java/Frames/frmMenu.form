@@ -176,22 +176,20 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Group type="102" attributes="0">
-                          <Component id="pnlRectangulo2" min="-2" pref="8" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="txtGeneraClientes" pref="156" max="32767" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="1" attributes="0">
-                          <Component id="pnlRectangulo1" min="-2" pref="8" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="txtTramites" max="32767" attributes="0"/>
-                      </Group>
-                  </Group>
+                  <Component id="pnlRectangulo1" min="-2" pref="8" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="txtTramites" min="-2" pref="156" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
-              <Group type="102" attributes="0">
-                  <Component id="pnlTramites" max="32767" attributes="0"/>
+              <Group type="102" alignment="1" attributes="0">
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Group type="102" attributes="0">
+                          <Component id="pnlRectangulo2" min="-2" pref="8" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="btnGeneraCliente" max="32767" attributes="0"/>
+                      </Group>
+                      <Component id="pnlTramites" max="32767" attributes="0"/>
+                  </Group>
                   <EmptySpace min="-2" pref="384" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -208,7 +206,7 @@
                   <EmptySpace max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="pnlRectangulo2" max="32767" attributes="0"/>
-                      <Component id="txtGeneraClientes" max="32767" attributes="0"/>
+                      <Component id="btnGeneraCliente" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -461,15 +459,12 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JLabel" name="txtGeneraClientes">
+        <Component class="javax.swing.JButton" name="btnGeneraCliente">
           <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="18" style="1"/>
-            </Property>
             <Property name="text" type="java.lang.String" value="Generar Clientes"/>
           </Properties>
           <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="txtGeneraClientesMouseClicked"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGeneraClienteActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

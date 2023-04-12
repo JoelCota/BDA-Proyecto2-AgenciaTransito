@@ -88,6 +88,23 @@ public class Persona implements Serializable {
         this.listaTramites = listaTramites;
     }
 
+    public Persona(String RFC, String telefono, String nombreCompleto, Calendar fechaNacimiento, List<Tramite> listaTramites) {
+        this.RFC = RFC;
+        this.telefono = telefono;
+        this.nombreCompleto = nombreCompleto;
+        this.fechaNacimiento = fechaNacimiento;
+        this.listaTramites = listaTramites;
+    }
+
+    public Persona(String RFC, String telefono, String nombreCompleto, Calendar fechaNacimiento) {
+        this.RFC = RFC;
+        this.telefono = telefono;
+        this.nombreCompleto = nombreCompleto;
+        this.fechaNacimiento = fechaNacimiento;
+    }
+
+    
+    
     
     @Override
     public int hashCode() {
