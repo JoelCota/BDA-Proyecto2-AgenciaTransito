@@ -2,18 +2,18 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Implementaciones;
+package Persistencia;
 
 import Dominio.Licencia;
-import Interfaces.ILicenciaDAO;
 import excepciones.PersistenciaException;
 import javax.persistence.EntityManager;
+import Interfaces.ILicenciasDAO;
 
 /**
  *
  * @author deivi
  */
-public class LicenciaDAO implements ILicenciaDAO{
+public class LicenciasDAO implements ILicenciasDAO{
     ConexionBD conexion = new ConexionBD();
 
     @Override

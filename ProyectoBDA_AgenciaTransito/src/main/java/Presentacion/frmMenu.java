@@ -3,19 +3,18 @@
  * Apr 6, 2023 10:46:06 AM
  *
  */
-package Frames;
+package Presentacion;
 
 import Dominio.Persona;
-import java.awt.Color;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JOptionPane;
-import Implementaciones.PersonalDAO;
+import Persistencia.PersonasDAO;
 import excepciones.PersistenciaException;
+import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+
 /**
  * Descripción de la clase:
  *
@@ -23,8 +22,8 @@ import java.util.logging.Logger;
  */
 public class frmMenu extends javax.swing.JFrame {
 
-    private PersonalDAO personaDao;
-    
+    private PersonasDAO personaDAO;
+
     /**
      * Creates new form frmMenu
      */
@@ -32,8 +31,13 @@ public class frmMenu extends javax.swing.JFrame {
         initComponents();
         pnlTramites.setVisible(false);
         pnlPlacas.setVisible(false);
-        pnlDatosClientes.setVisible(false);
-        this.personaDao = new PersonalDAO();
+        this.personaDAO = new PersonasDAO();
+        if (!personaDAO.consultaPersonasTotal().isEmpty()) {
+            this.pnlDatosClientes.setVisible(true);
+            generarTablaClientes(personaDAO.consultaPersonasTotal());
+        } else {
+            pnlDatosClientes.setVisible(false);
+        }
     }
 
     /**
@@ -48,6 +52,7 @@ public class frmMenu extends javax.swing.JFrame {
         pnlDatosClientes = new javax.swing.JPanel();
         spClientes = new javax.swing.JScrollPane();
         tblClientes = new javax.swing.JTable();
+        jLabel3 = new javax.swing.JLabel();
         pnltxtMenu = new javax.swing.JPanel();
         pnltxtMenu1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -66,12 +71,20 @@ public class frmMenu extends javax.swing.JFrame {
         txtConsultas = new javax.swing.JLabel();
         txtLicencias = new javax.swing.JLabel();
         txtPlacas = new javax.swing.JLabel();
-        btnGeneraCliente = new javax.swing.JButton();
+        txtGenerarClientes = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menu");
         setBackground(new java.awt.Color(102, 102, 102));
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         tblClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -95,20 +108,29 @@ public class frmMenu extends javax.swing.JFrame {
         tblClientes.setEnabled(false);
         spClientes.setViewportView(tblClientes);
 
+        jLabel3.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel3.setFont(new java.awt.Font("Segoe UI Black", 1, 24)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel3.setText("Clientes");
+
         javax.swing.GroupLayout pnlDatosClientesLayout = new javax.swing.GroupLayout(pnlDatosClientes);
         pnlDatosClientes.setLayout(pnlDatosClientesLayout);
         pnlDatosClientesLayout.setHorizontalGroup(
             pnlDatosClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDatosClientesLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(spClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addGroup(pnlDatosClientesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlDatosClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(spClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlDatosClientesLayout.setVerticalGroup(
             pnlDatosClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDatosClientesLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(spClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(12, Short.MAX_VALUE)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(spClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -314,10 +336,13 @@ public class frmMenu extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        btnGeneraCliente.setText("Generar Clientes");
-        btnGeneraCliente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGeneraClienteActionPerformed(evt);
+        txtGenerarClientes.setBackground(new java.awt.Color(0, 0, 0));
+        txtGenerarClientes.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        txtGenerarClientes.setForeground(new java.awt.Color(0, 0, 0));
+        txtGenerarClientes.setText("Generar Clientes");
+        txtGenerarClientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtGenerarClientesMouseClicked(evt);
             }
         });
 
@@ -334,8 +359,9 @@ public class frmMenu extends javax.swing.JFrame {
                 .addGroup(pnlMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(pnlMenuLayout.createSequentialGroup()
                         .addComponent(pnlRectangulo2, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnGeneraCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtGenerarClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(pnlTramites, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(384, 384, 384))
         );
@@ -348,9 +374,9 @@ public class frmMenu extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlTramites, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(pnlMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(pnlRectangulo2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnGeneraCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(pnlMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pnlRectangulo2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtGenerarClientes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -420,16 +446,30 @@ public class frmMenu extends javax.swing.JFrame {
 
     }//GEN-LAST:event_txtAutomovilUsadoMouseClicked
 
-   
+    private void txtGenerarClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtGenerarClientesMouseClicked
+        if (this.pnlDatosClientes.isVisible()) {
+            JOptionPane.showMessageDialog(this, "Los clientes ya han sido generados");
+        } else {
+            try {
+                personaDAO.invocarPersonas();
+                generarTablaClientes(personaDAO.consultaPersonasTotal());
+            } catch (PersistenciaException ex) {
+                Logger.getLogger(frmMenu.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_txtGenerarClientesMouseClicked
 
-    private void btnGeneraClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGeneraClienteActionPerformed
-       
-    }//GEN-LAST:event_btnGeneraClienteActionPerformed
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+    }//GEN-LAST:event_formWindowClosed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+
+    }//GEN-LAST:event_formWindowClosing
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnGeneraCliente;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
@@ -446,10 +486,26 @@ public class frmMenu extends javax.swing.JFrame {
     private javax.swing.JLabel txtAutomovilNuevo;
     private javax.swing.JLabel txtAutomovilUsado;
     private javax.swing.JLabel txtConsultas;
+    private javax.swing.JLabel txtGenerarClientes;
     private javax.swing.JLabel txtLicencias;
     private javax.swing.JLabel txtPlacas;
     private javax.swing.JLabel txtReportes;
     private javax.swing.JLabel txtTramites;
     // End of variables declaration//GEN-END:variables
 
+    private void generarTablaClientes(List<Persona> listaPersonas) {
+        this.pnlDatosClientes.setVisible(true);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        DefaultTableModel modeloTabla = (DefaultTableModel) this.tblClientes.getModel();
+        modeloTabla.setRowCount(0);
+        for (Persona persona : listaPersonas) {
+            Object[] fila = {
+                persona.getNombreCompleto(),
+                sdf.format(persona.getFechaNacimiento().getTime()),
+                persona.getRFC(),
+                persona.getTelefono()
+            };
+            modeloTabla.addRow(fila);
+        }
+    }
 }

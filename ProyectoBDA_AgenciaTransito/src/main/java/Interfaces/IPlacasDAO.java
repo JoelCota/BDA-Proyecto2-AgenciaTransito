@@ -8,6 +8,6 @@ package Interfaces;
  *
  * @author deivi
  */
-public interface ITranporteDAO {
+public interface IPlacasDAO {
     
 }

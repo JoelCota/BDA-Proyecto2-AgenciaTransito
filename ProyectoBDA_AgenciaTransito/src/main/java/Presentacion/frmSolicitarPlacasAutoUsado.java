@@ -4,7 +4,7 @@
 * 
 */ 
 
-package Frames;
+package Presentacion;
 
 /**
  * Descripción de la clase: 
