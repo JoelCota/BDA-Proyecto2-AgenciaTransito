@@ -27,7 +27,7 @@ public class frmMenu extends javax.swing.JFrame {
     /**
      * Creates new form frmMenu
      */
-    public frmMenu() {
+    public frmMenu() throws PersistenciaException {
         initComponents();
         pnlTramites.setVisible(false);
         pnlPlacas.setVisible(false);

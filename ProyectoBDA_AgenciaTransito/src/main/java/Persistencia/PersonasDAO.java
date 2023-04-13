@@ -95,7 +95,7 @@ public class PersonasDAO implements IPersonasDAO {
         }
     }
 
-    public List<Persona> consultaPersonasTotal() {
+    public List<Persona> consultaPersonasTotal() throws PersistenciaException {
         EntityManager bd = conexion.obtenerConexion();
 
         bd.getTransaction().begin();
@@ -104,7 +104,7 @@ public class PersonasDAO implements IPersonasDAO {
         return personas;
     }
 
-    public void eliminarPersonas() {
+    public void eliminarPersonas() throws PersistenciaException {
         EntityManager bd = conexion.obtenerConexion();
 
         bd.getTransaction().begin();//entre a la base de datos
