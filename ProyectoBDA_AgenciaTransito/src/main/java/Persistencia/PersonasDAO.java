@@ -4,7 +4,11 @@
  */
 package Persistencia;
 
+import Dominio.Automovil;
 import Dominio.Persona;
+import Dominio.Placa;
+import Dominio.Tramite;
+import Dominio.Transporte;
 import excepciones.PersistenciaException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -33,7 +37,6 @@ public class PersonasDAO implements IPersonasDAO {
             bd.getTransaction().begin();//entre a la base de datos
             bd.persist(persona);
             bd.getTransaction().commit();//cerre conexion
-            System.out.println("Persona guardada exitosamente!.");
         } catch (Exception e) {
             bd.getTransaction().rollback();
             throw new PersistenciaException("No se puedo guardar la persona." + e.getMessage());
@@ -111,6 +114,20 @@ public class PersonasDAO implements IPersonasDAO {
         bd.createQuery("DELETE FROM Persona").executeUpdate();
         bd.getTransaction().commit();//cerre conexion
 
+    }
+    public void prueba() throws PersistenciaException{
+        Persona persona=buscarPersonaRFC("ABC123456");
+       Automovil automovil= new Automovil("213","BLANCO","COLOR","hONDA","123");
+         Placa placa = new Placa("123-123",true,automovil,123,Calendar.getInstance(),Calendar.getInstance(),persona);
+        EntityManager bd = conexion.obtenerConexion();
+                bd.getTransaction().begin();
+                bd.persist(automovil);
+                bd.getTransaction().commit();
+                
+        String jpql = "SELECT e FROM EntidadTipo2 e";
+TypedQuery<Placa> query = bd.createQuery(jpql, Placa.class);
+List<Placa> entidadesTipo2 = query.getResultList();
+        System.out.println(entidadesTipo2);
     }
 
 }

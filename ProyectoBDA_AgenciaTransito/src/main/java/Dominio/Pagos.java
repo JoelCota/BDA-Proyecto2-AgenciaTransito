@@ -14,20 +14,25 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 /**
  *
  * @author deivi
  */
 @Entity
-
+@Table(name="pagos")
 public class Pagos implements Serializable {
+
+    public Pagos() {
+    }
 
     
     
     //atributos
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
     private Long id;
     @Column (name= "monto", nullable = false)
     private Integer monto;
@@ -58,6 +63,14 @@ public class Pagos implements Serializable {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
+    }
+
+    public Tramite getTramite() {
+        return tramite;
+    }
+
+    public void setTramite(Tramite tramite) {
+        this.tramite = tramite;
     }
 
     @Override

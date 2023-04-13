@@ -5,7 +5,11 @@
 
 package Principal;
 
+import Persistencia.PersonasDAO;
 import Presentacion.frmMenu;
+import excepciones.PersistenciaException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -17,5 +21,12 @@ public class ProyectoBDA_AgenciaTransito {
 
             frmMenu menu = new frmMenu();
             menu.setVisible(true);
+            PersonasDAO persona=new PersonasDAO();
+        try {
+            persona.prueba();
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(ProyectoBDA_AgenciaTransito.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
     }
 }

@@ -432,27 +432,52 @@ public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
         }
     }
     private void txtCampoRFCKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCampoRFCKeyTyped
-        validacionNumeroLetra(evt);
+        if (!(txtCampoRFC.getText().length() > 12)) {
+            validacionNumeroLetra(evt);
+        } else {
+            evt.consume();
+        }
+
     }//GEN-LAST:event_txtCampoRFCKeyTyped
 
     private void txtCampoSerieKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCampoSerieKeyTyped
-        validacionCamposSerie(evt);
+        if (!(txtCampoSerie.getText().length() > 6)) {
+            validacionCamposSerie(evt);
+        } else {
+            evt.consume();
+        }
     }//GEN-LAST:event_txtCampoSerieKeyTyped
 
     private void txtCampoModeloKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCampoModeloKeyTyped
+        if (!(txtCampoModelo.getText().length() > 3)){
         validacionNumero(evt);
+        } else{
+            evt.consume();
+        }
     }//GEN-LAST:event_txtCampoModeloKeyTyped
 
     private void txtCampoLineaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCampoLineaKeyTyped
-        validacionCamposAlfabeto(evt);
+          if (!(txtCampoLinea.getText().length() > 15)){
+     validacionCamposAlfabeto(evt);
+        } else{
+            evt.consume();
+        }
     }//GEN-LAST:event_txtCampoLineaKeyTyped
 
     private void txtCampoColorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCampoColorKeyTyped
-        validacionCamposAlfabeto(evt);
+        if (!(txtCampoColor.getText().length() > 15)){
+     validacionCamposAlfabeto(evt);
+        } else{
+            evt.consume();
+        }
     }//GEN-LAST:event_txtCampoColorKeyTyped
 
     private void txtCampoMarcaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCampoMarcaKeyTyped
-        validacionCamposAlfabeto(evt);
+         if (!(txtCampoMarca.getText().length() > 15)){
+     validacionCamposAlfabeto(evt);
+        } else{
+            evt.consume();
+        }
     }//GEN-LAST:event_txtCampoMarcaKeyTyped
 
     private void btnSolicitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolicitarActionPerformed

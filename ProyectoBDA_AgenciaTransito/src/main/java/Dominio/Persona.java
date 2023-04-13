@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -38,7 +39,7 @@ public class Persona implements Serializable {
     @Temporal(TemporalType.DATE)
     private Calendar fechaNacimiento;
 
-     @OneToMany(mappedBy = "Persona")
+     @OneToMany(mappedBy = "Persona",cascade=CascadeType.PERSIST)
     private List<Tramite> listaTramites;
 
     /**
