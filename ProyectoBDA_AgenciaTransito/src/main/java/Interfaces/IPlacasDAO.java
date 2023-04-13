@@ -4,10 +4,12 @@
  */
 package Interfaces;
 
+import Dominio.Placa;
+
 /**
  *
  * @author deivi
  */
 public interface IPlacasDAO {
-    
+    public Placa generarPlaca();
 }

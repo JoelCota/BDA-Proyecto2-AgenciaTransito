@@ -6,6 +6,7 @@ package Dominio;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
@@ -16,6 +17,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -47,7 +49,7 @@ public class Tramite implements Serializable {
     @ManyToOne
     @JoinColumn(name = "rfc",nullable = false)
     private Persona persona;
-    
+
     
     /**
      *
@@ -55,6 +57,26 @@ public class Tramite implements Serializable {
     public Tramite() {
 
     }
+
+    public Tramite(Long id, float costo, Calendar fechaExpedicion, Calendar fechaVigencia, Persona persona) {
+        this.id = id;
+        this.costo = costo;
+        this.fechaExpedicion = fechaExpedicion;
+        this.fechaVigencia = fechaVigencia;
+        this.persona = persona;
+    }
+
+    public Tramite(float costo, Calendar fechaExpedicion, Calendar fechaVigencia, Persona persona) {
+        this.costo = costo;
+        this.fechaExpedicion = fechaExpedicion;
+        this.fechaVigencia = fechaVigencia;
+        this.persona = persona;
+    }
+
+
+    
+    
+    
 
     public Long getId() {
         return id;

@@ -7,6 +7,7 @@ package Dominio;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
@@ -14,14 +15,12 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 /**
  *
  * @author deivi
  */
 @Entity
-@Table(name = "transportes")
 @DiscriminatorColumn (name = "tipoTransporte")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Transporte implements Serializable {
@@ -38,9 +37,10 @@ public class Transporte implements Serializable {
     private String marca;
     @Column(name = "color", nullable = false, length = 20)
     private String color;
-   @OneToMany(mappedBy= "transporte")
+   @OneToMany(mappedBy= "transporte",cascade=CascadeType.PERSIST)
     private List<Placa> listaPlacas;
 
+   
     public String getNumSerie() {
         return numSerie;
     }

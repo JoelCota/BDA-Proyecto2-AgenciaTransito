@@ -6,6 +6,7 @@
 package Persistencia;
 //importanciones
 
+import Dominio.Placa;
 import Interfaces.IPlacasDAO;
 
 /**
@@ -20,5 +21,10 @@ public class PlacasDAO implements IPlacasDAO {
      */
     public PlacasDAO(){
 
+    }
+
+    @Override
+    public Placa generarPlaca() {
+        
     }
 }

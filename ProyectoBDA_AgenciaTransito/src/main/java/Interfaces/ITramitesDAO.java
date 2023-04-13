@@ -9,5 +9,5 @@ package Interfaces;
  * @author deivi
  */
 public interface ITramitesDAO {
-    
+   
 }
