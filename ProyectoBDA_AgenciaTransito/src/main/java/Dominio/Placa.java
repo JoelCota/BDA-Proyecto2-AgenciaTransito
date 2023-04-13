@@ -26,14 +26,10 @@ import javax.persistence.ManyToOne;
 public class Placa extends Tramite implements Serializable {
 
     //Atributos
-    @Column(name = "numeroPlaca", nullable = false, length = 7)
+    @Column(name = "numeroPlaca", nullable = true, length = 7)
     private String numeroPlaca;
-    
-    @Column(name = "Activo")
-    private boolean activo;
-    
      @ManyToOne(cascade=CascadeType.PERSIST)
-     @JoinColumn(name = "numSerie",nullable = false)
+     @JoinColumn(name = "numSerie",nullable = true)
     private Transporte transporte;
     
     /**
@@ -44,11 +40,16 @@ public class Placa extends Tramite implements Serializable {
     }
 
     public Placa(String numeroPlaca, boolean activo, Transporte transporte,float costo, Calendar fechaExpedicion, Calendar fechaVigencia,Persona persona) {
-        super(costo,fechaExpedicion,fechaVigencia,persona);
+        super(costo,fechaExpedicion,fechaVigencia,persona,activo);
         this.numeroPlaca = numeroPlaca;
-        this.activo = activo;
         this.transporte = transporte;
     }
+
+    public Placa(Transporte transporte, float costo, Calendar fechaExpedicion, Calendar fechaVigencia, Persona persona, boolean activo) {
+        super(costo, fechaExpedicion, fechaVigencia, persona, activo);
+        this.transporte = transporte;
+    }
+    
     
     
     public String getNumeroPlaca() {
@@ -66,14 +67,5 @@ public class Placa extends Tramite implements Serializable {
     public void setTransporte(Transporte transporte) {
         this.transporte = transporte;
     }
-
-    public boolean isActivo() {
-        return activo;
-    }
-
-    public void setActivo(boolean activo) {
-        this.activo = activo;
-    }
-    
     
 }

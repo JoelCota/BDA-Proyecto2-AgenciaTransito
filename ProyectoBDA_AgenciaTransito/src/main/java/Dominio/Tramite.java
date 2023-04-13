@@ -26,9 +26,11 @@ import javax.persistence.TemporalType;
  *
  * Clase de dominio "Tramite". La cual se encarga de crear todos los atributos
  * existentes en la base de datos y aqui mismo se mapean para luego pasar los
- * datos a la base de datos, tambien aqui estan todos los constructores, gets y sets,
- * hash y el toString de la clase
- * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox ID:229384
+ * datos a la base de datos, tambien aqui estan todos los constructores, gets y
+ * sets, hash y el toString de la clase
+ *
+ * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox
+ * ID:229384
  */
 @Entity
 @Table(name = "tramites")
@@ -39,7 +41,7 @@ public class Tramite implements Serializable {
     //Atributos
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name = "id")
     private Long id;
     @Column(name = "costo", nullable = false)
     private float costo;
@@ -50,10 +52,11 @@ public class Tramite implements Serializable {
     @Temporal(TemporalType.DATE)
     private Calendar fechaVigencia;
     @ManyToOne
-    @JoinColumn(name = "rfc",nullable = false)
+    @JoinColumn(name = "rfc", nullable = false)
     private Persona persona;
+    @Column(name = "activo", nullable = false)
+    private boolean activa;
 
-    
     /**
      *
      */
@@ -61,25 +64,23 @@ public class Tramite implements Serializable {
 
     }
 
-    public Tramite(Long id, float costo, Calendar fechaExpedicion, Calendar fechaVigencia, Persona persona) {
+    public Tramite(Long id, float costo, Calendar fechaExpedicion, Calendar fechaVigencia, Persona persona, boolean activo) {
         this.id = id;
         this.costo = costo;
         this.fechaExpedicion = fechaExpedicion;
         this.fechaVigencia = fechaVigencia;
         this.persona = persona;
+        this.activa = activo;
     }
 
-    public Tramite(float costo, Calendar fechaExpedicion, Calendar fechaVigencia, Persona persona) {
+    public Tramite(float costo, Calendar fechaExpedicion, Calendar fechaVigencia, Persona persona,boolean activo) {
         this.costo = costo;
         this.fechaExpedicion = fechaExpedicion;
         this.fechaVigencia = fechaVigencia;
         this.persona = persona;
+        this.activa = activo;
+
     }
-
-
-    
-    
-    
 
     public Long getId() {
         return id;
@@ -121,7 +122,14 @@ public class Tramite implements Serializable {
         this.persona = persona;
     }
 
-    
+    public boolean isActiva() {
+        return activa;
+    }
+
+    public void setActiva(boolean activa) {
+        this.activa = activa;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;

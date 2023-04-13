@@ -5,10 +5,19 @@
  */
 package Presentacion;
 
+import Dominio.Automovil;
+import Dominio.Persona;
+import Dominio.Placa;
+import Persistencia.AutomovilesDAO;
+import Persistencia.PersonasDAO;
+import Persistencia.PlacasDAO;
 import excepciones.PersistenciaException;
 import java.awt.event.KeyEvent;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  * Descripción de la clase:
@@ -16,14 +25,22 @@ import java.util.logging.Logger;
  * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox ID:229384
  */
 public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
-
+    PersonasDAO personasDAO;
+    PlacasDAO placasDAO;
+    AutomovilesDAO automovilesDAO;
+    Persona personaProspecto;
+    Placa placaSolicitud;
     /**
      * Creates new form frmSolicitarPlacasAutoUsado
      */
     public frmSolicitarPlacasAutoUsado() {
         initComponents();
-        this.pnlInfoCarro.setVisible(false);
+        this.jPanel1.setVisible(true);
+        this.pnlInfoPlacas.setVisible(false);
         this.pnlInfoPersona.setVisible(false);
+        this.personasDAO=new PersonasDAO();
+        this.placasDAO=new PlacasDAO();
+        this.automovilesDAO=new AutomovilesDAO();
     }
 
     /**
@@ -35,6 +52,7 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
         pnlPrincipal = new javax.swing.JPanel();
         pnlInformacion = new javax.swing.JPanel();
         txtRFC = new javax.swing.JLabel();
@@ -46,22 +64,31 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
         btnSolicitar = new javax.swing.JButton();
         txtCostoPlacas = new javax.swing.JLabel();
         btnBorrarCampos = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        pnlInfoPersona = new javax.swing.JPanel();
+        txtRFCCliente = new javax.swing.JLabel();
+        txtNombreCliente = new javax.swing.JLabel();
+        txtFechaCliente = new javax.swing.JLabel();
+        txtNumeroCliente = new javax.swing.JLabel();
+        txtSolicitarPlacas2 = new javax.swing.JLabel();
         pnlInfoPlacas = new javax.swing.JPanel();
         txtPropietario = new javax.swing.JLabel();
         txtModelo = new javax.swing.JLabel();
         txtLinea = new javax.swing.JLabel();
         txtColor = new javax.swing.JLabel();
         txtMarca = new javax.swing.JLabel();
-        pnlInfoPersona = new javax.swing.JPanel();
-        txtRFCCliente = new javax.swing.JLabel();
-        txtNombreCliente = new javax.swing.JLabel();
-        txtFechaCliente = new javax.swing.JLabel();
-        txtNumeroCliente = new javax.swing.JLabel();
+        txtSolicitarPlacas1 = new javax.swing.JLabel();
         pnlTitulo = new javax.swing.JPanel();
         txtSolicitarPlacas = new javax.swing.JLabel();
 
+        jCheckBoxMenuItem1.setSelected(true);
+        jCheckBoxMenuItem1.setText("jCheckBoxMenuItem1");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Solicitar Placas Auto Usado");
+        setLocationByPlatform(true);
         setResizable(false);
 
         pnlPrincipal.setBackground(new java.awt.Color(255, 255, 255));
@@ -70,6 +97,7 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
 
         txtRFC.setForeground(new java.awt.Color(0, 0, 0));
         txtRFC.setText("RFC");
+        txtRFC.setAutoscrolls(true);
 
         txtPlacas.setForeground(new java.awt.Color(0, 0, 0));
         txtPlacas.setText("Placas");
@@ -106,116 +134,82 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
         });
 
         btnSolicitar.setText("Solicitar");
+        btnSolicitar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSolicitarActionPerformed(evt);
+            }
+        });
 
         txtCostoPlacas.setForeground(new java.awt.Color(0, 0, 0));
         txtCostoPlacas.setText("Costo");
 
         btnBorrarCampos.setText("Borrar datos");
 
-        pnlInfoPlacas.setBackground(new java.awt.Color(255, 204, 153));
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
-        txtPropietario.setForeground(new java.awt.Color(0, 0, 0));
-        txtPropietario.setText("12");
-        txtPropietario.setMaximumSize(new java.awt.Dimension(0, 20));
-        txtPropietario.setMinimumSize(new java.awt.Dimension(0, 20));
-        txtPropietario.setPreferredSize(new java.awt.Dimension(10, 20));
+        jButton2.setText("jButton1");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
-        txtModelo.setForeground(new java.awt.Color(0, 0, 0));
-        txtModelo.setText("12");
-        txtModelo.setMaximumSize(new java.awt.Dimension(0, 20));
-        txtModelo.setMinimumSize(new java.awt.Dimension(0, 20));
-        txtModelo.setPreferredSize(new java.awt.Dimension(10, 20));
-
-        txtLinea.setForeground(new java.awt.Color(0, 0, 0));
-        txtLinea.setText("12");
-        txtLinea.setMaximumSize(new java.awt.Dimension(0, 20));
-        txtLinea.setMinimumSize(new java.awt.Dimension(0, 20));
-        txtLinea.setPreferredSize(new java.awt.Dimension(10, 20));
-
-        txtColor.setForeground(new java.awt.Color(0, 0, 0));
-        txtColor.setText("12");
-        txtColor.setMaximumSize(new java.awt.Dimension(0, 20));
-        txtColor.setMinimumSize(new java.awt.Dimension(0, 20));
-        txtColor.setPreferredSize(new java.awt.Dimension(10, 20));
-
-        txtMarca.setForeground(new java.awt.Color(0, 0, 0));
-        txtMarca.setText("12");
-        txtMarca.setMaximumSize(new java.awt.Dimension(0, 20));
-        txtMarca.setMinimumSize(new java.awt.Dimension(0, 20));
-        txtMarca.setPreferredSize(new java.awt.Dimension(10, 20));
-
-        javax.swing.GroupLayout pnlInfoPlacasLayout = new javax.swing.GroupLayout(pnlInfoPlacas);
-        pnlInfoPlacas.setLayout(pnlInfoPlacasLayout);
-        pnlInfoPlacasLayout.setHorizontalGroup(
-            pnlInfoPlacasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlInfoPlacasLayout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addGroup(pnlInfoPlacasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtLinea, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
-                    .addComponent(txtColor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtModelo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtPropietario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtMarca, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(43, Short.MAX_VALUE))
-        );
-        pnlInfoPlacasLayout.setVerticalGroup(
-            pnlInfoPlacasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlInfoPlacasLayout.createSequentialGroup()
-                .addComponent(txtPropietario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtModelo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtLinea, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        jPanel1.setBackground(new java.awt.Color(255, 204, 153));
 
         pnlInfoPersona.setBackground(new java.awt.Color(255, 204, 153));
 
         txtRFCCliente.setForeground(new java.awt.Color(0, 0, 0));
-        txtRFCCliente.setText("1");
         txtRFCCliente.setMaximumSize(new java.awt.Dimension(0, 20));
         txtRFCCliente.setMinimumSize(new java.awt.Dimension(0, 20));
         txtRFCCliente.setPreferredSize(new java.awt.Dimension(10, 20));
 
         txtNombreCliente.setForeground(new java.awt.Color(0, 0, 0));
-        txtNombreCliente.setText("1");
         txtNombreCliente.setMaximumSize(new java.awt.Dimension(0, 20));
         txtNombreCliente.setMinimumSize(new java.awt.Dimension(0, 20));
         txtNombreCliente.setPreferredSize(new java.awt.Dimension(10, 20));
 
         txtFechaCliente.setForeground(new java.awt.Color(0, 0, 0));
-        txtFechaCliente.setText("1");
         txtFechaCliente.setMaximumSize(new java.awt.Dimension(0, 20));
         txtFechaCliente.setMinimumSize(new java.awt.Dimension(0, 20));
         txtFechaCliente.setPreferredSize(new java.awt.Dimension(10, 20));
 
         txtNumeroCliente.setForeground(new java.awt.Color(0, 0, 0));
-        txtNumeroCliente.setText("1");
         txtNumeroCliente.setMaximumSize(new java.awt.Dimension(0, 20));
         txtNumeroCliente.setMinimumSize(new java.awt.Dimension(0, 20));
         txtNumeroCliente.setPreferredSize(new java.awt.Dimension(10, 20));
+
+        txtSolicitarPlacas2.setBackground(new java.awt.Color(0, 0, 0));
+        txtSolicitarPlacas2.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
+        txtSolicitarPlacas2.setForeground(new java.awt.Color(0, 0, 0));
+        txtSolicitarPlacas2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        txtSolicitarPlacas2.setText("Informacion Cliente");
 
         javax.swing.GroupLayout pnlInfoPersonaLayout = new javax.swing.GroupLayout(pnlInfoPersona);
         pnlInfoPersona.setLayout(pnlInfoPersonaLayout);
         pnlInfoPersonaLayout.setHorizontalGroup(
             pnlInfoPersonaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlInfoPersonaLayout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addGroup(pnlInfoPersonaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtFechaCliente, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
-                    .addComponent(txtNumeroCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtNombreCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtRFCCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addGap(27, 27, 27)
+                .addGroup(pnlInfoPersonaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtSolicitarPlacas2)
+                    .addGroup(pnlInfoPersonaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(txtFechaCliente, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
+                        .addComponent(txtNombreCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtRFCCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtNumeroCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(350, Short.MAX_VALUE))
         );
         pnlInfoPersonaLayout.setVerticalGroup(
             pnlInfoPersonaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlInfoPersonaLayout.createSequentialGroup()
-                .addGap(26, 26, 26)
+                .addGap(16, 16, 16)
+                .addComponent(txtSolicitarPlacas2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtRFCCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtNombreCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -226,31 +220,128 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        pnlInfoPlacas.setBackground(new java.awt.Color(255, 204, 153));
+
+        txtPropietario.setForeground(new java.awt.Color(0, 0, 0));
+        txtPropietario.setMaximumSize(new java.awt.Dimension(0, 20));
+        txtPropietario.setMinimumSize(new java.awt.Dimension(0, 20));
+        txtPropietario.setPreferredSize(new java.awt.Dimension(10, 20));
+
+        txtModelo.setForeground(new java.awt.Color(0, 0, 0));
+        txtModelo.setMaximumSize(new java.awt.Dimension(0, 20));
+        txtModelo.setMinimumSize(new java.awt.Dimension(0, 20));
+        txtModelo.setPreferredSize(new java.awt.Dimension(10, 20));
+
+        txtLinea.setForeground(new java.awt.Color(0, 0, 0));
+        txtLinea.setMaximumSize(new java.awt.Dimension(0, 20));
+        txtLinea.setMinimumSize(new java.awt.Dimension(0, 20));
+        txtLinea.setPreferredSize(new java.awt.Dimension(10, 20));
+
+        txtColor.setForeground(new java.awt.Color(0, 0, 0));
+        txtColor.setMaximumSize(new java.awt.Dimension(0, 20));
+        txtColor.setMinimumSize(new java.awt.Dimension(0, 20));
+        txtColor.setPreferredSize(new java.awt.Dimension(10, 20));
+
+        txtMarca.setForeground(new java.awt.Color(0, 0, 0));
+        txtMarca.setMaximumSize(new java.awt.Dimension(0, 20));
+        txtMarca.setMinimumSize(new java.awt.Dimension(0, 20));
+        txtMarca.setPreferredSize(new java.awt.Dimension(10, 20));
+
+        txtSolicitarPlacas1.setBackground(new java.awt.Color(0, 0, 0));
+        txtSolicitarPlacas1.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
+        txtSolicitarPlacas1.setForeground(new java.awt.Color(0, 0, 0));
+        txtSolicitarPlacas1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        txtSolicitarPlacas1.setText("Informacion Placa");
+
+        javax.swing.GroupLayout pnlInfoPlacasLayout = new javax.swing.GroupLayout(pnlInfoPlacas);
+        pnlInfoPlacas.setLayout(pnlInfoPlacasLayout);
+        pnlInfoPlacasLayout.setHorizontalGroup(
+            pnlInfoPlacasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlInfoPlacasLayout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addGroup(pnlInfoPlacasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtSolicitarPlacas1)
+                    .addGroup(pnlInfoPlacasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(txtLinea, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
+                        .addComponent(txtColor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtModelo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtMarca, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtPropietario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        pnlInfoPlacasLayout.setVerticalGroup(
+            pnlInfoPlacasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlInfoPlacasLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(txtSolicitarPlacas1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(txtPropietario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtModelo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtLinea, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23))
+        );
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(pnlInfoPlacas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlInfoPersona, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(pnlInfoPersona, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnlInfoPlacas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(14, 14, 14))
+        );
+
         javax.swing.GroupLayout pnlInformacionLayout = new javax.swing.GroupLayout(pnlInformacion);
         pnlInformacion.setLayout(pnlInformacionLayout);
         pnlInformacionLayout.setHorizontalGroup(
             pnlInformacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlInformacionLayout.createSequentialGroup()
-                .addContainerGap(44, Short.MAX_VALUE)
                 .addGroup(pnlInformacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtRFC, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtPlacas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtCostoPlacas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29)
-                .addGroup(pnlInformacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtCampoPlacas, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtCampoRFC, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(48, 48, 48)
-                .addGroup(pnlInformacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnlInfoPersona, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pnlInfoPlacas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(45, 45, 45))
+                    .addGroup(pnlInformacionLayout.createSequentialGroup()
+                        .addContainerGap(17, Short.MAX_VALUE)
+                        .addGroup(pnlInformacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtRFC, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtPlacas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(29, 29, 29)
+                        .addGroup(pnlInformacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnlInformacionLayout.createSequentialGroup()
+                                .addComponent(txtCampoPlacas, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(pnlInformacionLayout.createSequentialGroup()
+                                .addComponent(txtCampoRFC, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(52, 52, 52))
+                    .addGroup(pnlInformacionLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(txtCostoPlacas, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
             .addGroup(pnlInformacionLayout.createSequentialGroup()
                 .addGap(83, 83, 83)
                 .addComponent(btnSolicitar, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnBorrarCampos, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(76, 76, 76)
+                .addGap(86, 86, 86)
                 .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(82, 82, 82))
             .addGroup(pnlInformacionLayout.createSequentialGroup()
@@ -263,30 +354,30 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
             .addGroup(pnlInformacionLayout.createSequentialGroup()
                 .addGroup(pnlInformacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlInformacionLayout.createSequentialGroup()
-                        .addGap(53, 53, 53)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(pnlInformacionLayout.createSequentialGroup()
+                        .addGap(52, 52, 52)
                         .addGroup(pnlInformacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtRFC)
-                            .addComponent(txtCampoRFC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(51, 51, 51)
+                            .addComponent(txtCampoRFC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1))
+                        .addGap(49, 49, 49)
                         .addGroup(pnlInformacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtPlacas)
-                            .addComponent(txtCampoPlacas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtCampoPlacas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(txtCostoPlacas)
-                        .addGap(46, 46, 46))
-                    .addGroup(pnlInformacionLayout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addComponent(pnlInfoPersona, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(pnlInfoPlacas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(49, 49, 49)))
+                        .addGap(18, 18, 18)))
                 .addComponent(Separator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlInformacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSolicitar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBorrarCampos, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(17, 17, 17))
+                .addGap(6, 6, 6))
         );
 
         pnlTitulo.setBackground(new java.awt.Color(117, 37, 37));
@@ -319,11 +410,11 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
         pnlPrincipal.setLayout(pnlPrincipalLayout);
         pnlPrincipalLayout.setHorizontalGroup(
             pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 732, Short.MAX_VALUE)
+            .addComponent(pnlTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 772, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPrincipalLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(6, 6, 6)
                 .addComponent(pnlInformacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(6, 6, 6))
         );
         pnlPrincipalLayout.setVerticalGroup(
             pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -331,7 +422,7 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
                 .addComponent(pnlTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(pnlInformacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(6, 6, 6))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -378,12 +469,67 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtCampoRFCKeyTyped
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+          if (this.txtCampoRFC.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingrese un RFC valido");
+        } else {
+            try {
+                if (personasDAO.buscarPersonaRFC(txtCampoRFC.getText()) != null) {
+                    personaProspecto =personasDAO.buscarPersonaRFC(this.txtCampoRFC.getText());
+                    setearInfoPersona(personaProspecto);
+                } else {
+                    JOptionPane.showMessageDialog(this, "El RFC no existe");
+                }
+            } catch (PersistenciaException ex) {
+                Logger.getLogger(frmSolicitarPlacasAutoNuevo.class.getName()).log(Level.SEVERE, null, ex);
+            }
+          }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        if (this.txtCampoPlacas.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingrese una serie valido");
+        } else {
+            if (placasDAO.buscarPersonaSerie(txtCampoPlacas.getText()) != null) {
+                placaSolicitud = placasDAO.buscarPersonaSerie(txtCampoPlacas.getText());
+                setearInfoPlaca(placaSolicitud);
+            } else {
+                JOptionPane.showMessageDialog(this, "El RFC no existe");
+            }
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void btnSolicitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolicitarActionPerformed
+       generarCambiosPlacas();
+    }//GEN-LAST:event_btnSolicitarActionPerformed
+
+ private void setearInfoPersona(Persona persona) {
+     this.pnlInfoPersona.setVisible(true);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        this.txtRFCCliente.setText("RFC: " + persona.getRFC());
+        this.txtNombreCliente.setText("Nombre: " + persona.getNombreCompleto());
+        this.txtFechaCliente.setText("Fecha Nacimiento: " + sdf.format(persona.getFechaNacimiento().getTime()));
+        this.txtNumeroCliente.setText("Numero Telefono: " + persona.getTelefono());
+    }
+ 
+ private void setearInfoPlaca(Placa placa) {
+     this.pnlInfoPlacas.setVisible(true);
+        this.txtPropietario.setText("Propietario: " + placa.getPersona().getNombreCompleto());
+        this.txtModelo.setText("Modelo: " + placa.getTransporte().getModelo());
+        this.txtLinea.setText("Linea: " +    placa.getTransporte().getLinea());
+        this.txtColor.setText("Color: " +  placa.getTransporte().getColor());
+        this.txtMarca.setText("Marca: " +  placa.getTransporte().getMarca());
+        
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSeparator Separator1;
     private javax.swing.JButton btnBorrarCampos;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnSolicitar;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel pnlInfoPersona;
     private javax.swing.JPanel pnlInfoPlacas;
     private javax.swing.JPanel pnlInformacion;
@@ -404,12 +550,23 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
     private javax.swing.JLabel txtRFC;
     private javax.swing.JLabel txtRFCCliente;
     private javax.swing.JLabel txtSolicitarPlacas;
+    private javax.swing.JLabel txtSolicitarPlacas1;
+    private javax.swing.JLabel txtSolicitarPlacas2;
     // End of variables declaration//GEN-END:variables
 
     private void validacionNumeroLetra(KeyEvent evt) {
         char txt = evt.getKeyChar();
         if (!(Character.isLetterOrDigit(txt))) {
             evt.consume();
+        }
+    }
+
+    private void generarCambiosPlacas() {
+        
+        try {
+            placasDAO.actualizar(placaSolicitud,personaProspecto);
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(frmSolicitarPlacasAutoUsado.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

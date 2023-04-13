@@ -7,6 +7,7 @@ package Persistencia;
 //importanciones
 
 import Dominio.Licencia;
+import Dominio.Persona;
 import Dominio.Placa;
 import Interfaces.IPlacasDAO;
 import excepciones.PersistenciaException;
@@ -47,7 +48,7 @@ ConexionBD conexion = new ConexionBD();
     }
 
     @Override
-    public void actualizar(Placa placa) throws PersistenciaException {
+    public void actualizar(Placa placa,Persona persona) throws PersistenciaException {
         EntityManager bd = conexion.obtenerConexion();
         
         try {
@@ -60,8 +61,12 @@ ConexionBD conexion = new ConexionBD();
             TypedQuery<Placa> resultado = bd.createQuery(consulta);
             Placa placaNew = resultado.getSingleResult();
             //Actualiza
-            placaNew.setActivo(false);
+            placaNew.setActiva(false);
             bd.merge(placaNew);//Se confirma el cambio a la base de datos.
+            
+            placa.setPersona(persona);
+            bd.persist(placa);
+            
             
             //mando lo datos a la base de datos
             bd.getTransaction().commit();
@@ -71,6 +76,26 @@ ConexionBD conexion = new ConexionBD();
             bd.close();
         }
 
+    }
+
+    public Placa buscarPersonaSerie(String serie) {
+        EntityManager bd = conexion.obtenerConexion();
+
+        try {
+            bd.getTransaction().begin();
+            CriteriaBuilder builder = bd.getCriteriaBuilder();
+            CriteriaQuery<Placa> consulta = builder.createQuery(Placa.class);//solo se conecta en el java
+            Root<Placa> root = consulta.from(Placa.class);
+            consulta.select(root).where(builder.equal(root.get("numeroPlaca"), serie));
+            TypedQuery<Placa> resultado = bd.createQuery(consulta); // se conecta a la base de datos
+            Placa placa = resultado.getSingleResult(); // devuelve la persona con el rfc que mande.
+            bd.getTransaction().commit();
+            return placa;
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+          return null;
     }
 
     

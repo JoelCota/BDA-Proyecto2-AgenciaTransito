@@ -5,14 +5,21 @@
  */
 package Presentacion;
 
+import Dominio.Automovil;
 import Validadores.Validadores;
 import Dominio.Persona;
+import Dominio.Placa;
 import Persistencia.PersonasDAO;
+import Persistencia.PlacasDAO;
 import excepciones.PersistenciaException;
 import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
 /**
@@ -24,6 +31,7 @@ public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
 
     private Validadores validadores = new Validadores();
     private PersonasDAO personaDAO;
+    private PlacasDAO placasDAO;
     private Persona personaProspecto;
 
     /**
@@ -34,6 +42,7 @@ public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
         this.pnlInfoPersona.setVisible(false);
         this.txtCostoPlacas.setVisible(false);
         this.personaDAO = new PersonasDAO();
+        this.placasDAO= new PlacasDAO();
 
     }
 
@@ -485,7 +494,13 @@ public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCampoMarcaKeyTyped
 
     private void btnSolicitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolicitarActionPerformed
-        // TODO add your handling code here:
+        try {
+            Placa placaGenerada=this.generarPlaca();
+            placasDAO.generarPlaca(placaGenerada);
+            JOptionPane.showMessageDialog(this, "Se genero la placa: \n"+placaGenerada.getNumeroPlaca());
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(frmSolicitarPlacasAutoNuevo.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnSolicitarActionPerformed
 
     private void setearInfo(Persona persona) {
@@ -495,7 +510,35 @@ public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
         this.txtFechaCliente.setText("Fecha Nacimiento: " + sdf.format(persona.getFechaNacimiento().getTime()));
         this.txtNumeroCliente.setText("Numero Telefono: " + persona.getTelefono());
     }
-
+    private Placa generarPlaca(){
+     String numSerie=this.txtCampoSerie.getText();
+     String modelo=this.txtCampoModelo.getText();
+     String linea=this.txtCampoLinea.getText();
+     String color=this.txtCampoColor.getText();
+     String marca=this.txtCampoMarca.getText();
+        try {
+            return new Placa(generarNumeroSerie(),true,new Automovil(numSerie,modelo,linea,marca,color)
+                    ,123,Calendar.getInstance(),Calendar.getInstance(),personaDAO.buscarPersonaRFC(personaProspecto.getRFC()));
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(frmSolicitarPlacasAutoNuevo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+ public static String generarNumeroSerie() {
+   StringBuilder numeroSerie = new StringBuilder();
+        Random random = new Random();
+        String letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        for (int i = 0; i < 3; i++) {
+            char letra = letras.charAt(random.nextInt(letras.length()));
+            numeroSerie.append(letra);
+        }
+        numeroSerie.append("-");
+        for (int i = 0; i < 3; i++) {
+            int numero = random.nextInt(10);
+            numeroSerie.append(numero);
+        }
+        return numeroSerie.toString();
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSeparator Separator1;
     private javax.swing.JButton btnBorrarCampos;

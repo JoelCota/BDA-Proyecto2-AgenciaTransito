@@ -27,13 +27,11 @@ import javax.persistence.Table;
 public class Licencia extends Tramite implements Serializable { //PONER QUE EXTIENDE DE TRAMITE
 
     //Atributos
-    @Column(name = "tipoLicencia", nullable = false, length = 13)
+    @Column(name = "tipoLicencia", nullable = true, length = 13)
     @Enumerated(value = EnumType.STRING)
     private tipoLicencia tipo;
-    @Column(name = "vigencia", nullable = false)
+    @Column(name = "vigencia", nullable = true)
     private int vigencia;
-    @Column(name = "activa",nullable = false)
-    private boolean activa;
 
     /**
      *
@@ -42,42 +40,22 @@ public class Licencia extends Tramite implements Serializable { //PONER QUE EXTI
 
     }
 
-    public Licencia(tipoLicencia tipo, int vigencia, boolean activa) {
-        this.tipo = tipo;
-        this.vigencia = vigencia;
-        this.activa = activa;
-    }
-
     public Licencia(tipoLicencia tipo, int vigencia, boolean activa, Long id, float costo, Calendar fechaExpedicion, Calendar fechaVigencia, Persona persona) {
-        super(id, costo, fechaExpedicion, fechaVigencia, persona);
+        super(id, costo, fechaExpedicion, fechaVigencia, persona,activa);
         this.tipo = tipo;
         this.vigencia = vigencia;
-        this.activa = activa;
     }
 
     public Licencia(tipoLicencia tipo, int vigencia, boolean activa, float costo, Calendar fechaExpedicion, Calendar fechaVigencia, Persona persona) {
-        super(costo, fechaExpedicion, fechaVigencia, persona);
+        super(costo, fechaExpedicion, fechaVigencia, persona,activa);
         this.tipo = tipo;
         this.vigencia = vigencia;
-        this.activa = activa;
     }
-
-    
     
     public tipoLicencia getTipo() {
         return tipo;
     }
-
-    public boolean isActiva() {
-        return activa;
-    }
-
-    public void setActiva(boolean activa) {
-        this.activa = activa;
-    }
-
    
-
     public void setTipo(tipoLicencia tipo) {
         this.tipo = tipo;
     }

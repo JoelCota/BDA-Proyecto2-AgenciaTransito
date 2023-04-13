@@ -5,9 +5,14 @@
 package Persistencia;
 
 import Dominio.Automovil;
+import Dominio.Persona;
 import Interfaces.IAutomovilesDAO;
 import excepciones.PersistenciaException;
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 /**
  *
@@ -32,6 +37,26 @@ ConexionBD conexion = new ConexionBD();
             bd.close();
         }
 
+    }
+    
+    public Automovil consultarAutomovil(String numSerie){
+         EntityManager bd = conexion.obtenerConexion();
+
+        try {
+            bd.getTransaction().begin();
+            CriteriaBuilder builder = bd.getCriteriaBuilder();
+            CriteriaQuery<Automovil> consulta = builder.createQuery(Automovil.class);//solo se conecta en el java
+            Root<Automovil> root = consulta.from(Automovil.class);
+            consulta.select(root).where(builder.equal(root.get("numSerie"), numSerie));
+            TypedQuery<Automovil> resultado = bd.createQuery(consulta); // se conecta a la base de datos
+            Automovil automovil = resultado.getSingleResult(); // devuelve la persona con el rfc que mande.
+            bd.getTransaction().commit();
+            return automovil;
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+          return null;
     }
 
     @Override

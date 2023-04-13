@@ -26,9 +26,7 @@ public class LicenciasDAO implements ILicenciasDAO{
         
         try{
             bd.getTransaction().begin();//entre a la base de datos
-            //code
-            
-            //
+            bd.persist(bd);
             bd.getTransaction().commit();//cerre conexion
             System.out.println("Se agrego exitosamente la licencia");
         }catch(Exception e){

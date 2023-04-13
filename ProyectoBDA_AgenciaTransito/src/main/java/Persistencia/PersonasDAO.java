@@ -5,10 +5,10 @@
 package Persistencia;
 
 import Dominio.Automovil;
+import Dominio.Licencia;
 import Dominio.Persona;
 import Dominio.Placa;
-import Dominio.Tramite;
-import Dominio.Transporte;
+import Dominio.tipoLicencia;
 import excepciones.PersistenciaException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -109,7 +109,6 @@ public class PersonasDAO implements IPersonasDAO {
 
     public void eliminarPersonas() throws PersistenciaException {
         EntityManager bd = conexion.obtenerConexion();
-
         bd.getTransaction().begin();//entre a la base de datos
         bd.createQuery("DELETE FROM Persona").executeUpdate();
         bd.getTransaction().commit();//cerre conexion
@@ -117,11 +116,13 @@ public class PersonasDAO implements IPersonasDAO {
     }
     public void prueba() throws PersistenciaException{
         Persona persona=buscarPersonaRFC("ABC123456");
-       Automovil automovil= new Automovil("213","BLANCO","COLOR","hONDA","123");
-         Placa placa = new Placa("123-123",true,automovil,123,Calendar.getInstance(),Calendar.getInstance(),persona);
+       Automovil automovil= new Automovil("2221","BLANCO","COLOR","hONDA","123");
+         Licencia licencia = new Licencia(tipoLicencia.NORMAL,2,true,123,Calendar.getInstance(),Calendar.getInstance(),buscarPersonaRFC("ABC123456"));
+         Placa placa = new Placa("223-123",true,new Automovil("221","BLANCO","COLOR","hONDA","123"),123,Calendar.getInstance(),Calendar.getInstance(),buscarPersonaRFC("ABC123456"));
         EntityManager bd = conexion.obtenerConexion();
                 bd.getTransaction().begin();
-                bd.persist(automovil);
+                bd.persist(licencia);
+                bd.persist(placa);
                 bd.getTransaction().commit();
                 
         String jpql = "SELECT e FROM EntidadTipo2 e";

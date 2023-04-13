@@ -28,8 +28,6 @@ import javax.persistence.OneToMany;
 @DiscriminatorColumn (name = "tipoTransporte")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Transporte implements Serializable {
-
-    //Atributos
     @Id
     @Column(name = "numSerie", nullable = false,length=7)
     private String numSerie;
