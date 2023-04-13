@@ -18,7 +18,7 @@ import javax.swing.table.DefaultTableModel;
  * Descripción de la clase: Clase que permite poder seleccionar las personas de
  * las cuales se desea consultar las placas y licencias
  *
- * @author Joel Antonio Lopez Cota ID:228926
+ * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox ID:229384
  */
 public class frmSeleccionPersonas extends javax.swing.JFrame {
 

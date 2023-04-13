@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Joel Antonio Lopez Cota ID:228926
+ * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox ID:229384
  */
 public class ProyectoBDA_AgenciaTransito {
 

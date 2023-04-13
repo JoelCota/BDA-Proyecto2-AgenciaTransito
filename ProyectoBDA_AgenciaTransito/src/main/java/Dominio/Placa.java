@@ -15,8 +15,11 @@ import javax.persistence.ManyToOne;
 
 /**
  *
- *
- * @author Joel Antonio Lopez Cota ID:228926
+ * Clase de dominio "Placa". La cual se encarga de crear todos los atributos
+ * existentes en la base de datos y aqui mismo se mapean para luego pasar los
+ * datos a la base de datos, tambien aqui estan todos los constructores, gets y sets,
+ * hash y el toString de la clase
+ * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox ID:229384
  */
 @Entity
 @DiscriminatorValue(value = "placa")

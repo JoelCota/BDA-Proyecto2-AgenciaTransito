@@ -5,8 +5,9 @@
 package Interfaces;
 
 /**
- *
- * @author deivi
+ * Interfaz para la clase de Tramites, aqui se agregaron todos los metodos incluidos
+ * en la clase Tramites DAO
+ * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox ID:229384
  */
 public interface ITramitesDAO {
    

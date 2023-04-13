@@ -12,7 +12,7 @@ import javax.persistence.PersistenceException;
 
 /**
  *
- * @author deivi
+ * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox ID:229384
  */
 public class ConexionBD {
     private final EntityManagerFactory conexion = Persistence.createEntityManagerFactory("Principal_ProyectoBDA_AgenciaTransito_jar_1.0-SNAPSHOTPU"); 

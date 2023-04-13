@@ -8,8 +8,9 @@ import Dominio.Placa;
 import excepciones.PersistenciaException;
 
 /**
- *
- * @author deivi
+ * Interfaz para la clase de Placas, aqui se agregaron todos los metodos incluidos
+ * en la clase Placas DAO
+ * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox ID:229384
  */
 public interface IPlacasDAO {
     public void generarPlaca(Placa placa)throws PersistenciaException;
