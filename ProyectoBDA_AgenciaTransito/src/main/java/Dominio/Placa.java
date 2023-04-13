@@ -26,7 +26,7 @@ public class Placa extends Tramite implements Serializable {
     @Column(name = "numeroPlaca", nullable = false, length = 7)
     private String numeroPlaca;
     
-      @Column(name = "Activo")
+    @Column(name = "Activo")
     private boolean activo;
     
      @ManyToOne(cascade=CascadeType.PERSIST)

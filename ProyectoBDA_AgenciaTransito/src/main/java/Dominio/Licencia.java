@@ -5,6 +5,7 @@
 package Dominio;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -28,6 +29,8 @@ public class Licencia extends Tramite implements Serializable { //PONER QUE EXTI
     private tipoLicencia tipo;
     @Column(name = "vigencia", nullable = false)
     private int vigencia;
+    @Column(name = "activa",nullable = false)
+    private boolean activa;
 
     /**
      *
@@ -36,9 +39,41 @@ public class Licencia extends Tramite implements Serializable { //PONER QUE EXTI
 
     }
 
+    public Licencia(tipoLicencia tipo, int vigencia, boolean activa) {
+        this.tipo = tipo;
+        this.vigencia = vigencia;
+        this.activa = activa;
+    }
+
+    public Licencia(tipoLicencia tipo, int vigencia, boolean activa, Long id, float costo, Calendar fechaExpedicion, Calendar fechaVigencia, Persona persona) {
+        super(id, costo, fechaExpedicion, fechaVigencia, persona);
+        this.tipo = tipo;
+        this.vigencia = vigencia;
+        this.activa = activa;
+    }
+
+    public Licencia(tipoLicencia tipo, int vigencia, boolean activa, float costo, Calendar fechaExpedicion, Calendar fechaVigencia, Persona persona) {
+        super(costo, fechaExpedicion, fechaVigencia, persona);
+        this.tipo = tipo;
+        this.vigencia = vigencia;
+        this.activa = activa;
+    }
+
+    
+    
     public tipoLicencia getTipo() {
         return tipo;
     }
+
+    public boolean isActiva() {
+        return activa;
+    }
+
+    public void setActiva(boolean activa) {
+        this.activa = activa;
+    }
+
+   
 
     public void setTipo(tipoLicencia tipo) {
         this.tipo = tipo;
@@ -53,6 +88,7 @@ public class Licencia extends Tramite implements Serializable { //PONER QUE EXTI
     }
     
 
+    
     @Override
     public String toString() {
         return "Licencia{" + "tipo=" + tipo + '}';

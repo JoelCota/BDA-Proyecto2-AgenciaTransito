@@ -5,7 +5,10 @@
  */
 package Presentacion;
 
+import excepciones.PersistenciaException;
 import java.awt.event.KeyEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Descripción de la clase:
@@ -355,7 +358,11 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCampoRFCActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        new frmMenu().setVisible(true);
+        try {
+            new frmMenu().setVisible(true);
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(frmSolicitarPlacasAutoUsado.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 

@@ -4,14 +4,13 @@
  */
 package Interfaces;
 
-import Dominio.Automovil;
+import Dominio.Pagos;
 import excepciones.PersistenciaException;
 
 /**
  *
  * @author deivi
  */
-public interface IAutomovilesDAO {
-    public void agregar(Automovil automovil) throws PersistenciaException;
-    public void actualizar(Automovil automovil) throws PersistenciaException;
+public interface IPagosDAO {
+    public void agregar(Pagos pagos)throws PersistenciaException;
 }

@@ -15,7 +15,7 @@ import javax.persistence.PersistenceException;
  * @author deivi
  */
 public class ConexionBD {
-    private final EntityManagerFactory conexion = Persistence.createEntityManagerFactory("persistenciaDatos"); 
+    private final EntityManagerFactory conexion = Persistence.createEntityManagerFactory("Principal_ProyectoBDA_AgenciaTransito_jar_1.0-SNAPSHOTPU"); 
     
     public EntityManager obtenerConexion (){
         return (conexion.createEntityManager());

@@ -378,7 +378,11 @@ public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        new frmMenu().setVisible(true);
+        try {
+            new frmMenu().setVisible(true);
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(frmSolicitarPlacasAutoNuevo.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 

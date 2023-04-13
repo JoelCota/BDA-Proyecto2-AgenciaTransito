@@ -9,5 +9,5 @@ package Dominio;
  * @author deivi
  */
 public enum tipoLicencia {
-    NORMAL,DISCACITADO
+    NORMAL,DISCAPACITADO
 }

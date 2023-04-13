@@ -5,11 +5,13 @@
 package Interfaces;
 
 import Dominio.Placa;
+import excepciones.PersistenciaException;
 
 /**
  *
  * @author deivi
  */
 public interface IPlacasDAO {
-    public Placa generarPlaca();
+    public void generarPlaca(Placa placa)throws PersistenciaException;
+    public void actualizar(Placa placa) throws PersistenciaException;
 }

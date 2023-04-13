@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  */
 public class ProyectoBDA_AgenciaTransito {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws PersistenciaException {
 
             frmMenu menu = new frmMenu();
             menu.setVisible(true);
