@@ -4,6 +4,7 @@
  */
 package Persistencia;
 
+//imports
 import Dominio.Automovil;
 import Dominio.Licencia;
 import Dominio.Persona;
@@ -21,14 +22,22 @@ import javax.persistence.criteria.Root;
 import Interfaces.IPersonasDAO;
 
 /**
- *
+ * Clase DAO para hacer todas las consultas relacionada con el tema de la
+ * Persona.
  * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox ID:229384
  */
 public class PersonasDAO implements IPersonasDAO {
     //OBJETO CONEXION
 
+    //Se obtiene la conexion.
     ConexionBD conexion = new ConexionBD();
 
+    /**
+     * 
+     * Metodo para la creacion de la persona y que se refleje en la base de datos.
+     * @param persona Objeto de tipo persona.
+     * @throws PersistenciaException Excepciones (evita erroes).
+     */
     @Override
     public void agregarPersona(Persona persona) throws PersistenciaException {
         EntityManager bd = conexion.obtenerConexion();
@@ -46,6 +55,13 @@ public class PersonasDAO implements IPersonasDAO {
 
     }
 
+    /**
+     * 
+     * Metodo para buscar a una persona ppor medio del rfc de la persona misma.
+     * @param RFC String RFC de la persona.
+     * @return retorna la persona.
+     * @throws PersistenciaException Excepciones (evita erroes).
+     */
     @Override
     public Persona buscarPersonaRFC(String RFC) throws PersistenciaException {
         EntityManager bd = conexion.obtenerConexion();
@@ -66,6 +82,12 @@ public class PersonasDAO implements IPersonasDAO {
           return null;
     }
 
+    /**
+     * 
+     * Metodo hardcodeado para la creacion de las 20 personas explicitamente en la
+     * base de datos.
+     * @throws PersistenciaException  Excepciones (evita erroes).
+     */
     @Override
     public void invocarPersonas() throws PersistenciaException {
 
@@ -97,6 +119,12 @@ public class PersonasDAO implements IPersonasDAO {
         }
     }
 
+    /**
+     * 
+     * Metodo que consulta las personas totales que existen por medio de una lista.
+     * @return retorna objeto persona
+     * @throws PersistenciaException Excepciones (evita erroes).
+     */
     public List<Persona> consultaPersonasTotal() throws PersistenciaException {
         EntityManager bd = conexion.obtenerConexion();
 

@@ -5,6 +5,7 @@
 
 package Persistencia;
 
+//Imports
 import Dominio.Placa;
 import Dominio.Tramite;
 import Interfaces.ITramitesDAO;
@@ -16,16 +17,13 @@ import javax.persistence.criteria.Root;
 
 /**
  *
- * 
- * @author Joel Antonio Lopez Cota ID:228926
+ * Clase DAO donde se hacen todos las consultas que tienen que ver con la tabla de
+ * "Tramites" para la base de datos.
+ * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox ID:229384
  */
 public class TramitesDAO implements ITramitesDAO{
-ConexionBD conexion = new ConexionBD();
+    //Conexion a la base de datos.
+    ConexionBD conexion = new ConexionBD();
 
-    /**
-     * 
-     */
-    public TramitesDAO(){
-
-    }
+    
 }

@@ -20,18 +20,21 @@ import javax.persistence.criteria.Root;
 
 /**
  *
- * 
+ * Clase DAO para hacer todos las consultas relacionada con la tabla de "Placas"
+ * en la base de datos.
  * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox ID:229384
  */
 public class PlacasDAO implements IPlacasDAO {
-ConexionBD conexion = new ConexionBD();
+    
+    //Conexion a la base de datos
+    ConexionBD conexion = new ConexionBD();
+    
     /**
      * 
+     * Metodo para crear una nueva placa de un automovil.
+     * @param placa objeto placa
+     * @throws PersistenciaException  Excepciones (evita erroes).
      */
-    public PlacasDAO(){
-
-    }
-
     @Override
     public void generarPlaca(Placa placa) throws PersistenciaException {
         EntityManager bd = conexion.obtenerConexion();
@@ -48,6 +51,12 @@ ConexionBD conexion = new ConexionBD();
         }
     }
 
+    /**
+     * 
+     * Metodo para actualizar la placa del automovil.
+     * @param placa objeto de placa
+     * @throws PersistenciaException Excepciones (evita erroes)..
+     */
     @Override
     public void actualizar(Placa placa) throws PersistenciaException {
         EntityManager bd = conexion.obtenerConexion();
@@ -77,6 +86,12 @@ ConexionBD conexion = new ConexionBD();
 
     }
 
+    /**
+     * 
+     *
+     * @param serie
+     * @return 
+     */
     public Placa buscarPersonaSerie(String serie) {
         EntityManager bd = conexion.obtenerConexion();
 

@@ -12,11 +12,20 @@ import javax.persistence.PersistenceException;
 
 /**
  *
+ * Clase relacionada con la conexion directa a la base de datos
  * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox ID:229384
  */
 public class ConexionBD {
+    /**
+     * Se creo el objeto EntityManagerFactory para la conexion.
+     */
     private final EntityManagerFactory conexion = Persistence.createEntityManagerFactory("persistenciaDatos"); 
     
+    
+    /**
+     * Metodo encargado de obtener una nueva conexion creandola con el EntityManagerFactory.
+     * @return 
+     */
     public EntityManager obtenerConexion (){
         return (conexion.createEntityManager());
     }

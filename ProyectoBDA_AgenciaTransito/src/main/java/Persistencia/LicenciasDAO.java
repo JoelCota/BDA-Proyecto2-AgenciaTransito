@@ -18,13 +18,23 @@ import javax.persistence.criteria.Root;
 
 /**
  *
+ * Clase DAO para hacer las consultas a la base de datos con todo relacionado a la base
+ * de datos con el tema de las licencias.
  * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox
  * ID:229384
  */
 public class LicenciasDAO implements ILicenciasDAO {
 
+    //Se obtiene una nueva conexion
     ConexionBD conexion = new ConexionBD();
 
+    
+    /**
+     * 
+     * Metodo para agregar una nueva licencia
+     * @param licencia objeto de licencia
+     * @throws PersistenciaException Excepciones (evita errroes).
+     */
     @Override
     public void agregarLicencia(Licencia licencia) throws PersistenciaException {
         EntityManager bd = conexion.obtenerConexion();
@@ -40,6 +50,13 @@ public class LicenciasDAO implements ILicenciasDAO {
         }
     }
 
+    
+    /**
+     * 
+     * Metodo para actualizar una licencia ya creada
+     * @param licencia objeto licencia.
+     * @throws PersistenciaException Excepciones (evita errroes).
+     */
     @Override
     public void actualizarLicencia(Licencia licencia) throws PersistenciaException {
         EntityManager bd = conexion.obtenerConexion();
@@ -65,6 +82,12 @@ public class LicenciasDAO implements ILicenciasDAO {
         }
     }
 
+    /**
+     * 
+     * Metodo para buscar una licencia por medio de el RFC.
+     * @param personaProspecto objeto de persona.
+     * @return retorna a la persona que se busco.
+     */
     public Persona buscarLicenciaRFC(Persona personaProspecto) {
         EntityManager bd = conexion.obtenerConexion();
         try {
