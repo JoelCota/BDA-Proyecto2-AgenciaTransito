@@ -34,40 +34,84 @@ public class Licencia extends Tramite implements Serializable { //PONER QUE EXTI
     private int vigencia;
 
     /**
-     *
+     * Constructor por default de la clase Licencia
      */
     public Licencia() {
 
     }
 
+    /**
+     * 
+     * Constructor de la clase licencia con sus respectivos atributos y con los 
+     * atributos heredados de la clase "tramites" con su respectivo id.
+     * @param tipo tipo de Licencia - Normal o Discapacitado.
+     * @param vigencia vigencia de la licencia.
+     * @param activa atributo booleano para identificar si la licencia se encuentra activa o inactiva.
+     * @param id llave primaria de la clase licencia.
+     * @param costo costo de la licencia dependiendo sus atributos.
+     * @param fechaExpedicion fecha de expedicion de la licencia.
+     * @param fechaVigencia fecha de vigencia de la licencia.
+     * @param persona objeto persona a la que pertenece la licencia.
+     */
     public Licencia(tipoLicencia tipo, int vigencia, boolean activa, Long id, float costo, Calendar fechaExpedicion, Calendar fechaVigencia, Persona persona) {
         super(id, costo, fechaExpedicion, fechaVigencia, persona,activa);
         this.tipo = tipo;
         this.vigencia = vigencia;
     }
 
+    
+    /**
+     * Constructor de la clase licencia con sus respectivos atributos y con los 
+     * atributos heredados de la clase "tramites" sin su id.
+     * @param tipo tipo de Licencia - Normal o Discapacitado.
+     * @param vigencia vigencia de la licencia.
+     * @param activa atributo booleano para identificar si la licencia se encuentra activa o inactiva.
+     * @param costo costo de la licencia dependiendo sus atributos.
+     * @param fechaExpedicion fecha de expedicion de la licencia.
+     * @param fechaVigencia fecha de vigencia de la licencia.
+     * @param persona objeto persona a la que pertenece la licencia.
+     */
     public Licencia(tipoLicencia tipo, int vigencia, boolean activa, float costo, Calendar fechaExpedicion, Calendar fechaVigencia, Persona persona) {
         super(costo, fechaExpedicion, fechaVigencia, persona,activa);
         this.tipo = tipo;
         this.vigencia = vigencia;
     }
-    
+    /**
+     * Metodo para obtener el tipo de licencia.
+     * @return tipo de la licencia.
+     */
     public tipoLicencia getTipo() {
         return tipo;
     }
    
+    /**
+     * metodo para setear/actualizar el tipo de la licencia
+     * @param tipo tipo de la licencia
+     */
     public void setTipo(tipoLicencia tipo) {
         this.tipo = tipo;
     }
 
+    /**
+     * metodo para obtener la vigencia de la licencia
+     * @return obtiene la vigencia
+     */
     public int getVigencia() {
         return vigencia;
     }
 
+    /**
+     * metodo para setear/actualizar la vigencia de la licencia.
+     * @param vigencia vigencia de la licencia.
+     */
     public void setVigencia(int vigencia) {
         this.vigencia = vigencia;
     }
 
+    /**
+     * metodo que sobre escribe el toString.
+     * @return toString de la licencia.
+     */
     @Override
     public String toString() {
         return super.toString()+"Licencia{" + "tipo=" + tipo + ", vigencia=" + vigencia + '}';

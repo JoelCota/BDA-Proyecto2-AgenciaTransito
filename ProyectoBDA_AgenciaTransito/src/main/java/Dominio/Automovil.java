@@ -24,13 +24,36 @@ import javax.persistence.Table;
 @DiscriminatorValue(value = "automovil")
 public class Automovil extends Transporte implements Serializable {
 
+    /**
+     * Constructor por default de la clase automovil
+     */
     public Automovil() {
     }
 
+    /**
+     * 
+     * Constructor de herencia de la clase automovil con atributos heredados de la clase de transporte con la lista placas
+     * @param numSerie Numero de serie
+     * @param modelo Modelo del vehiculo
+     * @param linea Linea del vehiculo
+     * @param marca Marca del vehiculo
+     * @param color Color del vehiculo
+     * @param listaPlacas La lista de las placas del vehiculo
+     */
     public Automovil(String numSerie, String modelo, String linea, String marca, String color, List<Placa> listaPlacas) {
         super(numSerie, modelo, linea, marca, color, listaPlacas);
     }
 
+    /**
+     * 
+     * Constructor de herencia de la clase automovil con atributos heredados de la clase de transporte
+     * @param numSerie Numero de serie
+     * @param modelo Modelo del vehiculo
+     * @param linea Linea del vehiculo
+     * @param marca Marca del vehiculo
+     * @param color Color del vehiculo
+     */
+    
     public Automovil(String numSerie, String modelo, String linea, String marca, String color) {
         super(numSerie, modelo, linea, marca, color);
     }
