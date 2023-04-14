@@ -58,7 +58,7 @@ public class frmSeleccionPersonas extends javax.swing.JFrame {
         btnContinuar = new javax.swing.JButton();
         btnAtras = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Seleccion de busqueda");
         setResizable(false);
 

@@ -85,7 +85,6 @@ public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Solicitar Placas Auto Nuevo");
         setResizable(false);
 

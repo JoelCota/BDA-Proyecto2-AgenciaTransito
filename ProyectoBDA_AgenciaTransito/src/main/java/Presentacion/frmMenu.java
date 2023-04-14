@@ -17,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  * Descripción de la clase:
- *
+ * FRAME Menu principal del programa, donde el usuario iniciara
  * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox ID:229384
  */
 public class frmMenu extends javax.swing.JFrame {

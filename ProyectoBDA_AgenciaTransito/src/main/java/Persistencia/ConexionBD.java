@@ -19,7 +19,7 @@ public class ConexionBD {
     /**
      * Se creo el objeto EntityManagerFactory para la conexion.
      */
-    private final EntityManagerFactory conexion = Persistence.createEntityManagerFactory("persistenciaDatos"); 
+    private final EntityManagerFactory conexion = Persistence.createEntityManagerFactory("Principal_ProyectoBDA_AgenciaTransito_jar_1.0-SNAPSHOTPU"); 
     
     
     /**

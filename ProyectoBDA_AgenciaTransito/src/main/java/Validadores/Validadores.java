@@ -18,10 +18,10 @@ public class Validadores {
 
     /**
      * 
+     * Metodo encargado de validar la serie del vehiculo.
+     * @param serie String serie del vehiculo
+     * @return retorna si se pudo o no validar
      */
-    public Validadores(){
-
-    }
     public boolean validarSerie(String serie){
         
         String patron= "^([A-Z]{3}-\\d{3,4})$";

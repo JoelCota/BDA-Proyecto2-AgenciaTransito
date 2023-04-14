@@ -11,12 +11,14 @@ package excepciones;
 public class PersistenciaException extends Exception{
     
     /**
+     * 
      * Constructor por default
      */
     public PersistenciaException() {
     }
 
     /**
+     * 
      * Constructor de Persistencia Exception para errores que recibe el mensaje 
      * @param message mensaje
      */
@@ -25,6 +27,7 @@ public class PersistenciaException extends Exception{
     }
 
     /**
+     * 
      * Constructor de Persistencia Exception para errores y imprime la causa
      * @param message mensaje
      * @param cause causa
@@ -34,6 +37,7 @@ public class PersistenciaException extends Exception{
     }
 
     /**
+     * 
      * Constructor de Persistencia Exception para errores que solamente recibe la causa y la excusa.
      * @param cause causa
      */
@@ -42,6 +46,7 @@ public class PersistenciaException extends Exception{
     }
 
     /**
+     * 
      * Constructor de Persistencia Exception para errores.
      * @param message mensaje
      * @param cause causa

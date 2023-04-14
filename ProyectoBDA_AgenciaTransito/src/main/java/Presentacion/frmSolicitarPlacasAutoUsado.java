@@ -93,7 +93,6 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
         jCheckBoxMenuItem1.setSelected(true);
         jCheckBoxMenuItem1.setText("jCheckBoxMenuItem1");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Solicitar Placas Auto Usado");
         setLocationByPlatform(true);
         setResizable(false);

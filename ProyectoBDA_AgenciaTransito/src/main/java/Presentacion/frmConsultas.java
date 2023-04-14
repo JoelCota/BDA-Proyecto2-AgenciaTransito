@@ -8,7 +8,7 @@ package Presentacion;
 
 /**
  * Descripción de la clase: 
- * 
+ * Clase encargada de mostrar todo el historial de consultas
  * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox ID:229384
  */
 public class frmConsultas extends javax.swing.JFrame {
@@ -42,7 +42,7 @@ public class frmConsultas extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Consultas");
         setResizable(false);
 
