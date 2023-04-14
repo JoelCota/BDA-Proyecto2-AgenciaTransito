@@ -4,6 +4,7 @@
  */
 package Interfaces;
 import Dominio.Licencia;
+import Dominio.Persona;
 import excepciones.PersistenciaException;
 /**
  * Interfaz para la clase de Licencias, aqui se agregaron todos los metodos incluidos
@@ -12,7 +13,19 @@ import excepciones.PersistenciaException;
  */
 public interface ILicenciasDAO {
     
+    /**
+     * 
+     * Metodo para agregar una licencia nueva.
+     * @param licencia objeto licencia.
+     * @throws PersistenciaException Excepciones(evita errores).
+     */
     public void agregarLicencia(Licencia licencia) throws PersistenciaException;
-    public void actualizarLicencia(Licencia licencia) throws PersistenciaException;
     
+    /**
+     * Metodo para actualizar una licencia.
+     * @param licencia Objeto de licencia.
+     * @throws PersistenciaException Excepciones(evita errores).
+     */
+    public void actualizarLicencia(Licencia licencia) throws PersistenciaException;
+     public Persona buscarLicenciaRFC(Persona personaProspecto) throws PersistenciaException;
 }

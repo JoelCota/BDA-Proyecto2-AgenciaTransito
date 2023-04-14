@@ -13,6 +13,18 @@ import excepciones.PersistenciaException;
  * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox ID:229384
  */
 public interface IAutomovilesDAO {
+    /**
+     * Metodo para agregar un autmovil.
+     * @param automovil objeto automovil.
+     * @throws PersistenciaException Excepciones(evita errores).
+     */
     public void agregar(Automovil automovil) throws PersistenciaException;
+    
+    /**
+     * Metodo para actulizar un autmovil ya existente.
+     * @param automovil Objeto automovil.
+     * @throws PersistenciaException Excepciones(evita errores).
+     */
     public void actualizar(Automovil automovil) throws PersistenciaException;
+    public Automovil consultarAutomovil(String numSerie) throws PersistenciaException;;
 }

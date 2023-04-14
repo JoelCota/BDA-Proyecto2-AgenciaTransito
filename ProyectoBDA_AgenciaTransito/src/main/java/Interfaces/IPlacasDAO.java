@@ -15,6 +15,13 @@ import excepciones.PersistenciaException;
  * @author Joel Antonio Lopez Cota ID:228926
  */
 public interface IPlacasDAO {
+    
+    /**
+     * Metodo para generar las placas nuevas.
+     * @param placa objeto de placas.
+     * @throws PersistenciaException Excepciones(evita errores).
+     */
     public void generarPlaca(Placa placa)throws PersistenciaException;
     public void actualizar(Placa placa) throws PersistenciaException;
+    public Placa buscarPersonaSerie(String serie)throws PersistenciaException;
 }
