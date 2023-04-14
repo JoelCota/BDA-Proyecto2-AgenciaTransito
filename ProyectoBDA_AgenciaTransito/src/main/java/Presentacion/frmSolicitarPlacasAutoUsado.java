@@ -35,7 +35,7 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
     private Persona personaProspecto;
     private Placa placaSolicitud;
     private LicenciasDAO licenciasDAO;
-
+    private float costo=1000;
     /**
      * Creates new form frmSolicitarPlacasAutoUsado
      */
@@ -587,6 +587,7 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
 
         try {
             placaSolicitud.setNumeroPlaca(generarNumeroSerie());
+            placaSolicitud.setCosto(costo);
             placasDAO.actualizar(placaSolicitud);
         } catch (PersistenciaException ex) {
             Logger.getLogger(frmSolicitarPlacasAutoUsado.class.getName()).log(Level.SEVERE, null, ex);

@@ -10,7 +10,8 @@ import Dominio.Placa;
 import excepciones.PersistenciaException;
 
 /**
- * Descripción de la interface: 
+ * Descripción de la interface: Interfaz con los metodos necesarios para 
+ * PlacasDAO
  *
  * @author Joel Antonio Lopez Cota ID:228926
  */

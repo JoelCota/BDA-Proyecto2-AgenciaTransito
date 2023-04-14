@@ -11,6 +11,7 @@ import Dominio.Persona;
 import Dominio.Placa;
 import Interfaces.IPlacasDAO;
 import excepciones.PersistenciaException;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -113,6 +114,20 @@ public class PlacasDAO implements IPlacasDAO {
             System.out.println(e.getMessage());
         }
           return null;
+    }
+    
+    public List<Placa> listaPlacas(Persona personaProspecto) {
+        EntityManager bd = conexion.obtenerConexion();
+        try {
+            CriteriaBuilder cb = bd.getCriteriaBuilder();
+            CriteriaQuery<Placa> cq = cb.createQuery(Placa.class);
+            Root<Placa> root = cq.from(Placa.class);
+            Predicate predicate = cb.equal(root.get("persona"), personaProspecto);
+            cq.where(predicate); // Aplicar la restricción a la consulta
+            return bd.createQuery(cq).getResultList();
+        } finally {
+            bd.close();
+        }
     }
 
     

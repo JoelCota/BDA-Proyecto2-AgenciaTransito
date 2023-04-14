@@ -6,6 +6,7 @@ package Dominio;
 
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
@@ -42,7 +43,7 @@ public class Persona implements Serializable {
     @Temporal(TemporalType.DATE)
     private Calendar fechaNacimiento;
 
-     @OneToMany(mappedBy = "Persona",cascade=CascadeType.PERSIST)
+     @OneToMany(mappedBy = "Persona")
     private List<Tramite> listaTramites;
 
     /**
@@ -134,7 +135,8 @@ public class Persona implements Serializable {
 
     @Override
     public String toString() {
-        return "Persona{" + "RFC=" + RFC + ", telefono=" + telefono + ", nombreCompleto=" + nombreCompleto + ", fechaNacimiento=" + fechaNacimiento + '}';
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        return "RFC=" + RFC  + ", NombreCompleto=" + nombreCompleto + ", Telefono=" + telefono +", FechaNacimiento=" + sdf.format(getFechaNacimiento().getTime());
     }
 
     }

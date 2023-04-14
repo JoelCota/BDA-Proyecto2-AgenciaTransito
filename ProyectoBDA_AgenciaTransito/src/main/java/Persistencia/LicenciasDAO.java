@@ -6,10 +6,10 @@ package Persistencia;
 
 import Dominio.Licencia;
 import Dominio.Persona;
-import static Dominio.Tramite_.persona;
 import excepciones.PersistenciaException;
 import javax.persistence.EntityManager;
 import Interfaces.ILicenciasDAO;
+import java.util.List;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -41,10 +41,10 @@ public class LicenciasDAO implements ILicenciasDAO {
 
         try {
             bd.getTransaction().begin();//entre a la base de datos
-            bd.persist(licencia);
+            if (licencia!=null) {
+                bd.persist(bd);
+            }
             bd.getTransaction().commit();//cerre conexion
-        } catch (Exception e) {
-            throw new PersistenciaException("No se agrego la licencia" + e.getMessage());
         } finally {
             bd.close();
         }
@@ -61,22 +61,23 @@ public class LicenciasDAO implements ILicenciasDAO {
     public void actualizarLicencia(Licencia licencia) throws PersistenciaException {
         EntityManager bd = conexion.obtenerConexion();
         try {
-            bd.getTransaction().begin();
+            bd.getTransaction().begin();//entre a la base de datos
             CriteriaBuilder builder = bd.getCriteriaBuilder();
             //Consultar Licencia
             CriteriaQuery consulta = builder.createQuery(Licencia.class);
             Root<Licencia> root = consulta.from(Licencia.class);
-            consulta.select(root).where(builder.equal(root.get("id"), licencia.getId()));
+             consulta.select(root);
+            Predicate predicatePersona = builder.equal(root.get("persona"), licencia.getPersona());
+            Predicate activo = builder.equal(root.get("activa"), true);
+            consulta.where(predicatePersona,activo);
             TypedQuery<Licencia> resultado = bd.createQuery(consulta);
-            Licencia licenciaNew = resultado.getSingleResult();
+            List<Licencia> licenciaNew = resultado.getResultList();
             //Actualiza
-            licenciaNew.setActiva(false);
-            bd.merge(licenciaNew);//Se confirma el cambio a la base de datos.
-
-            //mando lo datos a la base de datos
+            for (Licencia licencVieja : licenciaNew) {
+                  licencVieja.setActiva(false);
+            }
+            bd.persist(licencia);
             bd.getTransaction().commit();
-        } catch (Exception e) {
-            System.out.println("La licencia no se pudo actualizar " + e.getMessage());
         } finally {
             bd.close();
         }
@@ -97,8 +98,8 @@ public class LicenciasDAO implements ILicenciasDAO {
             Root<Licencia> root = consulta.from(Licencia.class);
             consulta.select(root);
             Predicate predicateLicencia = criteriaBuilder.equal(root.get("persona"), personaProspecto);
-            Predicate activo=criteriaBuilder.equal(root.get("activa"),true);
-            consulta.where(predicateLicencia,activo);
+            Predicate activo = criteriaBuilder.equal(root.get("activa"), true);
+            consulta.where(predicateLicencia, activo);
             TypedQuery<Licencia> resultado = bd.createQuery(consulta);
             Persona persona = resultado.getSingleResult().getPersona();
             bd.getTransaction().commit();
@@ -108,6 +109,20 @@ public class LicenciasDAO implements ILicenciasDAO {
             System.out.println(e.getMessage());
         }
         return null;
+    }
+    
+    public List<Licencia> listaLicencias(Persona personaProspecto) {
+        EntityManager bd = conexion.obtenerConexion();
+        try {
+            CriteriaBuilder cb = bd.getCriteriaBuilder();
+            CriteriaQuery<Licencia> cq = cb.createQuery(Licencia.class);
+            Root<Licencia> root = cq.from(Licencia.class);
+            Predicate predicate = cb.equal(root.get("persona"), personaProspecto);
+            cq.where(predicate); // Aplicar la restricción a la consulta
+            return bd.createQuery(cq).getResultList();
+        } finally {
+            bd.close();
+        }
     }
 
 }

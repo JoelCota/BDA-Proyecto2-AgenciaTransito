@@ -391,10 +391,12 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCampoRFCKeyTyped
 
     private void btnSolicitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolicitarActionPerformed
+        Licencia licenciaGenerada = this.generarLicencia();
         try {
-            Licencia licenciaGenerada = this.generarLicencia();
             licenciasDAO.agregarLicencia(licenciaGenerada);
-            JOptionPane.showMessageDialog(this, "Se genero la licencia \nCosto:" + licenciaGenerada.getCosto());
+            if (licenciaGenerada != null) {
+                JOptionPane.showMessageDialog(this, "Se genero la licencia \nCosto:" + licenciaGenerada.getCosto());
+            }
         } catch (PersistenciaException ex) {
             Logger.getLogger(frmSolicitarPlacasAutoNuevo.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -515,16 +517,20 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
     }
 
     private Licencia generarLicencia() {
-        Calendar fechaVigencia=Calendar.getInstance();
-        fechaVigencia.add(Calendar.YEAR,vigencia);
-       Licencia licencia=new Licencia(tipo,vigencia,true,generarCosto(),Calendar.getInstance(),fechaVigencia,personaProspecto);
+        Calendar fechaVigencia = Calendar.getInstance();
+        fechaVigencia.add(Calendar.YEAR, vigencia);
+        Licencia licencia = new Licencia(tipo, vigencia, true, generarCosto(), Calendar.getInstance(), fechaVigencia, personaProspecto);
         try {
-            licenciasDAO.agregarLicencia(licencia); 
-            System.out.println(licencia);
+            if (licenciasDAO.buscarLicenciaRFC(personaProspecto) == null) {
+                licenciasDAO.agregarLicencia(licencia);
+            } else {
+                System.out.println(licencia);
+                licenciasDAO.actualizarLicencia(licencia);
+            }
         } catch (PersistenciaException ex) {
             Logger.getLogger(frmSolicitarLicencia.class.getName()).log(Level.SEVERE, null, ex);
         }
-return null;
+        return null;
     }
 
 }

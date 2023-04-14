@@ -8,8 +8,6 @@ package Persistencia;
 import Dominio.Automovil;
 import Dominio.Licencia;
 import Dominio.Persona;
-import Dominio.Placa;
-import Dominio.tipoLicencia;
 import excepciones.PersistenciaException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -19,12 +17,16 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Predicate;
+
 import Interfaces.IPersonasDAO;
 
 /**
  * Clase DAO para hacer todas las consultas relacionada con el tema de la
  * Persona.
  * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox ID:229384
+ * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox
+ * ID:229384
  */
 public class PersonasDAO implements IPersonasDAO {
     //OBJETO CONEXION
@@ -65,21 +67,31 @@ public class PersonasDAO implements IPersonasDAO {
     @Override
     public Persona buscarPersonaRFC(String RFC) throws PersistenciaException {
         EntityManager bd = conexion.obtenerConexion();
-        try {
-            bd.getTransaction().begin();
-            CriteriaBuilder builder = bd.getCriteriaBuilder();
-            CriteriaQuery<Persona> consulta = builder.createQuery(Persona.class);//solo se conecta en el java
-            Root<Persona> root = consulta.from(Persona.class);
-            consulta.select(root).where(builder.equal(root.get("RFC"), RFC));
-            TypedQuery<Persona> resultado = bd.createQuery(consulta); // se conecta a la base de datos
-            Persona persona = resultado.getSingleResult(); // devuelve la persona con el rfc que mande.
-            bd.getTransaction().commit();
-            return persona;
+        bd.getTransaction().begin();
+        CriteriaBuilder builder = bd.getCriteriaBuilder();
+        CriteriaQuery<Persona> consulta = builder.createQuery(Persona.class);//solo se conecta en el java
+        Root<Persona> root = consulta.from(Persona.class);
+        consulta.select(root).where(builder.equal(root.get("RFC"), RFC));
+        TypedQuery<Persona> resultado = bd.createQuery(consulta); // se conecta a la base de datos
+        Persona persona = resultado.getSingleResult(); // devuelve la persona con el rfc que mande.
+        bd.getTransaction().commit();
+        return persona;
+    }
 
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+    public List<Persona> buscarPersonasPorNombre(String nombre) {
+        EntityManager bd = conexion.obtenerConexion();
+        bd.getTransaction().begin();
+        CriteriaBuilder cb = bd.getCriteriaBuilder();
+        CriteriaQuery<Persona> cq = cb.createQuery(Persona.class);
+        Root<Persona> root = cq.from(Persona.class);
+        Predicate nombreLike = cb.like(root.get("nombreCompleto"), "%" + nombre + "%");
+        cq.where(nombreLike);
+        List<Persona> personas = bd.createQuery(cq).getResultList();
+        bd.getTransaction().commit();
+        if (personas.isEmpty()) {
+            return null;
         }
-          return null;
+        return personas;
     }
 
     /**
@@ -132,6 +144,22 @@ public class PersonasDAO implements IPersonasDAO {
         List<Persona> personas = bd.createQuery("Select p from Persona p", Persona.class).getResultList();
         bd.getTransaction().commit();//cerre conexion
         return personas;
+    }
+    
+    
+    public List<Persona> buscarFecha(int anio) {
+        EntityManager bd = conexion.obtenerConexion();
+        try {
+            CriteriaBuilder cb = bd.getCriteriaBuilder();
+            CriteriaQuery<Persona> cq = cb.createQuery(Persona.class);
+            Root<Persona> root = cq.from(Persona.class);
+            Predicate predicate = cb.equal(cb.function("YEAR", Integer.class, root.get("fechaNacimiento")), anio);
+            cq.select(root).where(predicate);
+            TypedQuery<Persona> query = bd.createQuery(cq);
+            return query.getResultList();
+        } finally {
+            bd.close();
+        }
     }
 
 }

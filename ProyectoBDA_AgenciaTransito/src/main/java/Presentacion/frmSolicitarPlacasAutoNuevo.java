@@ -34,7 +34,7 @@ public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
     private PlacasDAO placasDAO;
     private LicenciasDAO licenciasDAO;
     private Persona personaProspecto;
-
+ private final float costo=1500;
     /**
      * Creates new form frmSolicitarPlacasAutoNuevo
      */
@@ -525,7 +525,7 @@ public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
             Calendar fechaVencimiento = Calendar.getInstance();
             fechaVencimiento.add(Calendar.YEAR, 4);
             return new Placa(generarNumeroSerie(), true, new Automovil(numSerie, modelo, linea, marca, color),
-                     123, Calendar.getInstance(), fechaVencimiento, licenciasDAO.buscarLicenciaRFC(personaProspecto));
+                     costo, Calendar.getInstance(), fechaVencimiento, licenciasDAO.buscarLicenciaRFC(personaProspecto));
         }
         JOptionPane.showMessageDialog(this, "Formato de la serie incorrecto \n AAA-111");
         return null;

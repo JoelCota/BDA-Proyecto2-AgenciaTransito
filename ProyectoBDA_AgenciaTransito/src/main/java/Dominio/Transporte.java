@@ -34,9 +34,6 @@ import javax.persistence.OneToMany;
 public class Transporte implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_transporte")
-    private long id;
     @Column(name = "numSerie", nullable = false, length = 7)
     private String numSerie;
     @Column(name = "modelo", nullable = false, length = 20)
@@ -47,7 +44,7 @@ public class Transporte implements Serializable {
     private String marca;
     @Column(name = "color", nullable = false, length = 20)
     private String color;
-    @OneToMany(mappedBy = "transporte", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "transporte")
     private List<Placa> listaPlacas;
 
     public Transporte() {
@@ -68,14 +65,6 @@ public class Transporte implements Serializable {
         this.linea = linea;
         this.marca = marca;
         this.color = color;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getNumSerie() {
