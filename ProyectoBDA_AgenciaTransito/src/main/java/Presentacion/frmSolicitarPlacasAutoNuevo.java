@@ -9,6 +9,7 @@ import Dominio.Automovil;
 import Validadores.Validadores;
 import Dominio.Persona;
 import Dominio.Placa;
+import Persistencia.LicenciasDAO;
 import Persistencia.PersonasDAO;
 import Persistencia.PlacasDAO;
 import excepciones.PersistenciaException;
@@ -18,20 +19,20 @@ import java.util.Calendar;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
 /**
  * Descripción de la clase:
  *
- * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox ID:229384
+ * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox
+ * ID:229384
  */
 public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
 
     private Validadores validadores = new Validadores();
     private PersonasDAO personaDAO;
     private PlacasDAO placasDAO;
+    private LicenciasDAO licenciasDAO;
     private Persona personaProspecto;
 
     /**
@@ -42,7 +43,8 @@ public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
         this.pnlInfoPersona.setVisible(false);
         this.txtCostoPlacas.setVisible(false);
         this.personaDAO = new PersonasDAO();
-        this.placasDAO= new PlacasDAO();
+        this.placasDAO = new PlacasDAO();
+        this.licenciasDAO = new LicenciasDAO();
 
     }
 
@@ -219,7 +221,7 @@ public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
         });
 
         txtCostoPlacas.setForeground(new java.awt.Color(0, 0, 0));
-        txtCostoPlacas.setText("Costo");
+        txtCostoPlacas.setText("Costo: 1500");
 
         jButton1.setText("jButton1");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -278,8 +280,8 @@ public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtCostoPlacas, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pnlInfoPersona, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(pnlInfoPersona, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCostoPlacas, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(9, 9, 9))
         );
         jPanel3Layout.setVerticalGroup(
@@ -404,13 +406,13 @@ public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Ingrese un rfc valido");
         } else {
             try {
-                if (personaDAO.buscarPersonaRFC(txtCampoRFC.getText()) != null) {
+                if (licenciasDAO.buscarLicenciaRFC(personaDAO.buscarPersonaRFC(txtCampoRFC.getText())) != null) {
                     personaProspecto = personaDAO.buscarPersonaRFC(txtCampoRFC.getText());
                     this.pnlInfoPersona.setVisible(true);
                     setearInfo(personaProspecto);
                     System.out.println(personaProspecto);
                 } else {
-                    JOptionPane.showMessageDialog(this, "El RFC no existe");
+                    JOptionPane.showMessageDialog(this, "El usuario no cuenta con una licencia vigente");
                 }
             } catch (PersistenciaException ex) {
                 Logger.getLogger(frmSolicitarPlacasAutoNuevo.class.getName()).log(Level.SEVERE, null, ex);
@@ -462,42 +464,45 @@ public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCampoSerieKeyTyped
 
     private void txtCampoModeloKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCampoModeloKeyTyped
-        if (!(txtCampoModelo.getText().length() > 3)){
-        validacionNumero(evt);
-        } else{
+        if (!(txtCampoModelo.getText().length() > 3)) {
+            validacionNumero(evt);
+        } else {
             evt.consume();
         }
     }//GEN-LAST:event_txtCampoModeloKeyTyped
 
     private void txtCampoLineaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCampoLineaKeyTyped
-          if (!(txtCampoLinea.getText().length() > 15)){
-     validacionCamposAlfabeto(evt);
-        } else{
+        if (!(txtCampoLinea.getText().length() > 15)) {
+            validacionCamposAlfabeto(evt);
+        } else {
             evt.consume();
         }
     }//GEN-LAST:event_txtCampoLineaKeyTyped
 
     private void txtCampoColorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCampoColorKeyTyped
-        if (!(txtCampoColor.getText().length() > 15)){
-     validacionCamposAlfabeto(evt);
-        } else{
+        if (!(txtCampoColor.getText().length() > 15)) {
+            validacionCamposAlfabeto(evt);
+        } else {
             evt.consume();
         }
     }//GEN-LAST:event_txtCampoColorKeyTyped
 
     private void txtCampoMarcaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCampoMarcaKeyTyped
-         if (!(txtCampoMarca.getText().length() > 15)){
-     validacionCamposAlfabeto(evt);
-        } else{
+        if (!(txtCampoMarca.getText().length() > 15)) {
+            validacionCamposAlfabeto(evt);
+        } else {
             evt.consume();
         }
     }//GEN-LAST:event_txtCampoMarcaKeyTyped
 
     private void btnSolicitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolicitarActionPerformed
         try {
-            Placa placaGenerada=this.generarPlaca();
-            placasDAO.generarPlaca(placaGenerada);
-            JOptionPane.showMessageDialog(this, "Se genero la placa: \n"+placaGenerada.getNumeroPlaca());
+            Placa placaGenerada = this.generarPlaca();
+            if (!(placaGenerada == null)) {
+                placasDAO.generarPlaca(placaGenerada);
+                JOptionPane.showMessageDialog(this, "Se genero la placa: \n" + placaGenerada.getNumeroPlaca());
+            }
+
         } catch (PersistenciaException ex) {
             Logger.getLogger(frmSolicitarPlacasAutoNuevo.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -510,22 +515,25 @@ public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
         this.txtFechaCliente.setText("Fecha Nacimiento: " + sdf.format(persona.getFechaNacimiento().getTime()));
         this.txtNumeroCliente.setText("Numero Telefono: " + persona.getTelefono());
     }
-    private Placa generarPlaca(){
-     String numSerie=this.txtCampoSerie.getText();
-     String modelo=this.txtCampoModelo.getText();
-     String linea=this.txtCampoLinea.getText();
-     String color=this.txtCampoColor.getText();
-     String marca=this.txtCampoMarca.getText();
-        try {
-            return new Placa(generarNumeroSerie(),true,new Automovil(numSerie,modelo,linea,marca,color)
-                    ,123,Calendar.getInstance(),Calendar.getInstance(),personaDAO.buscarPersonaRFC(personaProspecto.getRFC()));
-        } catch (PersistenciaException ex) {
-            Logger.getLogger(frmSolicitarPlacasAutoNuevo.class.getName()).log(Level.SEVERE, null, ex);
+
+    private Placa generarPlaca() {
+        if (validadores.validarSerie(this.txtCampoSerie.getText())) {
+            String numSerie = this.txtCampoSerie.getText();
+            String modelo = this.txtCampoModelo.getText();
+            String linea = this.txtCampoLinea.getText().toUpperCase();
+            String color = this.txtCampoColor.getText().toUpperCase();
+            String marca = this.txtCampoMarca.getText().toUpperCase();
+            Calendar fechaVencimiento = Calendar.getInstance();
+            fechaVencimiento.add(Calendar.YEAR, 4);
+            return new Placa(generarNumeroSerie(), true, new Automovil(numSerie, modelo, linea, marca, color),
+                     123, Calendar.getInstance(), fechaVencimiento, licenciasDAO.buscarLicenciaRFC(personaProspecto));
         }
+        JOptionPane.showMessageDialog(this, "Formato de la serie incorrecto \n AAA-111");
         return null;
     }
- public static String generarNumeroSerie() {
-   StringBuilder numeroSerie = new StringBuilder();
+
+    public static String generarNumeroSerie() {
+        StringBuilder numeroSerie = new StringBuilder();
         Random random = new Random();
         String letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         for (int i = 0; i < 3; i++) {

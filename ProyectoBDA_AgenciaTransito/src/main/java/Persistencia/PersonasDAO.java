@@ -49,7 +49,6 @@ public class PersonasDAO implements IPersonasDAO {
     @Override
     public Persona buscarPersonaRFC(String RFC) throws PersistenciaException {
         EntityManager bd = conexion.obtenerConexion();
-
         try {
             bd.getTransaction().begin();
             CriteriaBuilder builder = bd.getCriteriaBuilder();
@@ -105,30 +104,6 @@ public class PersonasDAO implements IPersonasDAO {
         List<Persona> personas = bd.createQuery("Select p from Persona p", Persona.class).getResultList();
         bd.getTransaction().commit();//cerre conexion
         return personas;
-    }
-
-    public void eliminarPersonas() throws PersistenciaException {
-        EntityManager bd = conexion.obtenerConexion();
-        bd.getTransaction().begin();//entre a la base de datos
-        bd.createQuery("DELETE FROM Persona").executeUpdate();
-        bd.getTransaction().commit();//cerre conexion
-
-    }
-    public void prueba() throws PersistenciaException{
-        Persona persona=buscarPersonaRFC("ABC123456");
-       Automovil automovil= new Automovil("2221","BLANCO","COLOR","hONDA","123");
-         Licencia licencia = new Licencia(tipoLicencia.NORMAL,2,true,123,Calendar.getInstance(),Calendar.getInstance(),buscarPersonaRFC("ABC123456"));
-         Placa placa = new Placa("223-123",true,new Automovil("221","BLANCO","COLOR","hONDA","123"),123,Calendar.getInstance(),Calendar.getInstance(),buscarPersonaRFC("ABC123456"));
-        EntityManager bd = conexion.obtenerConexion();
-                bd.getTransaction().begin();
-                bd.persist(licencia);
-                bd.persist(placa);
-                bd.getTransaction().commit();
-                
-        String jpql = "SELECT e FROM EntidadTipo2 e";
-TypedQuery<Placa> query = bd.createQuery(jpql, Placa.class);
-List<Placa> entidadesTipo2 = query.getResultList();
-        System.out.println(entidadesTipo2);
     }
 
 }

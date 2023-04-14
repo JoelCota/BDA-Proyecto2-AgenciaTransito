@@ -5,32 +5,42 @@
  */
 package Presentacion;
 
+import Dominio.Licencia;
 import Dominio.Persona;
 import Dominio.tipoLicencia;
+import Persistencia.LicenciasDAO;
 import Persistencia.PersonasDAO;
 import excepciones.PersistenciaException;
 import java.text.SimpleDateFormat;
-import java.util.List;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  * Descripción de la clase:
  *
- * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox ID:229384
+ * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox
+ * ID:229384
  */
 public class frmSolicitarLicencia extends javax.swing.JFrame {
 
     PersonasDAO persona;
+    Persona personaProspecto;
+    LicenciasDAO licenciasDAO;
+    int vigencia;
+    tipoLicencia tipo;
 
     /**
      * Creates new form frmSolicitarLicencia
      */
     public frmSolicitarLicencia() {
         initComponents();
-        this.persona = new PersonasDAO();
         cargarComboBoxVigencia();
         cargarComboBoxTipo();
+        this.persona = new PersonasDAO();
+        this.pnlInfoPersona.setVisible(false);
+        this.licenciasDAO = new LicenciasDAO();
     }
 
     /**
@@ -48,21 +58,22 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         txtRFC = new javax.swing.JLabel();
         txtCampoRFC = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
         cbxVigencia = new javax.swing.JComboBox<>();
+        cbxTipo = new javax.swing.JComboBox<>();
         txtRFC1 = new javax.swing.JLabel();
         txtRFC2 = new javax.swing.JLabel();
         btnSolicitar = new javax.swing.JButton();
         Separator1 = new javax.swing.JSeparator();
         btnBorrarCampos = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        txtCostoPlacas = new javax.swing.JLabel();
+        txtCosto = new javax.swing.JLabel();
         btnBuscar = new javax.swing.JButton();
         pnlInfoPersona = new javax.swing.JPanel();
         txtRFCCliente = new javax.swing.JLabel();
         txtNombreCliente = new javax.swing.JLabel();
         txtFechaCliente = new javax.swing.JLabel();
         txtNumeroCliente = new javax.swing.JLabel();
+        txtSolicitarPlacas1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Solicitar Licencia");
@@ -82,7 +93,7 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(txtSolicitarPlacas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(txtSolicitarPlacas, javax.swing.GroupLayout.DEFAULT_SIZE, 778, Short.MAX_VALUE)
                 .addGap(18, 18, 18))
         );
         jPanel1Layout.setVerticalGroup(
@@ -117,12 +128,27 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         cbxVigencia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cbxVigencia.addActionListener(new java.awt.event.ActionListener() {
+        cbxVigencia.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbxVigenciaItemStateChanged(evt);
+            }
+        });
+        cbxVigencia.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cbxVigenciaMouseClicked(evt);
+            }
+        });
+
+        cbxTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxTipo.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbxTipoItemStateChanged(evt);
+            }
+        });
+        cbxTipo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbxVigenciaActionPerformed(evt);
+                cbxTipoActionPerformed(evt);
             }
         });
 
@@ -133,6 +159,11 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
         txtRFC2.setText("Tipo");
 
         btnSolicitar.setText("Solicitar");
+        btnSolicitar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSolicitarActionPerformed(evt);
+            }
+        });
 
         btnBorrarCampos.setText("Borrar datos");
 
@@ -143,8 +174,8 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
             }
         });
 
-        txtCostoPlacas.setForeground(new java.awt.Color(0, 0, 0));
-        txtCostoPlacas.setText("Costo");
+        txtCosto.setForeground(new java.awt.Color(0, 0, 0));
+        txtCosto.setText("Costo");
 
         btnBuscar.setText("buscar");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -171,23 +202,32 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
         txtNumeroCliente.setMinimumSize(new java.awt.Dimension(0, 20));
         txtNumeroCliente.setPreferredSize(new java.awt.Dimension(10, 20));
 
+        txtSolicitarPlacas1.setBackground(new java.awt.Color(0, 0, 0));
+        txtSolicitarPlacas1.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
+        txtSolicitarPlacas1.setForeground(new java.awt.Color(0, 0, 0));
+        txtSolicitarPlacas1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        txtSolicitarPlacas1.setText("Datos Cliente");
+
         javax.swing.GroupLayout pnlInfoPersonaLayout = new javax.swing.GroupLayout(pnlInfoPersona);
         pnlInfoPersona.setLayout(pnlInfoPersonaLayout);
         pnlInfoPersonaLayout.setHorizontalGroup(
             pnlInfoPersonaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlInfoPersonaLayout.createSequentialGroup()
-                .addGap(118, 118, 118)
-                .addGroup(pnlInfoPersonaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtFechaCliente, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
-                    .addComponent(txtNumeroCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtNombreCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtRFCCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(pnlInfoPersonaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlInfoPersonaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(txtFechaCliente, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
+                        .addComponent(txtNumeroCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtNombreCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtRFCCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(txtSolicitarPlacas1))
+                .addContainerGap(89, Short.MAX_VALUE))
         );
         pnlInfoPersonaLayout.setVerticalGroup(
             pnlInfoPersonaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlInfoPersonaLayout.createSequentialGroup()
-                .addGap(80, 80, 80)
+                .addComponent(txtSolicitarPlacas1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtRFCCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(8, 8, 8)
                 .addComponent(txtNombreCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -195,7 +235,7 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
                 .addComponent(txtFechaCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtNumeroCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(160, Short.MAX_VALUE))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -203,29 +243,32 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(323, 323, 323)
+                .addComponent(btnBorrarCampos, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(31, 31, 31)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
+                        .addComponent(txtCosto, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtRFC, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtRFC1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
+                            .addComponent(txtRFC1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(txtRFC2, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtCostoPlacas, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtRFC2, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(txtCampoRFC, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(cbxVigencia, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtCampoRFC, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(pnlInfoPersona, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(45, 45, 45))
+                            .addComponent(cbxTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(pnlInfoPersona, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(55, 55, 55))))
             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel3Layout.createSequentialGroup()
                     .addContainerGap()
@@ -233,9 +276,7 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
                         .addGroup(jPanel3Layout.createSequentialGroup()
                             .addGap(77, 77, 77)
                             .addComponent(btnSolicitar, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnBorrarCampos, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(76, 76, 76)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 361, Short.MAX_VALUE)
                             .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(76, 76, 76))
                         .addComponent(Separator1))
@@ -252,17 +293,19 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
                             .addComponent(txtRFC)
                             .addComponent(txtCampoRFC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnBuscar))
-                        .addGap(41, 41, 41)
+                        .addGap(44, 44, 44)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtRFC1)
+                            .addComponent(cbxVigencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(42, 42, 42)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(cbxVigencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtRFC1))
-                        .addGap(45, 45, 45)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtRFC2))
-                        .addGap(66, 66, 66)
-                        .addComponent(txtCostoPlacas)))
-                .addContainerGap(91, Short.MAX_VALUE))
+                            .addComponent(txtRFC2)
+                            .addComponent(cbxTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addComponent(txtCosto)
+                .addGap(32, 32, 32)
+                .addComponent(btnBorrarCampos, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21))
             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel3Layout.createSequentialGroup()
                     .addGap(281, 281, 281)
@@ -270,9 +313,8 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnSolicitar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnBorrarCampos, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addContainerGap(25, Short.MAX_VALUE)))
+                        .addComponent(btnSolicitar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addContainerGap(20, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -328,19 +370,18 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-    private void cbxVigenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxVigenciaActionPerformed
+    private void cbxTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxTipoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cbxVigenciaActionPerformed
+    }//GEN-LAST:event_cbxTipoActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
 
         try {
-            Persona personita = new Persona();
-            personita
-                    
-                    = persona.buscarPersonaRFC(this.txtCampoRFC.getText());
-            
-            
+            personaProspecto = persona.buscarPersonaRFC(this.txtCampoRFC.getText());
+            this.pnlInfoPersona.setVisible(true);
+            setearInfo(personaProspecto);
+            this.txtCosto.setText("Costo: " + generarCosto());
+
         } catch (PersistenciaException ex) {
             Logger.getLogger(frmSolicitarLicencia.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -348,30 +389,64 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void txtCampoRFCKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCampoRFCKeyTyped
-          validacionNumeroLetra(evt);
+        validacionNumeroLetra(evt);
     }//GEN-LAST:event_txtCampoRFCKeyTyped
+
+    private void btnSolicitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolicitarActionPerformed
+        try {
+            Licencia licenciaGenerada = this.generarLicencia();
+            licenciasDAO.agregarLicencia(licenciaGenerada);
+            JOptionPane.showMessageDialog(this, "Se genero la licencia \nCosto:" + licenciaGenerada.getCosto());
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(frmSolicitarPlacasAutoNuevo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnSolicitarActionPerformed
+
+    private void cbxTipoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxTipoItemStateChanged
+        try {
+            this.txtCosto.setText("Costo: " + generarCosto());
+        } catch (NullPointerException nul) {
+            nul.getMessage();
+        }
+
+    }//GEN-LAST:event_cbxTipoItemStateChanged
+
+    private void cbxVigenciaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxVigenciaMouseClicked
+
+    }//GEN-LAST:event_cbxVigenciaMouseClicked
+
+    private void cbxVigenciaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxVigenciaItemStateChanged
+        try {
+            this.txtCosto.setText("Costo: " + generarCosto());
+        } catch (NullPointerException nul) {
+            nul.getMessage();
+
+        }
+    }//GEN-LAST:event_cbxVigenciaItemStateChanged
 
     private void cargarComboBoxVigencia() {
         this.cbxVigencia.removeAllItems();
         this.cbxVigencia.addItem("1 año");
-        this.cbxVigencia.addItem("2 año");
-        this.cbxVigencia.addItem("3 año");
+        this.cbxVigencia.addItem("2 años");
+        this.cbxVigencia.addItem("3 años");
 
     }
 
     private void cargarComboBoxTipo() {
-        this.cbxVigencia.removeAllItems();
-        this.cbxVigencia.addItem("Normal");
-        this.cbxVigencia.addItem("Discapacitado");
+        this.cbxTipo.removeAllItems();
+        this.cbxTipo.addItem("Normal");
+        this.cbxTipo.addItem("Discapacitado");
 
     }
+
     private void validacionNumeroLetra(java.awt.event.KeyEvent evt) {
         char txt = evt.getKeyChar();
         if (!(Character.isLetterOrDigit(txt))) {
             evt.consume();
         }
     }
-     private void setearInfo(Persona persona) {
+
+    private void setearInfo(Persona persona) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         this.txtRFCCliente.setText("RFC: " + persona.getRFC());
         this.txtNombreCliente.setText("Nombre: " + persona.getNombreCompleto());
@@ -384,14 +459,14 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnSolicitar;
+    private javax.swing.JComboBox<String> cbxTipo;
     private javax.swing.JComboBox<String> cbxVigencia;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel pnlInfoPersona;
     private javax.swing.JTextField txtCampoRFC;
-    private javax.swing.JLabel txtCostoPlacas;
+    private javax.swing.JLabel txtCosto;
     private javax.swing.JLabel txtFechaCliente;
     private javax.swing.JLabel txtNombreCliente;
     private javax.swing.JLabel txtNumeroCliente;
@@ -400,6 +475,58 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
     private javax.swing.JLabel txtRFC2;
     private javax.swing.JLabel txtRFCCliente;
     private javax.swing.JLabel txtSolicitarPlacas;
+    private javax.swing.JLabel txtSolicitarPlacas1;
     // End of variables declaration//GEN-END:variables
+
+    private float generarCosto() {
+        float costo = 0;
+        switch (this.cbxTipo.getModel().getSelectedItem().toString()) {
+            case "Normal" ->
+                tipo = tipoLicencia.NORMAL;
+            case "Discapacitado" ->
+                tipo = tipoLicencia.DISCAPACITADO;
+        }
+        switch (this.cbxVigencia.getModel().getSelectedItem().toString()) {
+
+            case "1 año":
+                vigencia = 1;
+                if (tipo == tipoLicencia.NORMAL) {
+                    costo = 600;
+                } else {
+                    costo = 200;
+                }
+                break;
+            case "2 años":
+                vigencia = 2;
+                if (tipo == tipoLicencia.NORMAL) {
+                    costo = 900;
+                } else {
+                    costo = 500;
+                }
+                break;
+            case "3 años":
+                vigencia = 3;
+                if (tipo == tipoLicencia.NORMAL) {
+                    costo = 1100;
+                } else {
+                    costo = 700;
+                }
+                break;
+        }
+        return costo;
+    }
+
+    private Licencia generarLicencia() {
+        Calendar fechaVigencia=Calendar.getInstance();
+        fechaVigencia.add(Calendar.YEAR,vigencia);
+       Licencia licencia=new Licencia(tipo,vigencia,true,generarCosto(),Calendar.getInstance(),fechaVigencia,personaProspecto);
+        try {
+            licenciasDAO.agregarLicencia(licencia); 
+            System.out.println(licencia);
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(frmSolicitarLicencia.class.getName()).log(Level.SEVERE, null, ex);
+        }
+return null;
+    }
 
 }

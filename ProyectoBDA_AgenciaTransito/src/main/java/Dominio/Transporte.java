@@ -11,25 +11,33 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 
 /**
- * 
- * Clase de dominio "Transporte". La cual se encarga de crear todos los atributos
- * existentes en la base de datos y aqui mismo se mapean para luego pasar los
- * datos a la base de datos, tambien aqui estan todos los constructores, gets y sets,
- * hash y el toString de la clase
- * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox ID:229384
+ *
+ * Clase de dominio "Transporte". La cual se encarga de crear todos los
+ * atributos existentes en la base de datos y aqui mismo se mapean para luego
+ * pasar los datos a la base de datos, tambien aqui estan todos los
+ * constructores, gets y sets, hash y el toString de la clase
+ *
+ * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox
+ * ID:229384
  */
 @Entity
-@DiscriminatorColumn (name = "tipoTransporte")
+@DiscriminatorColumn(name = "tipoTransporte")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Transporte implements Serializable {
+
     @Id
-    @Column(name = "numSerie", nullable = false,length=7)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_transporte")
+    private long id;
+    @Column(name = "numSerie", nullable = false, length = 7)
     private String numSerie;
     @Column(name = "modelo", nullable = false, length = 20)
     private String modelo;
@@ -39,10 +47,37 @@ public class Transporte implements Serializable {
     private String marca;
     @Column(name = "color", nullable = false, length = 20)
     private String color;
-   @OneToMany(mappedBy= "transporte",cascade=CascadeType.PERSIST)
+    @OneToMany(mappedBy = "transporte", cascade = CascadeType.PERSIST)
     private List<Placa> listaPlacas;
 
-   
+    public Transporte() {
+    }
+
+    public Transporte(String numSerie, String modelo, String linea, String marca, String color, List<Placa> listaPlacas) {
+        this.numSerie = numSerie;
+        this.modelo = modelo;
+        this.linea = linea;
+        this.marca = marca;
+        this.color = color;
+        this.listaPlacas = listaPlacas;
+    }
+
+    public Transporte(String numSerie, String modelo, String linea, String marca, String color) {
+        this.numSerie = numSerie;
+        this.modelo = modelo;
+        this.linea = linea;
+        this.marca = marca;
+        this.color = color;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public String getNumSerie() {
         return numSerie;
     }
@@ -87,31 +122,10 @@ public class Transporte implements Serializable {
         return listaPlacas;
     }
 
-    public Transporte() {
-    }
-
-    public Transporte(String numSerie, String modelo, String linea, String marca, String color, List<Placa> listaPlacas) {
-        this.numSerie = numSerie;
-        this.modelo = modelo;
-        this.linea = linea;
-        this.marca = marca;
-        this.color = color;
-        this.listaPlacas = listaPlacas;
-    }
-
-    public Transporte(String numSerie, String modelo, String linea, String marca, String color) {
-        this.numSerie = numSerie;
-        this.modelo = modelo;
-        this.linea = linea;
-        this.marca = marca;
-        this.color = color;
-    }
-
-    
-    
     public void setListaPlacas(List<Placa> listaPlacas) {
         this.listaPlacas = listaPlacas;
     }
+
     @Override
     public int hashCode() {
         int hash = 7;

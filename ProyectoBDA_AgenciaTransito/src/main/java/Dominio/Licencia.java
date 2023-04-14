@@ -67,12 +67,13 @@ public class Licencia extends Tramite implements Serializable { //PONER QUE EXTI
     public void setVigencia(int vigencia) {
         this.vigencia = vigencia;
     }
+
+    @Override
+    public String toString() {
+        return super.toString()+"Licencia{" + "tipo=" + tipo + ", vigencia=" + vigencia + '}';
+    }
     
 
     
-    @Override
-    public String toString() {
-        return "Licencia{" + "tipo=" + tipo + '}';
-    }
 
 }

@@ -152,6 +152,8 @@ public class Tramite implements Serializable {
 
     @Override
     public String toString() {
-        return "Dominio.Tramite[ id=" + id + " ]";
+        return "Tramite{" + "id=" + id + ", costo=" + costo + ", fechaExpedicion=" + fechaExpedicion + ", fechaVigencia=" + fechaVigencia + ", persona=" + persona + ", activa=" + activa + '}';
     }
+
+    
 }

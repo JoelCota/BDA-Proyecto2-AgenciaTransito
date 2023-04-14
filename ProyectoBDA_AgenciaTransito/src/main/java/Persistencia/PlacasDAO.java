@@ -15,6 +15,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 /**
@@ -48,7 +49,7 @@ ConexionBD conexion = new ConexionBD();
     }
 
     @Override
-    public void actualizar(Placa placa,Persona persona) throws PersistenciaException {
+    public void actualizar(Placa placa) throws PersistenciaException {
         EntityManager bd = conexion.obtenerConexion();
         
         try {
@@ -63,8 +64,6 @@ ConexionBD conexion = new ConexionBD();
             //Actualiza
             placaNew.setActiva(false);
             bd.merge(placaNew);//Se confirma el cambio a la base de datos.
-            
-            placa.setPersona(persona);
             bd.persist(placa);
             
             
@@ -86,7 +85,10 @@ ConexionBD conexion = new ConexionBD();
             CriteriaBuilder builder = bd.getCriteriaBuilder();
             CriteriaQuery<Placa> consulta = builder.createQuery(Placa.class);//solo se conecta en el java
             Root<Placa> root = consulta.from(Placa.class);
-            consulta.select(root).where(builder.equal(root.get("numeroPlaca"), serie));
+            consulta.select(root);
+             Predicate predicateLicencia = builder.equal(root.get("numeroPlaca"), serie);
+            Predicate activo=builder.equal(root.get("activa"),true);
+            consulta.where(predicateLicencia,activo);
             TypedQuery<Placa> resultado = bd.createQuery(consulta); // se conecta a la base de datos
             Placa placa = resultado.getSingleResult(); // devuelve la persona con el rfc que mande.
             bd.getTransaction().commit();

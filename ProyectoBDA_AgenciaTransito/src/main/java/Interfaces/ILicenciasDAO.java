@@ -12,7 +12,7 @@ import excepciones.PersistenciaException;
  */
 public interface ILicenciasDAO {
     
-    public void AgregarLicencia(Licencia licencia) throws PersistenciaException;
-    public void ActualizarLicencia(Licencia licencia) throws PersistenciaException;
+    public void agregarLicencia(Licencia licencia) throws PersistenciaException;
+    public void actualizarLicencia(Licencia licencia) throws PersistenciaException;
     
 }

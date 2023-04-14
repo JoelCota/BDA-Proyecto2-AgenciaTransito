@@ -22,11 +22,11 @@ public class Validadores {
     public Validadores(){
 
     }
-    public boolean validarSerie(java.awt.event.KeyEvent evt){
+    public boolean validarSerie(String serie){
         
         String patron= "^([A-Z]{3}-\\d{3,4})$";
         Pattern p= Pattern.compile(patron);
-         Matcher matcher = p.matcher(evt.toString());
+         Matcher matcher = p.matcher(serie);
          if (matcher.matches()) {
             return true;
         }
