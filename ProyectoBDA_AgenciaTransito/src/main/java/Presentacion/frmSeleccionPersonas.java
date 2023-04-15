@@ -11,7 +11,6 @@ import Dominio.Placa;
 import Persistencia.LicenciasDAO;
 import Persistencia.PersonasDAO;
 import Persistencia.PlacasDAO;
-import Persistencia.TramitesDAO;
 import excepciones.PersistenciaException;
 import java.awt.event.KeyEvent;
 import static java.lang.Integer.parseInt;
@@ -49,8 +48,8 @@ public class frmSeleccionPersonas extends javax.swing.JFrame {
         this.txtCampo.setEnabled(false);
         this.pnlTablas.setVisible(false);
         this.personasDAO = new PersonasDAO();
-        this.licenciasDAO= new LicenciasDAO();
-        this.placasDAO=new PlacasDAO();
+        this.licenciasDAO = new LicenciasDAO();
+        this.placasDAO = new PlacasDAO();
     }
 
     /**
@@ -261,6 +260,128 @@ public class frmSeleccionPersonas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        this.generarPersonas();
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
+        try {
+            this.dispose();
+            new frmMenu().setVisible(true);
+
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(frmSeleccionPersonas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_btnAtrasActionPerformed
+
+    private void cbxTipoConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxTipoConsultaActionPerformed
+        if (this.cbxTipoConsulta.getSelectedItem() == "INDIQUE OPCION DE CONSULTA") {
+            this.txtCampo.setEnabled(false);
+        } else {
+            this.txtCampo.setEnabled(true);
+        }
+    }//GEN-LAST:event_cbxTipoConsultaActionPerformed
+
+    private void cbxTipoConsultaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxTipoConsultaItemStateChanged
+        try {
+            switch (this.cbxTipoConsulta.getModel().getSelectedItem().toString()) {
+                case "RFC":
+                    largo = 15;
+                    opcion = 1;
+                    break;
+                case "NOMBRE":
+                    largo = 20;
+                    opcion = 2;
+                    break;
+                case "AÑO NACIDO":
+                    largo = 3;
+                    opcion = 3;
+                    break;
+            }
+        } catch (NullPointerException nul) {
+            nul.getMessage();
+
+        }
+    }//GEN-LAST:event_cbxTipoConsultaItemStateChanged
+
+    private void btnContinuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContinuarActionPerformed
+        if (elementoSeleccionado != null) {
+            Persona persona = listaPersonas.get(elementoSeleccionado);
+            List<Licencia> listaLicencias = licenciasDAO.listaLicencias(persona);
+            List<Placa> listaPlacas = placasDAO.listaPlacas(persona);
+            if (listaPlacas.isEmpty() && listaLicencias.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "El cliente no cuenta con un historial");
+            } else {
+                new frmConsultas(listaLicencias, listaPlacas).setVisible(true);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "No ha seleccionado un elemento");
+        }
+    }//GEN-LAST:event_btnContinuarActionPerformed
+
+    private void listaResultadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaResultadosMouseClicked
+        elementoSeleccionado = this.listaResultados.getSelectedIndex();
+    }//GEN-LAST:event_listaResultadosMouseClicked
+
+    private void txtCampoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCampoKeyTyped
+        if (!(txtCampo.getText().length() > largo)) {
+            switch (opcion) {
+                case 1:
+                validacionRFC(evt);
+                break;
+                case 2:
+                validacionCamposAlfabeto(evt);
+                break;
+                default:
+                validacionNumero(evt);
+                break;
+            }
+        } else {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtCampoKeyTyped
+
+    private void cargarTablaResultados(List<Persona> personas) {
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+        for (Persona persona : personas) {
+            listModel.addElement(persona.toString());
+        }
+        this.listaResultados.setModel(listModel);
+        this.listaResultados.revalidate();
+        this.listaResultados.repaint();
+    }
+
+    private void cargarOpcionesBusqueda() {
+        this.cbxTipoConsulta.removeAllItems();
+        this.cbxTipoConsulta.addItem("INDIQUE OPCION DE REPORTE");
+        this.cbxTipoConsulta.addItem("PERIODO");
+        this.cbxTipoConsulta.addItem("NOMBRE");
+        this.cbxTipoConsulta.addItem("TIPO TRAMITE");
+
+    }
+
+    private void validacionNumero(java.awt.event.KeyEvent evt) {
+        char txt = evt.getKeyChar();
+        if (!(Character.isDigit(txt))) {
+            evt.consume();
+        }
+    }
+
+    private void validacionCamposAlfabeto(java.awt.event.KeyEvent evt) {
+        char txt = evt.getKeyChar();
+        if (!(Character.isAlphabetic(txt) || txt == KeyEvent.VK_SPACE)) {
+            evt.consume();
+        }
+    }
+
+    private void validacionRFC(java.awt.event.KeyEvent evt) {
+        char txt = evt.getKeyChar();
+        if (!(Character.isLetterOrDigit(txt))) {
+            evt.consume();
+        }
+    }
+
+    private void generarPersonas() {
         String opcion = this.cbxTipoConsulta.getModel().getSelectedItem().toString();
         if (this.txtCampo.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Ingrese un dato valido");
@@ -304,122 +425,6 @@ public class frmSeleccionPersonas extends javax.swing.JFrame {
                     break;
                 default:
             }
-        }
-    }//GEN-LAST:event_btnBuscarActionPerformed
-
-    private void btnContinuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContinuarActionPerformed
-        if (elementoSeleccionado != null) {
-            Persona persona = listaPersonas.get(elementoSeleccionado);
-            List<Licencia> listaLicencias = licenciasDAO.listaLicencias(persona);
-            List<Placa> listaPlacas = placasDAO.listaPlacas(persona);
-            if (listaPlacas.isEmpty() && listaLicencias.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "El cliente no cuenta con un historial");
-            } else {
-                new frmConsultas(listaLicencias,listaPlacas).setVisible(true);
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "No ha seleccionado un elemento");
-        }
-    }//GEN-LAST:event_btnContinuarActionPerformed
-
-    private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
-        try {
-            new frmMenu().setVisible(true);
-        } catch (PersistenciaException ex) {
-            Logger.getLogger(frmSeleccionPersonas.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        this.dispose();
-    }//GEN-LAST:event_btnAtrasActionPerformed
-
-    private void cbxTipoConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxTipoConsultaActionPerformed
-        if (this.cbxTipoConsulta.getSelectedItem() == "INDIQUE OPCION DE CONSULTA") {
-            this.txtCampo.setEnabled(false);
-        } else {
-            this.txtCampo.setEnabled(true);
-        }
-    }//GEN-LAST:event_cbxTipoConsultaActionPerformed
-
-    private void listaResultadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaResultadosMouseClicked
-        elementoSeleccionado = this.listaResultados.getSelectedIndex();
-    }//GEN-LAST:event_listaResultadosMouseClicked
-
-    private void cbxTipoConsultaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxTipoConsultaItemStateChanged
-        try {
-            switch (this.cbxTipoConsulta.getModel().getSelectedItem().toString()) {
-                case "RFC":
-                    largo = 15;
-                    opcion = 1;
-                    break;
-                case "NOMBRE":
-                    largo = 20;
-                    opcion = 2;
-                    break;
-                case "AÑO NACIDO":
-                    largo = 3;
-                    opcion = 3;
-                    break;
-            }
-        } catch (NullPointerException nul) {
-            nul.getMessage();
-
-        }
-    }//GEN-LAST:event_cbxTipoConsultaItemStateChanged
-
-    private void txtCampoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCampoKeyTyped
-        if (!(txtCampo.getText().length() > largo)) {
-            switch (opcion) {
-                case 1:
-                    validacionRFC(evt);
-                    break;
-                case 2:
-                    validacionCamposAlfabeto(evt);
-                    break;
-                default:
-                    validacionNumero(evt);
-                    break;
-            }
-        } else {
-            evt.consume();
-        }
-    }//GEN-LAST:event_txtCampoKeyTyped
-
-    private void cargarTablaResultados(List<Persona> personas) {
-        DefaultListModel<String> listModel = new DefaultListModel<>();
-        for (Persona persona : personas) {
-            listModel.addElement(persona.toString());
-        }
-        this.listaResultados.setModel(listModel);
-        this.listaResultados.revalidate();
-        this.listaResultados.repaint();
-    }
-
-    private void cargarOpcionesBusqueda() {
-        this.cbxTipoConsulta.removeAllItems();
-        this.cbxTipoConsulta.addItem("INDIQUE OPCION DE CONSULTA");
-        this.cbxTipoConsulta.addItem("RFC");
-        this.cbxTipoConsulta.addItem("NOMBRE");
-        this.cbxTipoConsulta.addItem("AÑO NACIDO");
-
-    }
-
-    private void validacionNumero(java.awt.event.KeyEvent evt) {
-        char txt = evt.getKeyChar();
-        if (!(Character.isDigit(txt))) {
-            evt.consume();
-        }
-    }
-
-    private void validacionCamposAlfabeto(java.awt.event.KeyEvent evt) {
-        char txt = evt.getKeyChar();
-        if (!(Character.isAlphabetic(txt) || txt == KeyEvent.VK_SPACE)) {
-            evt.consume();
-        }
-    }
-
-    private void validacionRFC(java.awt.event.KeyEvent evt) {
-        char txt = evt.getKeyChar();
-        if (!(Character.isLetterOrDigit(txt))) {
-            evt.consume();
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -55,6 +55,11 @@ public class frmConsultas extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Consultas");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         pnlTitulo.setBackground(new java.awt.Color(117, 37, 37));
         pnlTitulo.setPreferredSize(new java.awt.Dimension(221, 66));
@@ -267,6 +272,11 @@ public class frmConsultas extends javax.swing.JFrame {
      new frmSeleccionPersonas().setVisible(true);
      this.dispose();
     }//GEN-LAST:event_btnAtrasActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+       
+        new frmSeleccionPersonas().setVisible(true);
+    }//GEN-LAST:event_formWindowClosed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAtras;

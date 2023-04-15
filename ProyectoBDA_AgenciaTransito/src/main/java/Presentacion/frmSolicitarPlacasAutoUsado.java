@@ -96,6 +96,11 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
         setTitle("Solicitar Placas Auto Usado");
         setLocationByPlatform(true);
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         pnlPrincipal.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -508,6 +513,14 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
     private void btnSolicitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolicitarActionPerformed
         generarCambiosPlacas();
     }//GEN-LAST:event_btnSolicitarActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        try {
+            new frmMenu().setVisible(true);
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(frmSolicitarPlacasAutoUsado.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_formWindowClosed
 
     private void setearInfoPersona(Persona persona) {
         this.pnlInfoPersona.setVisible(true);

@@ -76,6 +76,11 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
         txtSolicitarPlacas1 = new javax.swing.JLabel();
 
         setTitle("Solicitar Licencia");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(117, 37, 37));
         jPanel1.setPreferredSize(new java.awt.Dimension(221, 66));
@@ -423,6 +428,15 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
 
         }
     }//GEN-LAST:event_cbxVigenciaItemStateChanged
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        try {
+            new frmMenu().setVisible(true);
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(frmSolicitarLicencia.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_formWindowClosed
 
     private void cargarComboBoxVigencia() {
         this.cbxVigencia.removeAllItems();

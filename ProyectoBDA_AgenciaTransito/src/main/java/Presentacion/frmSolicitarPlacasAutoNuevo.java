@@ -87,6 +87,11 @@ public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
 
         setTitle("Solicitar Placas Auto Nuevo");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -506,6 +511,15 @@ public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
             Logger.getLogger(frmSolicitarPlacasAutoNuevo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnSolicitarActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        try {
+            new frmMenu().setVisible(true);
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(frmSolicitarPlacasAutoNuevo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_formWindowClosed
 
     private void setearInfo(Persona persona) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
