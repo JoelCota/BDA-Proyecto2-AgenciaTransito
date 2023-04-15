@@ -29,10 +29,9 @@ public class Placa extends Tramite implements Serializable {
     //Atributos
     @Column(name = "numeroPlaca", nullable = true, length = 7)
     private String numeroPlaca;
-     @ManyToOne(cascade=CascadeType.PERSIST)
-     @JoinColumn(name = "id_transporte",nullable = true)
+     @ManyToOne()
+     @JoinColumn(name = "numSerie",nullable = false)
     private Transporte transporte;
-
      
      /**
       * 

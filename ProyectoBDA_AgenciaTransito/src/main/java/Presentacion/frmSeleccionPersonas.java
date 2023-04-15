@@ -16,20 +16,10 @@ import java.awt.event.KeyEvent;
 import static java.lang.Integer.parseInt;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.accessibility.AccessibleContext;
 import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JRootPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
 
 /**
  * Descripción de la clase: Clase que permite poder seleccionar las personas de
@@ -83,11 +73,18 @@ public class frmSeleccionPersonas extends javax.swing.JFrame {
         listaResultados = new javax.swing.JList<>();
         txtSeleccionados = new javax.swing.JLabel();
         btnContinuar = new javax.swing.JButton();
-        btnAtras = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Seleccion de busqueda");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         pnlTitulo.setBackground(new java.awt.Color(117, 37, 37));
         pnlTitulo.setPreferredSize(new java.awt.Dimension(221, 66));
@@ -193,13 +190,6 @@ public class frmSeleccionPersonas extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        btnAtras.setText("Atras");
-        btnAtras.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAtrasActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout pnlComponentesLayout = new javax.swing.GroupLayout(pnlComponentes);
         pnlComponentes.setLayout(pnlComponentesLayout);
         pnlComponentesLayout.setHorizontalGroup(
@@ -207,15 +197,13 @@ public class frmSeleccionPersonas extends javax.swing.JFrame {
             .addGroup(pnlComponentesLayout.createSequentialGroup()
                 .addGap(35, 35, 35)
                 .addGroup(pnlComponentesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pnlTablas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(pnlComponentesLayout.createSequentialGroup()
                         .addComponent(cbxTipoConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtCampo, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(pnlTablas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(17, Short.MAX_VALUE))
         );
         pnlComponentesLayout.setVerticalGroup(
@@ -226,8 +214,7 @@ public class frmSeleccionPersonas extends javax.swing.JFrame {
                     .addComponent(cbxTipoConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlComponentesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnBuscar)
-                        .addComponent(txtCampo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnAtras)))
+                        .addComponent(txtCampo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlTablas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -272,17 +259,6 @@ public class frmSeleccionPersonas extends javax.swing.JFrame {
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         this.generarPersonas();
     }//GEN-LAST:event_btnBuscarActionPerformed
-
-    private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
-        try {
-            this.dispose();
-            new frmMenu().setVisible(true);
-
-        } catch (PersistenciaException ex) {
-            Logger.getLogger(frmSeleccionPersonas.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }//GEN-LAST:event_btnAtrasActionPerformed
 
     private void cbxTipoConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxTipoConsultaActionPerformed
         if (this.cbxTipoConsulta.getSelectedItem() == "INDIQUE OPCION DE CONSULTA") {
@@ -329,39 +305,40 @@ public class frmSeleccionPersonas extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnContinuarActionPerformed
 
-    /**
-     * Lista de resulados
-     * @param evt  eventos
-     */
     private void listaResultadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaResultadosMouseClicked
         elementoSeleccionado = this.listaResultados.getSelectedIndex();
     }//GEN-LAST:event_listaResultadosMouseClicked
 
-    /**
-     * Metodo de casos
-     * @param evt eventos
-     */
     private void txtCampoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCampoKeyTyped
         if (!(txtCampo.getText().length() > largo)) {
             switch (opcion) {
                 case 1:
-                validacionRFC(evt);
-                break;
+                    validacionRFC(evt);
+                    break;
                 case 2:
-                validacionCamposAlfabeto(evt);
-                break;
+                    validacionCamposAlfabeto(evt);
+                    break;
                 default:
-                validacionNumero(evt);
-                break;
+                    validacionNumero(evt);
+                    break;
             }
         } else {
             evt.consume();
         }
     }//GEN-LAST:event_txtCampoKeyTyped
 
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        new frmMenu().setVisible(true);
+    }//GEN-LAST:event_formWindowClosed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        new frmMenu().setVisible(true);
+    }//GEN-LAST:event_formWindowClosing
     /**
-     * 
+     *
      * Metodo para cargar la tabla de los resutados
+     *
      * @param personas Lista de personas
      */
     private void cargarTablaResultados(List<Persona> personas) {
@@ -375,20 +352,20 @@ public class frmSeleccionPersonas extends javax.swing.JFrame {
     }
 
     /**
-     * 
      * Metodo para cargar las opciones de busqueda
      */
     private void cargarOpcionesBusqueda() {
         this.cbxTipoConsulta.removeAllItems();
-        this.cbxTipoConsulta.addItem("INDIQUE OPCION DE REPORTE");
-        this.cbxTipoConsulta.addItem("PERIODO");
+        this.cbxTipoConsulta.addItem("INDIQUE OPCION DE CONSULTA");
+        this.cbxTipoConsulta.addItem("RFC");
         this.cbxTipoConsulta.addItem("NOMBRE");
-        this.cbxTipoConsulta.addItem("TIPO TRAMITE");
+        this.cbxTipoConsulta.addItem("AÑO NACIDO");
 
     }
 
     /**
      * Metodo para validar el numero
+     *
      * @param evt evento
      */
     private void validacionNumero(java.awt.event.KeyEvent evt) {
@@ -399,8 +376,9 @@ public class frmSeleccionPersonas extends javax.swing.JFrame {
     }
 
     /**
-     * 
+     *
      * Metodo para validar el campo alfabetico
+     *
      * @param evt evento
      */
     private void validacionCamposAlfabeto(java.awt.event.KeyEvent evt) {
@@ -411,8 +389,9 @@ public class frmSeleccionPersonas extends javax.swing.JFrame {
     }
 
     /**
-     * 
+     *
      * Metodo para validar el RFC de la persona
+     *
      * @param evt evento
      */
     private void validacionRFC(java.awt.event.KeyEvent evt) {
@@ -423,7 +402,7 @@ public class frmSeleccionPersonas extends javax.swing.JFrame {
     }
 
     /**
-     * 
+     *
      * Metodo para generar las personas.
      */
     private void generarPersonas() {
@@ -473,291 +452,8 @@ public class frmSeleccionPersonas extends javax.swing.JFrame {
         }
     }
 
-    public Integer getElementoSeleccionado() {
-        return elementoSeleccionado;
-    }
 
-    public void setElementoSeleccionado(Integer elementoSeleccionado) {
-        this.elementoSeleccionado = elementoSeleccionado;
-    }
-
-    public List<Persona> getListaPersonas() {
-        return listaPersonas;
-    }
-
-    public void setListaPersonas(List<Persona> listaPersonas) {
-        this.listaPersonas = listaPersonas;
-    }
-
-    public PersonasDAO getPersonasDAO() {
-        return personasDAO;
-    }
-
-    public void setPersonasDAO(PersonasDAO personasDAO) {
-        this.personasDAO = personasDAO;
-    }
-
-    public PlacasDAO getPlacasDAO() {
-        return placasDAO;
-    }
-
-    public void setPlacasDAO(PlacasDAO placasDAO) {
-        this.placasDAO = placasDAO;
-    }
-
-    public LicenciasDAO getLicenciasDAO() {
-        return licenciasDAO;
-    }
-
-    public void setLicenciasDAO(LicenciasDAO licenciasDAO) {
-        this.licenciasDAO = licenciasDAO;
-    }
-
-    public int getLargo() {
-        return largo;
-    }
-
-    public void setLargo(int largo) {
-        this.largo = largo;
-    }
-
-    public int getOpcion() {
-        return opcion;
-    }
-
-    public void setOpcion(int opcion) {
-        this.opcion = opcion;
-    }
-
-    public JButton getBtnAtras() {
-        return btnAtras;
-    }
-
-    public void setBtnAtras(JButton btnAtras) {
-        this.btnAtras = btnAtras;
-    }
-
-    public JButton getBtnBuscar() {
-        return btnBuscar;
-    }
-
-    public void setBtnBuscar(JButton btnBuscar) {
-        this.btnBuscar = btnBuscar;
-    }
-
-    public JButton getBtnContinuar() {
-        return btnContinuar;
-    }
-
-    public void setBtnContinuar(JButton btnContinuar) {
-        this.btnContinuar = btnContinuar;
-    }
-
-    public JComboBox<String> getCbxTipoConsulta() {
-        return cbxTipoConsulta;
-    }
-
-    public void setCbxTipoConsulta(JComboBox<String> cbxTipoConsulta) {
-        this.cbxTipoConsulta = cbxTipoConsulta;
-    }
-
-    public JScrollPane getjScrollResultados() {
-        return jScrollResultados;
-    }
-
-    public void setjScrollResultados(JScrollPane jScrollResultados) {
-        this.jScrollResultados = jScrollResultados;
-    }
-
-    public JList<String> getListaResultados() {
-        return listaResultados;
-    }
-
-    public void setListaResultados(JList<String> listaResultados) {
-        this.listaResultados = listaResultados;
-    }
-
-    public JPanel getPnlComponentes() {
-        return pnlComponentes;
-    }
-
-    public void setPnlComponentes(JPanel pnlComponentes) {
-        this.pnlComponentes = pnlComponentes;
-    }
-
-    public JPanel getPnlFondo() {
-        return pnlFondo;
-    }
-
-    public void setPnlFondo(JPanel pnlFondo) {
-        this.pnlFondo = pnlFondo;
-    }
-
-    public JPanel getPnlTablas() {
-        return pnlTablas;
-    }
-
-    public void setPnlTablas(JPanel pnlTablas) {
-        this.pnlTablas = pnlTablas;
-    }
-
-    public JPanel getPnlTitulo() {
-        return pnlTitulo;
-    }
-
-    public void setPnlTitulo(JPanel pnlTitulo) {
-        this.pnlTitulo = pnlTitulo;
-    }
-
-    public JTextField getTxtCampo() {
-        return txtCampo;
-    }
-
-    public void setTxtCampo(JTextField txtCampo) {
-        this.txtCampo = txtCampo;
-    }
-
-    public JLabel getTxtSeleccionados() {
-        return txtSeleccionados;
-    }
-
-    public void setTxtSeleccionados(JLabel txtSeleccionados) {
-        this.txtSeleccionados = txtSeleccionados;
-    }
-
-    public JLabel getTxtSolicitarPlacas() {
-        return txtSolicitarPlacas;
-    }
-
-    public void setTxtSolicitarPlacas(JLabel txtSolicitarPlacas) {
-        this.txtSolicitarPlacas = txtSolicitarPlacas;
-    }
-
-    public JRootPane getRootPane() {
-        return rootPane;
-    }
-
-    public void setRootPane(JRootPane rootPane) {
-        this.rootPane = rootPane;
-    }
-
-    public boolean isRootPaneCheckingEnabled() {
-        return rootPaneCheckingEnabled;
-    }
-
-    public void setRootPaneCheckingEnabled(boolean rootPaneCheckingEnabled) {
-        this.rootPaneCheckingEnabled = rootPaneCheckingEnabled;
-    }
-
-    public AccessibleContext getAccessibleContext() {
-        return accessibleContext;
-    }
-
-    public void setAccessibleContext(AccessibleContext accessibleContext) {
-        this.accessibleContext = accessibleContext;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 89 * hash + Objects.hashCode(this.elementoSeleccionado);
-        hash = 89 * hash + Objects.hashCode(this.listaPersonas);
-        hash = 89 * hash + Objects.hashCode(this.personasDAO);
-        hash = 89 * hash + Objects.hashCode(this.placasDAO);
-        hash = 89 * hash + Objects.hashCode(this.licenciasDAO);
-        hash = 89 * hash + this.largo;
-        hash = 89 * hash + this.opcion;
-        hash = 89 * hash + Objects.hashCode(this.btnAtras);
-        hash = 89 * hash + Objects.hashCode(this.btnBuscar);
-        hash = 89 * hash + Objects.hashCode(this.btnContinuar);
-        hash = 89 * hash + Objects.hashCode(this.cbxTipoConsulta);
-        hash = 89 * hash + Objects.hashCode(this.jScrollResultados);
-        hash = 89 * hash + Objects.hashCode(this.listaResultados);
-        hash = 89 * hash + Objects.hashCode(this.pnlComponentes);
-        hash = 89 * hash + Objects.hashCode(this.pnlFondo);
-        hash = 89 * hash + Objects.hashCode(this.pnlTablas);
-        hash = 89 * hash + Objects.hashCode(this.pnlTitulo);
-        hash = 89 * hash + Objects.hashCode(this.txtCampo);
-        hash = 89 * hash + Objects.hashCode(this.txtSeleccionados);
-        hash = 89 * hash + Objects.hashCode(this.txtSolicitarPlacas);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final frmSeleccionPersonas other = (frmSeleccionPersonas) obj;
-        if (this.largo != other.largo) {
-            return false;
-        }
-        if (this.opcion != other.opcion) {
-            return false;
-        }
-        if (!Objects.equals(this.elementoSeleccionado, other.elementoSeleccionado)) {
-            return false;
-        }
-        if (!Objects.equals(this.listaPersonas, other.listaPersonas)) {
-            return false;
-        }
-        if (!Objects.equals(this.personasDAO, other.personasDAO)) {
-            return false;
-        }
-        if (!Objects.equals(this.placasDAO, other.placasDAO)) {
-            return false;
-        }
-        if (!Objects.equals(this.licenciasDAO, other.licenciasDAO)) {
-            return false;
-        }
-        if (!Objects.equals(this.btnAtras, other.btnAtras)) {
-            return false;
-        }
-        if (!Objects.equals(this.btnBuscar, other.btnBuscar)) {
-            return false;
-        }
-        if (!Objects.equals(this.btnContinuar, other.btnContinuar)) {
-            return false;
-        }
-        if (!Objects.equals(this.cbxTipoConsulta, other.cbxTipoConsulta)) {
-            return false;
-        }
-        if (!Objects.equals(this.jScrollResultados, other.jScrollResultados)) {
-            return false;
-        }
-        if (!Objects.equals(this.listaResultados, other.listaResultados)) {
-            return false;
-        }
-        if (!Objects.equals(this.pnlComponentes, other.pnlComponentes)) {
-            return false;
-        }
-        if (!Objects.equals(this.pnlFondo, other.pnlFondo)) {
-            return false;
-        }
-        if (!Objects.equals(this.pnlTablas, other.pnlTablas)) {
-            return false;
-        }
-        if (!Objects.equals(this.pnlTitulo, other.pnlTitulo)) {
-            return false;
-        }
-        if (!Objects.equals(this.txtCampo, other.txtCampo)) {
-            return false;
-        }
-        if (!Objects.equals(this.txtSeleccionados, other.txtSeleccionados)) {
-            return false;
-        }
-        return Objects.equals(this.txtSolicitarPlacas, other.txtSolicitarPlacas);
-    }
-    
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAtras;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnContinuar;
     private javax.swing.JComboBox<String> cbxTipoConsulta;

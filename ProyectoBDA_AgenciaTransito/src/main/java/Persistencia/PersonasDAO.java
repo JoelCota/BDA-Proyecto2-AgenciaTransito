@@ -5,8 +5,6 @@
 package Persistencia;
 
 //imports
-import Dominio.Automovil;
-import Dominio.Licencia;
 import Dominio.Persona;
 import excepciones.PersistenciaException;
 import java.util.Calendar;
@@ -35,7 +33,7 @@ public class PersonasDAO implements IPersonasDAO {
     ConexionBD conexion = new ConexionBD();
 
     /**
-     * 
+     *  
      * Metodo para la creacion de la persona y que se refleje en la base de datos.
      * @param persona Objeto de tipo persona.
      * @throws PersistenciaException Excepciones (evita erroes).
@@ -67,15 +65,21 @@ public class PersonasDAO implements IPersonasDAO {
     @Override
     public Persona buscarPersonaRFC(String RFC) throws PersistenciaException {
         EntityManager bd = conexion.obtenerConexion();
-        bd.getTransaction().begin();
+        
+        try{
+            bd.getTransaction().begin();//entre a la base de datos
         CriteriaBuilder builder = bd.getCriteriaBuilder();
         CriteriaQuery<Persona> consulta = builder.createQuery(Persona.class);//solo se conecta en el java
         Root<Persona> root = consulta.from(Persona.class);
         consulta.select(root).where(builder.equal(root.get("RFC"), RFC));
         TypedQuery<Persona> resultado = bd.createQuery(consulta); // se conecta a la base de datos
-        Persona persona = resultado.getSingleResult(); // devuelve la persona con el rfc que mande.
+        Persona persona=resultado.getSingleResult();
         bd.getTransaction().commit();
         return persona;
+        }catch(Exception e){
+            bd.getTransaction().rollback();
+            throw new PersistenciaException("No se puedo guardar la persona." + e.getMessage());
+        }
     }
 
     public List<Persona> buscarPersonasPorNombre(String nombre) {
@@ -84,14 +88,11 @@ public class PersonasDAO implements IPersonasDAO {
         CriteriaBuilder cb = bd.getCriteriaBuilder();
         CriteriaQuery<Persona> cq = cb.createQuery(Persona.class);
         Root<Persona> root = cq.from(Persona.class);
-        Predicate nombreLike = cb.like(root.get("nombreCompleto"), "%" + nombre + "%");
+        Predicate nombreLike = cb.like(root.get("nombreCompleto"), nombre + "%");
         cq.where(nombreLike);
         List<Persona> personas = bd.createQuery(cq).getResultList();
         bd.getTransaction().commit();
-        if (personas.isEmpty()) {
-            return null;
-        }
-        return personas;
+            return personas;
     }
 
     /**

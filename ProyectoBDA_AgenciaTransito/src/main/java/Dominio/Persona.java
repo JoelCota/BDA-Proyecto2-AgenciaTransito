@@ -30,7 +30,7 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "personas")
 public class Persona implements Serializable {
-
+ 
     //Atributos
     @Id
     @Column(name = "rfc", nullable = false, length = 13)

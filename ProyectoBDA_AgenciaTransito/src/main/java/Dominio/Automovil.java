@@ -28,9 +28,8 @@ public class Automovil extends Transporte implements Serializable {
      * Constructor por default de la clase automovil
      */
     public Automovil() {
-    }
-
     
+    }
     
     /**
      * 

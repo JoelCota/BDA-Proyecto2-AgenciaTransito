@@ -4,6 +4,7 @@
  */
 package Persistencia;
 //Imports
+
 import Dominio.Automovil;
 import Dominio.Persona;
 import Interfaces.IAutomovilesDAO;
@@ -17,15 +18,19 @@ import javax.persistence.criteria.Root;
 /**
  *
  * Clase DAO para todos los movimientos relacionados con los vehiculos
- * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox ID:229384
+ *
+ * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox
+ * ID:229384
  */
-public class AutomovilesDAO implements IAutomovilesDAO{
+public class AutomovilesDAO implements IAutomovilesDAO {
+
     //Conexion a la base de datos
     ConexionBD conexion = new ConexionBD();
 
     /**
-     * 
+     *
      * Metodo para agregar un vehiculo a la base de datos.
+     *
      * @param automovil objeto vehiculo.
      * @throws PersistenciaException Excepciones.
      */
@@ -45,15 +50,16 @@ public class AutomovilesDAO implements IAutomovilesDAO{
         }
 
     }
-    
+
     /**
      * Metodo para consultar el Automovil que se desee en la base de datos.
+     *
      * @param numSerie numero de serie.
      * @return retorna el automovil deseado.
      */
-    
-    public Automovil consultarAutomovil(String numSerie)throws PersistenciaException{
-         EntityManager bd = conexion.obtenerConexion();
+    @Override
+    public Automovil consultarAutomovil(String numSerie) {
+        EntityManager bd = conexion.obtenerConexion();
 
         try {
             bd.getTransaction().begin();
@@ -69,18 +75,7 @@ public class AutomovilesDAO implements IAutomovilesDAO{
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-          return null;
+        return null;
     }
 
-    /**
-     * Metodo para actualizar un vehiculo ya existente.
-     * @param automovil objeto de vehiculo.
-     * @throws PersistenciaException Excepciones.
-     */
-    
-    @Override
-    public void actualizar(Automovil automovil) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-    
 }

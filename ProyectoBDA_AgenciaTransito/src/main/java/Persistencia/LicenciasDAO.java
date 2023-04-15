@@ -15,7 +15,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-
+ 
 /**
  *
  * Clase DAO para hacer las consultas a la base de datos con todo relacionado a la base
@@ -42,7 +42,7 @@ public class LicenciasDAO implements ILicenciasDAO {
         try {
             bd.getTransaction().begin();//entre a la base de datos
             if (licencia!=null) {
-                bd.persist(bd);
+                bd.persist(licencia);
             }
             bd.getTransaction().commit();//cerre conexion
         } finally {
@@ -91,7 +91,6 @@ public class LicenciasDAO implements ILicenciasDAO {
      */
     public Persona buscarLicenciaRFC(Persona personaProspecto) {
         EntityManager bd = conexion.obtenerConexion();
-        try {
             bd.getTransaction().begin();
             CriteriaBuilder criteriaBuilder = bd.getCriteriaBuilder();
             CriteriaQuery consulta = criteriaBuilder.createQuery();
@@ -103,12 +102,7 @@ public class LicenciasDAO implements ILicenciasDAO {
             TypedQuery<Licencia> resultado = bd.createQuery(consulta);
             Persona persona = resultado.getSingleResult().getPersona();
             bd.getTransaction().commit();
-            return persona;
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        return null;
+                 return persona;
     }
     
     public List<Licencia> listaLicencias(Persona personaProspecto) {

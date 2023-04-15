@@ -3,141 +3,125 @@ package Dominio;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
-/**
-* Reportes.java
-* Apr 14, 2023 5:06:18 PM
-*/ 
 
+/**
+ * Reportes.java Apr 14, 2023 5:06:18 PM
+ */
 /**
  *
  * Clase encargada de los reportes
- * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox ID:229384
+ *
+ * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox
+ * ID:229384
  */
 public class Reportes {
+
     private String nombreCompleto;
     private String tipoTramite;
-    private Date fechaExpedicion;
+    private String fechaExpedicion;
     private float costo;
 
     /**
      * Constructor por default
      */
-    
-    public Reportes(){
-       
+    public Reportes() {
+
     }
 
     /**
      * Consutrctor con todos sus atributos
+     *
      * @param nombreCompleto
      * @param tipoTramite
      * @param fechaExpedicion
-     * @param costo 
+     * @param costo
      */
-    public Reportes(String nombreCompleto, String tipoTramite, Date fechaExpedicion, float costo) {
+    public Reportes(String nombreCompleto, String tipoTramite, String fechaExpedicion, float costo) {
         this.nombreCompleto = nombreCompleto;
         this.tipoTramite = tipoTramite;
         this.fechaExpedicion = fechaExpedicion;
         this.costo = costo;
-    }
+    } 
 
     /**
-     * Constructor sin sus costes
-     * @param nombreCompleto
-     * @param tipoTramite
-     * @param fechaExpedicion 
+     * Metodo para obtener el nombre completo
+     *
+     * @return
      */
-    public Reportes(String nombreCompleto, String tipoTramite, Date fechaExpedicion) {
-        this.nombreCompleto = nombreCompleto;
-        this.tipoTramite = tipoTramite;
-        this.fechaExpedicion = fechaExpedicion;
-    }
-    
-/**
- * Metodo para obtener el nombre completo
- * @return 
- */    
-
     public String getNombreCompleto() {
         return nombreCompleto;
     }
 
-    /**\
-     * 
+    /**
+     * \
+     *
      * Metodo para setear el nombre completo
-     * @param nombreCompleto 
+     *
+     * @param nombreCompleto
      */
-    
     public void setNombreCompleto(String nombreCompleto) {
         this.nombreCompleto = nombreCompleto;
     }
 
     /**
-     * 
+     *
      * Metodo para obtener el tipo del tramite
+     *
      * @return tramite
      */
-    
     public String getTipoTramite() {
         return tipoTramite;
     }
 
     /**
-     * 
+     *
      * Metodo para setear el tipo del tramite
-     * @param tipoTramite 
+     *
+     * @param tipoTramite
      */
-    
     public void setTipoTramite(String tipoTramite) {
         this.tipoTramite = tipoTramite;
     }
-    
-    
+
     /**
-     * 
-     * Metodo para obtneer la fecha de expedicion
-     * @return 
+     *
+     * Metodo para obtnener la fecha de expedicion
+     *
+     * @return
      */
-    
-    public Date getFechaExpedicion() {
+    public String getFechaExpedicion() {
         return fechaExpedicion;
     }
 
-    /**
-     * 
-     * Metodo que se encarga de setear la fecha de expedicion.
-     * @param fechaExpedicion 
-     */
-    
-    public void setFechaExpedicion(Date fechaExpedicion) {
+    public void setFechaExpedicion(String fechaExpedicion) {
         this.fechaExpedicion = fechaExpedicion;
     }
 
     /**
-     * 
+     *
      * Metodo para obtener el costo
-     * @return 
+     *
+     * @return
      */
-    
     public float getCosto() {
         return costo;
     }
 
     /**
      * Metodo para setear el costo.
-     * @param costo 
+     *
+     * @param costo
      */
-    
     public void setCosto(float costo) {
         this.costo = costo;
     }
 
     /**
-     * 
+     *
      * Metodo hascode
-     * @return 
+     *
+     * @return
      */
-    
     @Override
     public int hashCode() {
         int hash = 7;
@@ -149,10 +133,11 @@ public class Reportes {
     }
 
     /**
-     * 
+     *
      * Metodo equals
+     *
      * @param obj
-     * @return 
+     * @return
      */
     @Override
     public boolean equals(Object obj) {
@@ -179,15 +164,14 @@ public class Reportes {
     }
 
     /**
-     * 
+     *
      * toString de la clase
-     * @return 
+     *
+     * @return
      */
     @Override
     public String toString() {
         return "Reportes{" + "nombreCompleto=" + nombreCompleto + ", tipoTramite=" + tipoTramite + ", fechaExpedicion=" + fechaExpedicion + ", costo=" + costo + '}';
     }
-    
-    
-     
+
 }

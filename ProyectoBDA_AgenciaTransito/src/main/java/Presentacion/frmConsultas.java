@@ -56,7 +56,6 @@ public class frmConsultas extends javax.swing.JFrame {
         pnlTablaPlacas = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblPlacas = new javax.swing.JTable();
-        btnAtras = new javax.swing.JButton();
         txtPlacas = new javax.swing.JLabel();
         txtLicencias = new javax.swing.JLabel();
 
@@ -187,13 +186,6 @@ public class frmConsultas extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        btnAtras.setText("Atras");
-        btnAtras.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAtrasActionPerformed(evt);
-            }
-        });
-
         txtPlacas.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         txtPlacas.setForeground(new java.awt.Color(0, 0, 0));
         txtPlacas.setText("Placas");
@@ -209,20 +201,16 @@ public class frmConsultas extends javax.swing.JFrame {
             .addGroup(pnlInfoLayout.createSequentialGroup()
                 .addGap(44, 44, 44)
                 .addGroup(pnlInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnAtras, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(pnlInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(pnlTablaPlacas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 625, Short.MAX_VALUE)
+                        .addComponent(pnlTablaLicencia, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pnlInfoLayout.createSequentialGroup()
-                        .addGroup(pnlInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pnlInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(pnlTablaPlacas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 625, Short.MAX_VALUE)
-                                .addComponent(pnlTablaLicencia, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(pnlInfoLayout.createSequentialGroup()
-                                .addGap(9, 9, 9)
-                                .addComponent(txtLicencias, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(pnlInfoLayout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(txtPlacas, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 46, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addGap(9, 9, 9)
+                        .addComponent(txtLicencias, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlInfoLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(txtPlacas, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(52, Short.MAX_VALUE))
         );
         pnlInfoLayout.setVerticalGroup(
             pnlInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -235,9 +223,7 @@ public class frmConsultas extends javax.swing.JFrame {
                 .addComponent(txtPlacas)
                 .addGap(18, 18, 18)
                 .addComponent(pnlTablaPlacas, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(24, 24, 24)
-                .addComponent(btnAtras)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(52, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout pnlFondoLayout = new javax.swing.GroupLayout(pnlFondo);
@@ -276,18 +262,12 @@ public class frmConsultas extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
-     new frmSeleccionPersonas().setVisible(true);
-     this.dispose();
-    }//GEN-LAST:event_btnAtrasActionPerformed
-
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-       
+
         new frmSeleccionPersonas().setVisible(true);
     }//GEN-LAST:event_formWindowClosed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAtras;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel pnlFondo;
     private javax.swing.JPanel pnlInfo;
@@ -355,218 +335,4 @@ public class frmConsultas extends javax.swing.JFrame {
              modeloTabla.addRow(fila);
          }
     }
-
-    public JButton getBtnAtras() {
-        return btnAtras;
-    }
-
-    public void setBtnAtras(JButton btnAtras) {
-        this.btnAtras = btnAtras;
-    }
-
-    public JScrollPane getjScrollPane1() {
-        return jScrollPane1;
-    }
-
-    public void setjScrollPane1(JScrollPane jScrollPane1) {
-        this.jScrollPane1 = jScrollPane1;
-    }
-
-    public JPanel getPnlFondo() {
-        return pnlFondo;
-    }
-
-    public void setPnlFondo(JPanel pnlFondo) {
-        this.pnlFondo = pnlFondo;
-    }
-
-    public JPanel getPnlInfo() {
-        return pnlInfo;
-    }
-
-    public void setPnlInfo(JPanel pnlInfo) {
-        this.pnlInfo = pnlInfo;
-    }
-
-    public JPanel getPnlTablaLicencia() {
-        return pnlTablaLicencia;
-    }
-
-    public void setPnlTablaLicencia(JPanel pnlTablaLicencia) {
-        this.pnlTablaLicencia = pnlTablaLicencia;
-    }
-
-    public JPanel getPnlTablaPlacas() {
-        return pnlTablaPlacas;
-    }
-
-    public void setPnlTablaPlacas(JPanel pnlTablaPlacas) {
-        this.pnlTablaPlacas = pnlTablaPlacas;
-    }
-
-    public JPanel getPnlTitulo() {
-        return pnlTitulo;
-    }
-
-    public void setPnlTitulo(JPanel pnlTitulo) {
-        this.pnlTitulo = pnlTitulo;
-    }
-
-    public JScrollPane getScPanelLicencias() {
-        return scPanelLicencias;
-    }
-
-    public void setScPanelLicencias(JScrollPane scPanelLicencias) {
-        this.scPanelLicencias = scPanelLicencias;
-    }
-
-    public JTable getTblLicencias() {
-        return tblLicencias;
-    }
-
-    public void setTblLicencias(JTable tblLicencias) {
-        this.tblLicencias = tblLicencias;
-    }
-
-    public JTable getTblPlacas() {
-        return tblPlacas;
-    }
-
-    public void setTblPlacas(JTable tblPlacas) {
-        this.tblPlacas = tblPlacas;
-    }
-
-    public JLabel getTxtLicencias() {
-        return txtLicencias;
-    }
-
-    public void setTxtLicencias(JLabel txtLicencias) {
-        this.txtLicencias = txtLicencias;
-    }
-
-    public JLabel getTxtPlacas() {
-        return txtPlacas;
-    }
-
-    public void setTxtPlacas(JLabel txtPlacas) {
-        this.txtPlacas = txtPlacas;
-    }
-
-    public JLabel getTxtSolicitarPlacas() {
-        return txtSolicitarPlacas;
-    }
-
-    public void setTxtSolicitarPlacas(JLabel txtSolicitarPlacas) {
-        this.txtSolicitarPlacas = txtSolicitarPlacas;
-    }
-
-    public JRootPane getRootPane() {
-        return rootPane;
-    }
-
-    public void setRootPane(JRootPane rootPane) {
-        this.rootPane = rootPane;
-    }
-
-    public boolean isRootPaneCheckingEnabled() {
-        return rootPaneCheckingEnabled;
-    }
-
-    public void setRootPaneCheckingEnabled(boolean rootPaneCheckingEnabled) {
-        this.rootPaneCheckingEnabled = rootPaneCheckingEnabled;
-    }
-
-    public AccessibleContext getAccessibleContext() {
-        return accessibleContext;
-    }
-
-    public void setAccessibleContext(AccessibleContext accessibleContext) {
-        this.accessibleContext = accessibleContext;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 79 * hash + Objects.hashCode(this.btnAtras);
-        hash = 79 * hash + Objects.hashCode(this.jScrollPane1);
-        hash = 79 * hash + Objects.hashCode(this.pnlFondo);
-        hash = 79 * hash + Objects.hashCode(this.pnlInfo);
-        hash = 79 * hash + Objects.hashCode(this.pnlTablaLicencia);
-        hash = 79 * hash + Objects.hashCode(this.pnlTablaPlacas);
-        hash = 79 * hash + Objects.hashCode(this.pnlTitulo);
-        hash = 79 * hash + Objects.hashCode(this.scPanelLicencias);
-        hash = 79 * hash + Objects.hashCode(this.tblLicencias);
-        hash = 79 * hash + Objects.hashCode(this.tblPlacas);
-        hash = 79 * hash + Objects.hashCode(this.txtLicencias);
-        hash = 79 * hash + Objects.hashCode(this.txtPlacas);
-        hash = 79 * hash + Objects.hashCode(this.txtSolicitarPlacas);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final frmConsultas other = (frmConsultas) obj;
-        if (!Objects.equals(this.btnAtras, other.btnAtras)) {
-            return false;
-        }
-        if (!Objects.equals(this.jScrollPane1, other.jScrollPane1)) {
-            return false;
-        }
-        if (!Objects.equals(this.pnlFondo, other.pnlFondo)) {
-            return false;
-        }
-        if (!Objects.equals(this.pnlInfo, other.pnlInfo)) {
-            return false;
-        }
-        if (!Objects.equals(this.pnlTablaLicencia, other.pnlTablaLicencia)) {
-            return false;
-        }
-        if (!Objects.equals(this.pnlTablaPlacas, other.pnlTablaPlacas)) {
-            return false;
-        }
-        if (!Objects.equals(this.pnlTitulo, other.pnlTitulo)) {
-            return false;
-        }
-        if (!Objects.equals(this.scPanelLicencias, other.scPanelLicencias)) {
-            return false;
-        }
-        if (!Objects.equals(this.tblLicencias, other.tblLicencias)) {
-            return false;
-        }
-        if (!Objects.equals(this.tblPlacas, other.tblPlacas)) {
-            return false;
-        }
-        if (!Objects.equals(this.txtLicencias, other.txtLicencias)) {
-            return false;
-        }
-        if (!Objects.equals(this.txtPlacas, other.txtPlacas)) {
-            return false;
-        }
-        return Objects.equals(this.txtSolicitarPlacas, other.txtSolicitarPlacas);
-    }
-
-    @Override
-    public String toString() {
-        return "frmConsultas{" + "btnAtras=" + btnAtras + ", jScrollPane1=" + 
-                jScrollPane1 + ", pnlFondo=" + pnlFondo + ", pnlInfo=" + pnlInfo + 
-                ", pnlTablaLicencia=" + pnlTablaLicencia + ", pnlTablaPlacas=" + 
-                pnlTablaPlacas + ", pnlTitulo=" + pnlTitulo + ", scPanelLicencias=" 
-                + scPanelLicencias + ", tblLicencias=" + tblLicencias + ", tblPlacas="
-                + tblPlacas + ", txtLicencias=" + txtLicencias + ", txtPlacas=" 
-                + txtPlacas + ", txtSolicitarPlacas=" + txtSolicitarPlacas + '}';
-    }
-
-  
-  
-    
-
 }

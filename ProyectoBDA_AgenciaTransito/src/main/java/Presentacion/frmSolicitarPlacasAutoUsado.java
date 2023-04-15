@@ -5,7 +5,6 @@
  */
 package Presentacion;
 
-import Dominio.Automovil;
 import Dominio.Persona;
 import Dominio.Placa;
 import Persistencia.AutomovilesDAO;
@@ -15,47 +14,42 @@ import Persistencia.PlacasDAO;
 import excepciones.PersistenciaException;
 import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.accessibility.AccessibleContext;
-import javax.swing.JButton;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JRootPane;
-import javax.swing.JSeparator;
-import javax.swing.JTextField;
 
 /**
  *
  * Clase de tipo frame para solicitar las placas de un automovil usado
+ *
  * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox
  * ID:229384
  */
 public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
 //objetos - atributos
+
     private PersonasDAO personasDAO;
     private PlacasDAO placasDAO;
     private AutomovilesDAO automovilesDAO;
     private Persona personaProspecto;
     private Placa placaSolicitud;
     private LicenciasDAO licenciasDAO;
-    private float costo=1000;
+    private float costo = 1000;
+
     /**
      * Creates new form frmSolicitarPlacasAutoUsado
      */
     public frmSolicitarPlacasAutoUsado() {
         initComponents();
-        this.jPanel1.setVisible(true);
+        this.pnlPanelesInfo.setVisible(true);
         this.pnlInfoPlacas.setVisible(false);
         this.pnlInfoPersona.setVisible(false);
         this.personasDAO = new PersonasDAO();
         this.placasDAO = new PlacasDAO();
         this.automovilesDAO = new AutomovilesDAO();
         this.licenciasDAO = new LicenciasDAO();
+        this.btnSolicitar.setEnabled(false);
     }
 
     /**
@@ -75,13 +69,12 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
         txtCampoPlacas = new javax.swing.JTextField();
         txtCampoRFC = new javax.swing.JTextField();
         Separator1 = new javax.swing.JSeparator();
-        btnCancelar = new javax.swing.JButton();
         btnSolicitar = new javax.swing.JButton();
         txtCostoPlacas = new javax.swing.JLabel();
         btnBorrarCampos = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
+        pnlPanelesInfo = new javax.swing.JPanel();
         pnlInfoPersona = new javax.swing.JPanel();
         txtRFCCliente = new javax.swing.JLabel();
         txtNombreCliente = new javax.swing.JLabel();
@@ -108,6 +101,9 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
             }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
         });
 
         pnlPrincipal.setBackground(new java.awt.Color(255, 255, 255));
@@ -127,6 +123,11 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
                 txtCampoPlacasActionPerformed(evt);
             }
         });
+        txtCampoPlacas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCampoPlacasKeyTyped(evt);
+            }
+        });
 
         txtCampoRFC.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         txtCampoRFC.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -142,13 +143,6 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
         txtCampoRFC.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtCampoRFCKeyTyped(evt);
-            }
-        });
-
-        btnCancelar.setText("Cancelar");
-        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelarActionPerformed(evt);
             }
         });
 
@@ -178,7 +172,7 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
             }
         });
 
-        jPanel1.setBackground(new java.awt.Color(255, 204, 153));
+        pnlPanelesInfo.setBackground(new java.awt.Color(255, 204, 153));
 
         pnlInfoPersona.setBackground(new java.awt.Color(255, 204, 153));
 
@@ -306,20 +300,20 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
                 .addGap(23, 23, 23))
         );
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout pnlPanelesInfoLayout = new javax.swing.GroupLayout(pnlPanelesInfo);
+        pnlPanelesInfo.setLayout(pnlPanelesInfoLayout);
+        pnlPanelesInfoLayout.setHorizontalGroup(
+            pnlPanelesInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlPanelesInfoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(pnlPanelesInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(pnlInfoPlacas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(pnlInfoPersona, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        pnlPanelesInfoLayout.setVerticalGroup(
+            pnlPanelesInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlPanelesInfoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(pnlInfoPersona, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -353,16 +347,14 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(txtCostoPlacas, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pnlPanelesInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(pnlInformacionLayout.createSequentialGroup()
-                .addGap(83, 83, 83)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnSolicitar, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(176, 176, 176)
                 .addComponent(btnBorrarCampos, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(86, 86, 86)
-                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(82, 82, 82))
+                .addGap(136, 136, 136))
             .addGroup(pnlInformacionLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(Separator1)
@@ -374,7 +366,7 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
                 .addGroup(pnlInformacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlInformacionLayout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pnlPanelesInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                     .addGroup(pnlInformacionLayout.createSequentialGroup()
                         .addGap(52, 52, 52)
@@ -393,7 +385,6 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
                 .addComponent(Separator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlInformacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSolicitar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBorrarCampos, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(6, 6, 6))
@@ -467,15 +458,6 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCampoRFCActionPerformed
 
-    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        try {
-            new frmMenu().setVisible(true);
-        } catch (PersistenciaException ex) {
-            Logger.getLogger(frmSolicitarPlacasAutoUsado.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        this.dispose();
-    }//GEN-LAST:event_btnCancelarActionPerformed
-
     private void txtCampoRFCMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtCampoRFCMouseClicked
 
     }//GEN-LAST:event_txtCampoRFCMouseClicked
@@ -496,24 +478,28 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
                 if (licenciasDAO.buscarLicenciaRFC(personasDAO.buscarPersonaRFC(txtCampoRFC.getText())) != null) {
                     personaProspecto = personasDAO.buscarPersonaRFC(this.txtCampoRFC.getText());
                     setearInfoPersona(personaProspecto);
-                } else {
-                    JOptionPane.showMessageDialog(this, "El cliente no cuenta con una licencia valida");
+                    if (this.pnlInfoPlacas.isVisible()) {
+                        this.btnSolicitar.setEnabled(true);
+                    }
                 }
             } catch (PersistenciaException ex) {
-                Logger.getLogger(frmSolicitarPlacasAutoNuevo.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(this, "El cliente no cuenta con una licencia valida");
             }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         if (this.txtCampoPlacas.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Ingrese una serie valido");
+            JOptionPane.showMessageDialog(this, "Ingrese una placa valido");
         } else {
             if (placasDAO.buscarPersonaSerie(txtCampoPlacas.getText()) != null) {
                 placaSolicitud = placasDAO.buscarPersonaSerie(txtCampoPlacas.getText());
                 setearInfoPlaca(placaSolicitud);
+                if (this.pnlInfoPersona.isVisible()) {
+                    this.btnSolicitar.setEnabled(true);
+                }
             } else {
-                JOptionPane.showMessageDialog(this, "El RFC no existe");
+                JOptionPane.showMessageDialog(this, "La placa no existe");
             }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -523,17 +509,34 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSolicitarActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        try {
-            new frmMenu().setVisible(true);
-        } catch (PersistenciaException ex) {
-            Logger.getLogger(frmSolicitarPlacasAutoUsado.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        new frmMenu().setVisible(true);
+
     }//GEN-LAST:event_formWindowClosed
 
-    
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        new frmMenu().setVisible(true);
+
+    }//GEN-LAST:event_formWindowClosing
+
+    private void txtCampoPlacasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCampoPlacasKeyTyped
+        if (!(this.txtCampoPlacas.getText().length() > 6)) {
+            validacionCamposSerie(evt);
+        } else {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtCampoPlacasKeyTyped
+    private void validacionCamposSerie(java.awt.event.KeyEvent evt) {
+        char txt = evt.getKeyChar();
+        if (!(txt == KeyEvent.VK_MINUS || Character.isLetterOrDigit(txt))) {
+            evt.consume();
+        }
+    }
+
     /**
-     * 
+     *
      * Metodo que ayuda a setear la informacion de la persona.
+     *
      * @param persona objeto persona.
      */
     private void setearInfoPersona(Persona persona) {
@@ -546,8 +549,9 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
     }
 
     /**
-     * 
+     *
      * Metodo para setear la informacion de la placa.
+     *
      * @param placa objeto tipo placa.
      */
     private void setearInfoPlaca(Placa placa) {
@@ -561,8 +565,9 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
     }
 
     /**
-     * 
+     *
      * Metodo para generar el numero de serie.
+     *
      * @return el String del numero de serie.
      */
     public String generarNumeroSerie() {
@@ -581,338 +586,17 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
         return numeroSerie.toString();
     }
 
-    public PersonasDAO getPersonasDAO() {
-        return personasDAO;
-    }
-
-    public void setPersonasDAO(PersonasDAO personasDAO) {
-        this.personasDAO = personasDAO;
-    }
-
-    public PlacasDAO getPlacasDAO() {
-        return placasDAO;
-    }
-
-    public void setPlacasDAO(PlacasDAO placasDAO) {
-        this.placasDAO = placasDAO;
-    }
-
-    public AutomovilesDAO getAutomovilesDAO() {
-        return automovilesDAO;
-    }
-
-    public void setAutomovilesDAO(AutomovilesDAO automovilesDAO) {
-        this.automovilesDAO = automovilesDAO;
-    }
-
-    public Persona getPersonaProspecto() {
-        return personaProspecto;
-    }
-
-    public void setPersonaProspecto(Persona personaProspecto) {
-        this.personaProspecto = personaProspecto;
-    }
-
-    public Placa getPlacaSolicitud() {
-        return placaSolicitud;
-    }
-
-    public void setPlacaSolicitud(Placa placaSolicitud) {
-        this.placaSolicitud = placaSolicitud;
-    }
-
-    public LicenciasDAO getLicenciasDAO() {
-        return licenciasDAO;
-    }
-
-    public void setLicenciasDAO(LicenciasDAO licenciasDAO) {
-        this.licenciasDAO = licenciasDAO;
-    }
-
-    public float getCosto() {
-        return costo;
-    }
-
-    public void setCosto(float costo) {
-        this.costo = costo;
-    }
-
-    public JSeparator getSeparator1() {
-        return Separator1;
-    }
-
-    public void setSeparator1(JSeparator Separator1) {
-        this.Separator1 = Separator1;
-    }
-
-    public JButton getBtnBorrarCampos() {
-        return btnBorrarCampos;
-    }
-
-    public void setBtnBorrarCampos(JButton btnBorrarCampos) {
-        this.btnBorrarCampos = btnBorrarCampos;
-    }
-
-    public JButton getBtnCancelar() {
-        return btnCancelar;
-    }
-
-    public void setBtnCancelar(JButton btnCancelar) {
-        this.btnCancelar = btnCancelar;
-    }
-
-    public JButton getBtnSolicitar() {
-        return btnSolicitar;
-    }
-
-    public void setBtnSolicitar(JButton btnSolicitar) {
-        this.btnSolicitar = btnSolicitar;
-    }
-
-    public JButton getjButton1() {
-        return jButton1;
-    }
-
-    public void setjButton1(JButton jButton1) {
-        this.jButton1 = jButton1;
-    }
-
-    public JButton getjButton2() {
-        return jButton2;
-    }
-
-    public void setjButton2(JButton jButton2) {
-        this.jButton2 = jButton2;
-    }
-
-    public JCheckBoxMenuItem getjCheckBoxMenuItem1() {
-        return jCheckBoxMenuItem1;
-    }
-
-    public void setjCheckBoxMenuItem1(JCheckBoxMenuItem jCheckBoxMenuItem1) {
-        this.jCheckBoxMenuItem1 = jCheckBoxMenuItem1;
-    }
-
-    public JPanel getjPanel1() {
-        return jPanel1;
-    }
-
-    public void setjPanel1(JPanel jPanel1) {
-        this.jPanel1 = jPanel1;
-    }
-
-    public JPanel getPnlInfoPersona() {
-        return pnlInfoPersona;
-    }
-
-    public void setPnlInfoPersona(JPanel pnlInfoPersona) {
-        this.pnlInfoPersona = pnlInfoPersona;
-    }
-
-    public JPanel getPnlInfoPlacas() {
-        return pnlInfoPlacas;
-    }
-
-    public void setPnlInfoPlacas(JPanel pnlInfoPlacas) {
-        this.pnlInfoPlacas = pnlInfoPlacas;
-    }
-
-    public JPanel getPnlInformacion() {
-        return pnlInformacion;
-    }
-
-    public void setPnlInformacion(JPanel pnlInformacion) {
-        this.pnlInformacion = pnlInformacion;
-    }
-
-    public JPanel getPnlPrincipal() {
-        return pnlPrincipal;
-    }
-
-    public void setPnlPrincipal(JPanel pnlPrincipal) {
-        this.pnlPrincipal = pnlPrincipal;
-    }
-
-    public JPanel getPnlTitulo() {
-        return pnlTitulo;
-    }
-
-    public void setPnlTitulo(JPanel pnlTitulo) {
-        this.pnlTitulo = pnlTitulo;
-    }
-
-    public JTextField getTxtCampoPlacas() {
-        return txtCampoPlacas;
-    }
-
-    public void setTxtCampoPlacas(JTextField txtCampoPlacas) {
-        this.txtCampoPlacas = txtCampoPlacas;
-    }
-
-    public JTextField getTxtCampoRFC() {
-        return txtCampoRFC;
-    }
-
-    public void setTxtCampoRFC(JTextField txtCampoRFC) {
-        this.txtCampoRFC = txtCampoRFC;
-    }
-
-    public JLabel getTxtColor() {
-        return txtColor;
-    }
-
-    public void setTxtColor(JLabel txtColor) {
-        this.txtColor = txtColor;
-    }
-
-    public JLabel getTxtCostoPlacas() {
-        return txtCostoPlacas;
-    }
-
-    public void setTxtCostoPlacas(JLabel txtCostoPlacas) {
-        this.txtCostoPlacas = txtCostoPlacas;
-    }
-
-    public JLabel getTxtFechaCliente() {
-        return txtFechaCliente;
-    }
-
-    public void setTxtFechaCliente(JLabel txtFechaCliente) {
-        this.txtFechaCliente = txtFechaCliente;
-    }
-
-    public JLabel getTxtLinea() {
-        return txtLinea;
-    }
-
-    public void setTxtLinea(JLabel txtLinea) {
-        this.txtLinea = txtLinea;
-    }
-
-    public JLabel getTxtMarca() {
-        return txtMarca;
-    }
-
-    public void setTxtMarca(JLabel txtMarca) {
-        this.txtMarca = txtMarca;
-    }
-
-    public JLabel getTxtModelo() {
-        return txtModelo;
-    }
-
-    public void setTxtModelo(JLabel txtModelo) {
-        this.txtModelo = txtModelo;
-    }
-
-    public JLabel getTxtNombreCliente() {
-        return txtNombreCliente;
-    }
-
-    public void setTxtNombreCliente(JLabel txtNombreCliente) {
-        this.txtNombreCliente = txtNombreCliente;
-    }
-
-    public JLabel getTxtNumeroCliente() {
-        return txtNumeroCliente;
-    }
-
-    public void setTxtNumeroCliente(JLabel txtNumeroCliente) {
-        this.txtNumeroCliente = txtNumeroCliente;
-    }
-
-    public JLabel getTxtPlacas() {
-        return txtPlacas;
-    }
-
-    public void setTxtPlacas(JLabel txtPlacas) {
-        this.txtPlacas = txtPlacas;
-    }
-
-    public JLabel getTxtPropietario() {
-        return txtPropietario;
-    }
-
-    public void setTxtPropietario(JLabel txtPropietario) {
-        this.txtPropietario = txtPropietario;
-    }
-
-    public JLabel getTxtRFC() {
-        return txtRFC;
-    }
-
-    public void setTxtRFC(JLabel txtRFC) {
-        this.txtRFC = txtRFC;
-    }
-
-    public JLabel getTxtRFCCliente() {
-        return txtRFCCliente;
-    }
-
-    public void setTxtRFCCliente(JLabel txtRFCCliente) {
-        this.txtRFCCliente = txtRFCCliente;
-    }
-
-    public JLabel getTxtSolicitarPlacas() {
-        return txtSolicitarPlacas;
-    }
-
-    public void setTxtSolicitarPlacas(JLabel txtSolicitarPlacas) {
-        this.txtSolicitarPlacas = txtSolicitarPlacas;
-    }
-
-    public JLabel getTxtSolicitarPlacas1() {
-        return txtSolicitarPlacas1;
-    }
-
-    public void setTxtSolicitarPlacas1(JLabel txtSolicitarPlacas1) {
-        this.txtSolicitarPlacas1 = txtSolicitarPlacas1;
-    }
-
-    public JLabel getTxtSolicitarPlacas2() {
-        return txtSolicitarPlacas2;
-    }
-
-    public void setTxtSolicitarPlacas2(JLabel txtSolicitarPlacas2) {
-        this.txtSolicitarPlacas2 = txtSolicitarPlacas2;
-    }
-
-    public JRootPane getRootPane() {
-        return rootPane;
-    }
-
-    public void setRootPane(JRootPane rootPane) {
-        this.rootPane = rootPane;
-    }
-
-    public boolean isRootPaneCheckingEnabled() {
-        return rootPaneCheckingEnabled;
-    }
-
-    public void setRootPaneCheckingEnabled(boolean rootPaneCheckingEnabled) {
-        this.rootPaneCheckingEnabled = rootPaneCheckingEnabled;
-    }
-
-    public AccessibleContext getAccessibleContext() {
-        return accessibleContext;
-    }
-
-    public void setAccessibleContext(AccessibleContext accessibleContext) {
-        this.accessibleContext = accessibleContext;
-    }
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSeparator Separator1;
     private javax.swing.JButton btnBorrarCampos;
-    private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnSolicitar;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel pnlInfoPersona;
     private javax.swing.JPanel pnlInfoPlacas;
     private javax.swing.JPanel pnlInformacion;
+    private javax.swing.JPanel pnlPanelesInfo;
     private javax.swing.JPanel pnlPrincipal;
     private javax.swing.JPanel pnlTitulo;
     private javax.swing.JTextField txtCampoPlacas;

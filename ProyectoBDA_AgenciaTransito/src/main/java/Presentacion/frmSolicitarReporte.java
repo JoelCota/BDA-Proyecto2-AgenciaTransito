@@ -7,19 +7,27 @@ package Presentacion;
 
 import Dominio.Licencia;
 import Dominio.Persona;
-import Dominio.Placa;
+import Dominio.Reportes;
+import Dominio.Tramite;
 import Persistencia.LicenciasDAO;
 import Persistencia.PersonasDAO;
 import Persistencia.PlacasDAO;
-import excepciones.PersistenciaException;
+import Persistencia.TramitesDAO;
+import com.github.lgooddatepicker.components.DatePicker;
+import java.awt.Desktop;
 import java.awt.event.KeyEvent;
-import static java.lang.Integer.parseInt;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.accessibility.AccessibleContext;
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -27,6 +35,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
 import javax.swing.JTextField;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperPrint;
+import utilidades.JasperReportes;
 
 /**
  * Descripción de la clase: Clase que permite poder seleccionar las personas de
@@ -42,6 +53,8 @@ public class frmSolicitarReporte extends javax.swing.JFrame {
     private PersonasDAO personasDAO;
     private PlacasDAO placasDAO;
     private LicenciasDAO licenciasDAO;
+    private TramitesDAO tramitesDAO;
+    private JasperPrint jasperPrint;
 
     /**
      * Creates new form frmSeleccionPersonas
@@ -58,6 +71,8 @@ public class frmSolicitarReporte extends javax.swing.JFrame {
         this.personasDAO = new PersonasDAO();
         this.licenciasDAO = new LicenciasDAO();
         this.placasDAO = new PlacasDAO();
+        this.tramitesDAO = new TramitesDAO();
+        this.btnExportar.setEnabled(false);
     }
 
     /**
@@ -84,10 +99,10 @@ public class frmSolicitarReporte extends javax.swing.JFrame {
         txtTipoTramite = new javax.swing.JLabel();
         cbxTipoTramite = new javax.swing.JComboBox<>();
         btnGenerarReporte = new javax.swing.JButton();
-        btnAtras = new javax.swing.JButton();
+        btnExportar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Seleccion de busqueda");
+        setTitle("Reportes");
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
@@ -98,11 +113,11 @@ public class frmSolicitarReporte extends javax.swing.JFrame {
         pnlTitulo.setBackground(new java.awt.Color(117, 37, 37));
         pnlTitulo.setPreferredSize(new java.awt.Dimension(221, 66));
 
+        txtSolicitarPlacas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        txtSolicitarPlacas.setText("Reportes");
         txtSolicitarPlacas.setBackground(new java.awt.Color(0, 0, 0));
         txtSolicitarPlacas.setFont(new java.awt.Font("Segoe UI Black", 1, 24)); // NOI18N
         txtSolicitarPlacas.setForeground(new java.awt.Color(0, 0, 0));
-        txtSolicitarPlacas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        txtSolicitarPlacas.setText("Reportes");
 
         javax.swing.GroupLayout pnlTituloLayout = new javax.swing.GroupLayout(pnlTitulo);
         pnlTitulo.setLayout(pnlTituloLayout);
@@ -139,17 +154,23 @@ public class frmSolicitarReporte extends javax.swing.JFrame {
 
         pnlConsultas.setBackground(new java.awt.Color(255, 204, 153));
 
+        dpFechaInicio.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                dpFechaInicioMouseClicked(evt);
+            }
+        });
+
+        txtFechaFin.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        txtFechaFin.setText("Fecha Fin");
         txtFechaFin.setBackground(new java.awt.Color(0, 0, 0));
         txtFechaFin.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txtFechaFin.setForeground(new java.awt.Color(0, 0, 0));
-        txtFechaFin.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        txtFechaFin.setText("Fecha Fin");
 
+        txtFechaInicio.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        txtFechaInicio.setText("Fecha Inicio");
         txtFechaInicio.setBackground(new java.awt.Color(0, 0, 0));
         txtFechaInicio.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txtFechaInicio.setForeground(new java.awt.Color(0, 0, 0));
-        txtFechaInicio.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        txtFechaInicio.setText("Fecha Inicio");
 
         txtCampoNombre.setBackground(new java.awt.Color(255, 255, 255));
         txtCampoNombre.addActionListener(new java.awt.event.ActionListener() {
@@ -163,19 +184,24 @@ public class frmSolicitarReporte extends javax.swing.JFrame {
             }
         });
 
+        txtNombre.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        txtNombre.setText("Nombre");
         txtNombre.setBackground(new java.awt.Color(0, 0, 0));
         txtNombre.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txtNombre.setForeground(new java.awt.Color(0, 0, 0));
-        txtNombre.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        txtNombre.setText("Nombre");
 
+        txtTipoTramite.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        txtTipoTramite.setText("Tipo Tramite");
         txtTipoTramite.setBackground(new java.awt.Color(0, 0, 0));
         txtTipoTramite.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txtTipoTramite.setForeground(new java.awt.Color(0, 0, 0));
-        txtTipoTramite.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        txtTipoTramite.setText("Tipo Tramite");
 
         cbxTipoTramite.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxTipoTramite.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbxTipoTramiteItemStateChanged(evt);
+            }
+        });
 
         btnGenerarReporte.setText("Buscar");
         btnGenerarReporte.addActionListener(new java.awt.event.ActionListener() {
@@ -189,6 +215,7 @@ public class frmSolicitarReporte extends javax.swing.JFrame {
         pnlConsultasLayout.setHorizontalGroup(
             pnlConsultasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlConsultasLayout.createSequentialGroup()
+                .addGap(29, 29, 29)
                 .addGroup(pnlConsultasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtNombre)
                     .addComponent(txtTipoTramite)
@@ -196,22 +223,22 @@ public class frmSolicitarReporte extends javax.swing.JFrame {
                     .addGroup(pnlConsultasLayout.createSequentialGroup()
                         .addGroup(pnlConsultasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(txtCampoNombre, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(dpFechaInicio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(dpFechaInicio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtFechaInicio, javax.swing.GroupLayout.Alignment.LEADING))
                         .addGap(18, 18, 18)
                         .addGroup(pnlConsultasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtFechaFin)
                             .addComponent(dpFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(0, 64, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlConsultasLayout.createSequentialGroup()
+                .addContainerGap(70, Short.MAX_VALUE))
+            .addGroup(pnlConsultasLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnGenerarReporte, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(22, 22, 22))
         );
         pnlConsultasLayout.setVerticalGroup(
             pnlConsultasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlConsultasLayout.createSequentialGroup()
-                .addGap(19, 19, 19)
+                .addGap(13, 13, 13)
                 .addComponent(txtNombre)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtCampoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -227,14 +254,14 @@ public class frmSolicitarReporte extends javax.swing.JFrame {
                 .addComponent(txtTipoTramite)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cbxTipoTramite, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addGap(18, 24, Short.MAX_VALUE)
                 .addComponent(btnGenerarReporte))
         );
 
-        btnAtras.setText("Atras");
-        btnAtras.addActionListener(new java.awt.event.ActionListener() {
+        btnExportar.setText("Exportar a PDF");
+        btnExportar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAtrasActionPerformed(evt);
+                btnExportarActionPerformed(evt);
             }
         });
 
@@ -243,14 +270,14 @@ public class frmSolicitarReporte extends javax.swing.JFrame {
         pnlComponentesLayout.setHorizontalGroup(
             pnlComponentesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlComponentesLayout.createSequentialGroup()
-                .addGap(35, 35, 35)
                 .addGroup(pnlComponentesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlComponentesLayout.createSequentialGroup()
+                        .addGap(35, 35, 35)
                         .addComponent(cbxTipoConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(53, 53, 53)
-                        .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnExportar))
                     .addGroup(pnlComponentesLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
+                        .addContainerGap()
                         .addComponent(pnlConsultas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -260,7 +287,7 @@ public class frmSolicitarReporte extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(pnlComponentesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbxTipoConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAtras))
+                    .addComponent(btnExportar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlConsultas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -302,17 +329,6 @@ public class frmSolicitarReporte extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
-        try {
-            this.dispose();
-            new frmMenu().setVisible(true);
-
-        } catch (PersistenciaException ex) {
-            Logger.getLogger(frmSolicitarReporte.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }//GEN-LAST:event_btnAtrasActionPerformed
-
     private void cbxTipoConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxTipoConsultaActionPerformed
 
     }//GEN-LAST:event_cbxTipoConsultaActionPerformed
@@ -339,7 +355,7 @@ public class frmSolicitarReporte extends javax.swing.JFrame {
                     this.dpFechaFin.setEnabled(false);
                     this.dpFechaInicio.setEnabled(false);
                     this.cbxTipoTramite.setEnabled(true);
-                    this.btnGenerarReporte.setEnabled(true);
+                    this.btnGenerarReporte.setEnabled(false);
                     break;
             }
         } catch (NullPointerException nul) {
@@ -349,24 +365,49 @@ public class frmSolicitarReporte extends javax.swing.JFrame {
     }//GEN-LAST:event_cbxTipoConsultaItemStateChanged
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        try {
-            new frmMenu().setVisible(true);
-        } catch (PersistenciaException ex) {
-            Logger.getLogger(frmSolicitarReporte.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        new frmMenu().setVisible(true);
     }//GEN-LAST:event_formWindowClosed
 
     private void btnGenerarReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarReporteActionPerformed
-
+        try {
+            generarReporte();
+            this.btnExportar.setEnabled(true);
+        } catch (JRException ex) {
+            Logger.getLogger(frmSolicitarReporte.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(frmSolicitarReporte.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnGenerarReporteActionPerformed
 
     private void txtCampoNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCampoNombreActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_txtCampoNombreActionPerformed
 
     private void txtCampoNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCampoNombreKeyTyped
-    validacionCamposAlfabeto(evt);
+        validacionCamposAlfabeto(evt);
     }//GEN-LAST:event_txtCampoNombreKeyTyped
+
+    private void btnExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarActionPerformed
+        try {
+            exportarReporte();
+            JOptionPane.showMessageDialog(this, "Se ha generado el reporte");
+            abrirCarpeta();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(frmSolicitarReporte.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (JRException ex) {
+            Logger.getLogger(frmSolicitarReporte.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnExportarActionPerformed
+
+    private void dpFechaInicioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dpFechaInicioMouseClicked
+    }//GEN-LAST:event_dpFechaInicioMouseClicked
+
+    private void cbxTipoTramiteItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxTipoTramiteItemStateChanged
+        if (this.cbxTipoTramite.getModel().getSelectedItem() != "INDIQUE El TIPO") {
+            this.btnGenerarReporte.setEnabled(true);
+        } else {
+            this.btnGenerarReporte.setEnabled(false);
+        }
+    }//GEN-LAST:event_cbxTipoTramiteItemStateChanged
 
     private void cargarOpcionesBusqueda() {
         this.cbxTipoConsulta.removeAllItems();
@@ -390,7 +431,7 @@ public class frmSolicitarReporte extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAtras;
+    private javax.swing.JButton btnExportar;
     private javax.swing.JButton btnGenerarReporte;
     private javax.swing.JComboBox<String> cbxTipoConsulta;
     private javax.swing.JComboBox<String> cbxTipoTramite;
@@ -413,196 +454,110 @@ public class frmSolicitarReporte extends javax.swing.JFrame {
      * Metodo para cargar el tipo de tramite
      */
     private void cargarTipoTramite() {
-       this.cbxTipoTramite.removeAllItems();
+        this.cbxTipoTramite.removeAllItems();
         this.cbxTipoTramite.addItem("INDIQUE El TIPO");
         this.cbxTipoTramite.addItem("LICENCIA");
         this.cbxTipoTramite.addItem("PLACAS");
     }
 
-    public List<Persona> getListaPersonas() {
-        return listaPersonas;
+    private void generarReporte() throws JRException, FileNotFoundException {
+        String opcion = this.cbxTipoConsulta.getModel().getSelectedItem().toString();
+        JasperReportes reportes = new JasperReportes();
+        switch (opcion) {
+            case "NOMBRE":
+                listaPersonas = personasDAO.buscarPersonasPorNombre(this.txtCampoNombre.getText());
+                if (listaPersonas != null) {
+                    List<Tramite> listaTramites = tramitesDAO.listaTramites(this.txtCampoNombre.getText());
+                    jasperPrint = reportes.generarReporte(this.generarListaReporte(listaTramites));
+                } else {
+                    JOptionPane.showMessageDialog(this, "No se encontraron resultados");
+                }
+                break;
+            case "PERIODO":
+                List<Tramite> listaTramites = tramitesDAO.buscarTramitesPorFechas(convertirFecha(this.dpFechaInicio), convertirFecha(this.dpFechaFin));
+                if (!listaTramites.isEmpty()) {
+                    jasperPrint = reportes.generarReporte(this.generarListaReporte(listaTramites));
+                } else {
+                    JOptionPane.showMessageDialog(this, "No se encontraron resultados");
+                }
+                break;
+            case "TIPO TRAMITE":
+                List<Tramite> lista = tramitesDAO.buscarTramites();
+                List<Tramite> listaLicencias = new ArrayList<>();
+                List<Tramite> listaPlacas = new ArrayList<>();
+                for (Tramite tramite : lista) {
+                    if (tramite instanceof Licencia) {
+                        listaLicencias.add(tramite);
+                    } else {
+                        listaPlacas.add(tramite);
+                    }
+                }
+                if (this.cbxTipoTramite.getModel().getSelectedItem() == "LICENCIA") {
+                    if (!listaLicencias.isEmpty()) {
+                        jasperPrint = reportes.generarReporte(this.generarListaReporte(listaLicencias));
+                    } else {
+                        JOptionPane.showMessageDialog(this, "No se encontraron resultados");
+                    }
+                } else if (this.cbxTipoTramite.getModel().getSelectedItem() == "PLACAS") {
+                    if (!listaPlacas.isEmpty()) {
+                        jasperPrint = reportes.generarReporte(this.generarListaReporte(listaPlacas));
+                    } else {
+                        JOptionPane.showMessageDialog(this, "No se encontraron resultados");
+                    }
+                }
+                break;
+        }
     }
 
-    public void setListaPersonas(List<Persona> listaPersonas) {
-        this.listaPersonas = listaPersonas;
+    private List<Reportes> generarListaReporte(List<Tramite> listaTramites) {
+        List<Reportes> listaInfo = new ArrayList<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Reportes reporte;
+        String tipoTramite;
+        for (Tramite listaTramite : listaTramites) {
+            if (listaTramite instanceof Licencia) {
+                tipoTramite = "Licencia";
+            } else {
+                tipoTramite = "Placa";
+            }
+            reporte = new Reportes(listaTramite.getPersona().getNombreCompleto(), tipoTramite, sdf.format(listaTramite.getFechaExpedicion().getTime()), listaTramite.getCosto());
+            listaInfo.add(reporte);
+        }
+        return listaInfo;
     }
 
-    public PersonasDAO getPersonasDAO() {
-        return personasDAO;
+    private void exportarReporte() throws FileNotFoundException, JRException {
+        JasperReportes reportes = new JasperReportes();
+        reportes.exportarReporte(jasperPrint);
     }
 
-    public void setPersonasDAO(PersonasDAO personasDAO) {
-        this.personasDAO = personasDAO;
+    private void abrirCarpeta() {
+        String rutaArchivo = "C:\\Users\\aroco\\OneDrive - potros.itson.edu.mx\\Escritorio\\Proyecto2_BDA\\BDA-Proyecto2-AgenciaTransito\\ProyectoBDA_AgenciaTransito\\Reportes\\";
+        if (Desktop.isDesktopSupported()) {
+            Desktop desktop = Desktop.getDesktop();
+            File archivo = new File(rutaArchivo);
+            if (archivo.exists()) {
+                try {
+                    desktop.open(archivo);
+                } catch (IOException e) {
+                    System.out.println("No se pudo abrir el archivo: " + e.getMessage());
+                }
+            } else {
+                System.out.println("El archivo no existe.");
+            }
+        } else {
+            System.out.println("La apertura de archivos no es compatible con el escritorio actual.");
+        }
     }
 
-    public PlacasDAO getPlacasDAO() {
-        return placasDAO;
+    private Date convertirFecha(DatePicker date) {
+        LocalDate localDate = date.getDate();
+        if (localDate != null) {
+            Date dateNew = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+            return dateNew;
+        } else {
+            System.out.println("Ninguna fecha seleccionada.");
+        }
+        return null;
     }
-
-    public void setPlacasDAO(PlacasDAO placasDAO) {
-        this.placasDAO = placasDAO;
-    }
-
-    public LicenciasDAO getLicenciasDAO() {
-        return licenciasDAO;
-    }
-
-    public void setLicenciasDAO(LicenciasDAO licenciasDAO) {
-        this.licenciasDAO = licenciasDAO;
-    }
-
-    public JButton getBtnAtras() {
-        return btnAtras;
-    }
-
-    public void setBtnAtras(JButton btnAtras) {
-        this.btnAtras = btnAtras;
-    }
-
-    public JButton getBtnGenerarReporte() {
-        return btnGenerarReporte;
-    }
-
-    public void setBtnGenerarReporte(JButton btnGenerarReporte) {
-        this.btnGenerarReporte = btnGenerarReporte;
-    }
-
-    public JComboBox<String> getCbxTipoConsulta() {
-        return cbxTipoConsulta;
-    }
-
-    public void setCbxTipoConsulta(JComboBox<String> cbxTipoConsulta) {
-        this.cbxTipoConsulta = cbxTipoConsulta;
-    }
-
-    public JComboBox<String> getCbxTipoTramite() {
-        return cbxTipoTramite;
-    }
-
-    public void setCbxTipoTramite(JComboBox<String> cbxTipoTramite) {
-        this.cbxTipoTramite = cbxTipoTramite;
-    }
-
-    public DatePicker getDpFechaFin() {
-        return dpFechaFin;
-    }
-
-    public void setDpFechaFin(DatePicker dpFechaFin) {
-        this.dpFechaFin = dpFechaFin;
-    }
-
-    public DatePicker getDpFechaInicio() {
-        return dpFechaInicio;
-    }
-
-    public void setDpFechaInicio(DatePicker dpFechaInicio) {
-        this.dpFechaInicio = dpFechaInicio;
-    }
-
-    public JPanel getPnlComponentes() {
-        return pnlComponentes;
-    }
-
-    public void setPnlComponentes(JPanel pnlComponentes) {
-        this.pnlComponentes = pnlComponentes;
-    }
-
-    public JPanel getPnlConsultas() {
-        return pnlConsultas;
-    }
-
-    public void setPnlConsultas(JPanel pnlConsultas) {
-        this.pnlConsultas = pnlConsultas;
-    }
-
-    public JPanel getPnlFondo() {
-        return pnlFondo;
-    }
-
-    public void setPnlFondo(JPanel pnlFondo) {
-        this.pnlFondo = pnlFondo;
-    }
-
-    public JPanel getPnlTitulo() {
-        return pnlTitulo;
-    }
-
-    public void setPnlTitulo(JPanel pnlTitulo) {
-        this.pnlTitulo = pnlTitulo;
-    }
-
-    public JTextField getTxtCampoNombre() {
-        return txtCampoNombre;
-    }
-
-    public void setTxtCampoNombre(JTextField txtCampoNombre) {
-        this.txtCampoNombre = txtCampoNombre;
-    }
-
-    public JLabel getTxtFechaFin() {
-        return txtFechaFin;
-    }
-
-    public void setTxtFechaFin(JLabel txtFechaFin) {
-        this.txtFechaFin = txtFechaFin;
-    }
-
-    public JLabel getTxtFechaInicio() {
-        return txtFechaInicio;
-    }
-
-    public void setTxtFechaInicio(JLabel txtFechaInicio) {
-        this.txtFechaInicio = txtFechaInicio;
-    }
-
-    public JLabel getTxtNombre() {
-        return txtNombre;
-    }
-
-    public void setTxtNombre(JLabel txtNombre) {
-        this.txtNombre = txtNombre;
-    }
-
-    public JLabel getTxtSolicitarPlacas() {
-        return txtSolicitarPlacas;
-    }
-
-    public void setTxtSolicitarPlacas(JLabel txtSolicitarPlacas) {
-        this.txtSolicitarPlacas = txtSolicitarPlacas;
-    }
-
-    public JLabel getTxtTipoTramite() {
-        return txtTipoTramite;
-    }
-
-    public void setTxtTipoTramite(JLabel txtTipoTramite) {
-        this.txtTipoTramite = txtTipoTramite;
-    }
-
-    public JRootPane getRootPane() {
-        return rootPane;
-    }
-
-    public void setRootPane(JRootPane rootPane) {
-        this.rootPane = rootPane;
-    }
-
-    public boolean isRootPaneCheckingEnabled() {
-        return rootPaneCheckingEnabled;
-    }
-
-    public void setRootPaneCheckingEnabled(boolean rootPaneCheckingEnabled) {
-        this.rootPaneCheckingEnabled = rootPaneCheckingEnabled;
-    }
-
-    public AccessibleContext getAccessibleContext() {
-        return accessibleContext;
-    }
-
-    public void setAccessibleContext(AccessibleContext accessibleContext) {
-        this.accessibleContext = accessibleContext;
-    }
-    
-    
-
 }

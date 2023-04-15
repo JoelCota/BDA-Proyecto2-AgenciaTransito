@@ -6,7 +6,6 @@ package Dominio;
 
 import java.io.Serializable;
 import java.util.Calendar;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
@@ -17,7 +16,6 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -57,6 +55,9 @@ public class Tramite implements Serializable {
     @Column(name = "activo", nullable = false)
     private boolean activa;
 
+    @Column(name = "tipoTramite", insertable = false, updatable = false)
+    private String tipoTramite;
+
     /**
      *
      * Constructor por default
@@ -66,14 +67,15 @@ public class Tramite implements Serializable {
     }
 
     /**
-     * 
+     *
      * Constructor con sus respectivos atributos
+     *
      * @param id llave primaria
      * @param costo
      * @param fechaExpedicion
      * @param fechaVigencia
      * @param persona
-     * @param activo 
+     * @param activo
      */
     public Tramite(Long id, float costo, Calendar fechaExpedicion, Calendar fechaVigencia, Persona persona, boolean activo) {
         this.id = id;
@@ -85,15 +87,16 @@ public class Tramite implements Serializable {
     }
 
     /**
-     * 
+     *
      * Constucto de trasmite sin el id
+     *
      * @param costo
      * @param fechaExpedicion
      * @param fechaVigencia
      * @param persona
-     * @param activo 
+     * @param activo
      */
-    public Tramite(float costo, Calendar fechaExpedicion, Calendar fechaVigencia, Persona persona,boolean activo) {
+    public Tramite(float costo, Calendar fechaExpedicion, Calendar fechaVigencia, Persona persona, boolean activo) {
         this.costo = costo;
         this.fechaExpedicion = fechaExpedicion;
         this.fechaVigencia = fechaVigencia;
@@ -104,7 +107,8 @@ public class Tramite implements Serializable {
 
     /**
      * Metodo para obtener el id
-     * @return 
+     *
+     * @return
      */
     public Long getId() {
         return id;
@@ -112,61 +116,68 @@ public class Tramite implements Serializable {
 
     /**
      * Setear id
-     * @param id 
+     *
+     * @param id
      */
     public void setId(Long id) {
         this.id = id;
     }
 
     /**
-     * 
+     *
      * obtener costos
-     * @return 
+     *
+     * @return
      */
     public float getCosto() {
         return costo;
     }
 
     /**
-     * 
+     *
      * setear costos
-     * @param costo 
+     *
+     * @param costo
      */
     public void setCosto(float costo) {
         this.costo = costo;
     }
 
     /**
-     * 
+     *
      * obtener fecha de expedicion
-     * @return 
+     *
+     * @return
      */
     public Calendar getFechaExpedicion() {
         return fechaExpedicion;
     }
 
     /**
-     * 
+     *
      * setear fecha de expedicion
-     * @param fechaExpedicion 
+     *
+     * @param fechaExpedicion
      */
     public void setFechaExpedicion(Calendar fechaExpedicion) {
         this.fechaExpedicion = fechaExpedicion;
     }
 
     /**
-     * 
+     *
      * obtener fecha de vigencia
-     * @return 
+     *
+     * @return
      */
     public Calendar getFechaVigencia() {
         return fechaVigencia;
     }
 
     /**
-     * 
+     *
      * setear fecha de vigencia
-     * @param fechaVigencia 
+     *
+     * @param fechaVigencia
      */
     public void setFechaVigencia(Calendar fechaVigencia) {
         this.fechaVigencia = fechaVigencia;
@@ -174,7 +185,8 @@ public class Tramite implements Serializable {
 
     /**
      * obtener persona
-     * @return 
+     *
+     * @return
      */
     public Persona getPersona() {
         return persona;
@@ -182,16 +194,18 @@ public class Tramite implements Serializable {
 
     /**
      * setear persona
-     * @param persona 
+     *
+     * @param persona
      */
     public void setPersona(Persona persona) {
         this.persona = persona;
     }
 
     /**
-     * 
+     *
      * obtener si es activa
-     * @return 
+     *
+     * @return
      */
     public boolean isActiva() {
         return activa;
@@ -200,15 +214,25 @@ public class Tramite implements Serializable {
     /**
      * s
      * setear si es activa
-     * @param activa 
+     *
+     * @param activa
      */
     public void setActiva(boolean activa) {
         this.activa = activa;
     }
 
+    public String getTipoTramite() {
+        return tipoTramite;
+    }
+
+    public void setTipoTramite(String tipoTramite) {
+        this.tipoTramite = tipoTramite;
+    }
+
     /**
      * hashcode
-     * @return 
+     *
+     * @return
      */
     @Override
     public int hashCode() {
@@ -219,8 +243,9 @@ public class Tramite implements Serializable {
 
     /**
      * metodo equals
+     *
      * @param object
-     * @return 
+     * @return
      */
     @Override
     public boolean equals(Object object) {
@@ -234,11 +259,10 @@ public class Tramite implements Serializable {
         }
         return true;
     }
-
+ 
     @Override
     public String toString() {
-        return "Tramite{" + "id=" + id + ", costo=" + costo + ", fechaExpedicion=" + fechaExpedicion + ", fechaVigencia=" + fechaVigencia + ", persona=" + persona + ", activa=" + activa + '}';
+        return "Tramite{" + "id=" + id + ", costo=" + costo + ", fechaExpedicion=" + fechaExpedicion + ", fechaVigencia=" + fechaVigencia + ", persona=" + persona + ", activa=" + activa + ", tipoTramite=" + tipoTramite + '}';
     }
-
-    
+ 
 }

@@ -7,7 +7,7 @@ package Interfaces;
 import Dominio.Persona;
 import excepciones.PersistenciaException;
 import java.util.List;
-
+ 
 /**
  * Interfaz para la clase de Persona, aqui se agregaron todos los metodos incluidos
  * en la clase Persona DAO

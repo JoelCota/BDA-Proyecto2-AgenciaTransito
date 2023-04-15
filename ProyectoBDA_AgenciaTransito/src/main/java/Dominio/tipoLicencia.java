@@ -16,7 +16,7 @@ public enum tipoLicencia {
     public String toString() {
         return "tipoLicencia{" + '}';
     }
-
+ 
     /**
      * Metodo para obtener el tipo
      * @return 

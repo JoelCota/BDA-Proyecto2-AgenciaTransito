@@ -9,7 +9,7 @@ import Dominio.Persona;
 import Dominio.Placa;
 import excepciones.PersistenciaException;
 
-/**
+/** 
  * Descripción de la interface: Interfaz con los metodos necesarios para 
  * PlacasDAO
  *

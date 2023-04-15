@@ -1,8 +1,7 @@
 /**
-* PlacasDAO.java
-* Apr 12, 2023 12:25:47 AM
-*/ 
-
+ * PlacasDAO.java
+ * Apr 12, 2023 12:25:47 AM
+ */
 package Persistencia;
 //importanciones
 
@@ -23,18 +22,21 @@ import javax.persistence.criteria.Root;
  *
  * Clase DAO para hacer todos las consultas relacionada con la tabla de "Placas"
  * en la base de datos.
- * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox ID:229384
+ *
+ * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox
+ * ID:229384
  */
 public class PlacasDAO implements IPlacasDAO {
-    
+
     //Conexion a la base de datos
     ConexionBD conexion = new ConexionBD();
-    
+
     /**
-     * 
+     *
      * Metodo para crear una nueva placa de un automovil.
+     *
      * @param placa objeto placa
-     * @throws PersistenciaException  Excepciones (evita erroes).
+     * @throws PersistenciaException Excepciones (evita erroes).
      */
     @Override
     public void generarPlaca(Placa placa) throws PersistenciaException {
@@ -53,82 +55,90 @@ public class PlacasDAO implements IPlacasDAO {
     }
 
     /**
-     * 
+     *
      * Metodo para actualizar la placa del automovil.
+     *
      * @param placa objeto de placa
      * @throws PersistenciaException Excepciones (evita erroes)..
      */
     @Override
     public void actualizar(Placa placa) throws PersistenciaException {
         EntityManager bd = conexion.obtenerConexion();
-        
+
         try {
             bd.getTransaction().begin();
             CriteriaBuilder builder = bd.getCriteriaBuilder();
             //Consultar Licencia
             CriteriaQuery consulta = builder.createQuery(Licencia.class);
             Root<Placa> root = consulta.from(Placa.class);
-            consulta.select(root).where(builder.equal(root.get("id"),placa.getId()));
+            consulta.select(root).where(builder.equal(root.get("id"), placa.getId()));
             TypedQuery<Placa> resultado = bd.createQuery(consulta);
             Placa placaNew = resultado.getSingleResult();
             //Actualiza
             placaNew.setActiva(false);
             bd.merge(placaNew);//Se confirma el cambio a la base de datos.
             bd.persist(placa);
-            
-            
+
             //mando lo datos a la base de datos
             bd.getTransaction().commit();
-        }catch(Exception e){
-           System.out.println("La placa no se pudo actualizar "+e.getMessage());
-        }finally{ 
+        } catch (Exception e) {
+            System.out.println("La placa no se pudo actualizar " + e.getMessage());
+        } finally {
             bd.close();
         }
 
     }
 
     /**
-     * 
+     *
      *
      * @param serie
-     * @return 
+     * @return
      */
     public Placa buscarPersonaSerie(String serie) {
-        EntityManager bd = conexion.obtenerConexion();
+        EntityManager em = conexion.obtenerConexion();
 
         try {
-            bd.getTransaction().begin();
-            CriteriaBuilder builder = bd.getCriteriaBuilder();
+            em.getTransaction().begin();
+            CriteriaBuilder builder = em.getCriteriaBuilder();
             CriteriaQuery<Placa> consulta = builder.createQuery(Placa.class);//solo se conecta en el java
             Root<Placa> root = consulta.from(Placa.class);
             consulta.select(root);
-             Predicate predicateLicencia = builder.equal(root.get("numeroPlaca"), serie);
-            Predicate activo=builder.equal(root.get("activa"),true);
-            consulta.where(predicateLicencia,activo);
-            TypedQuery<Placa> resultado = bd.createQuery(consulta); // se conecta a la base de datos
+            Predicate predicateLicencia = builder.equal(root.get("numeroPlaca"), serie);
+            Predicate activo = builder.equal(root.get("activa"), true);
+            consulta.where(predicateLicencia, activo);
+            TypedQuery<Placa> resultado = em.createQuery(consulta); // se conecta a la base de datos
             Placa placa = resultado.getSingleResult(); // devuelve la persona con el rfc que mande.
-            bd.getTransaction().commit();
+            em.getTransaction().commit();
             return placa;
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-          return null;
+        return null;
     }
-    
+
     public List<Placa> listaPlacas(Persona personaProspecto) {
-        EntityManager bd = conexion.obtenerConexion();
+        EntityManager em = conexion.obtenerConexion();
         try {
-            CriteriaBuilder cb = bd.getCriteriaBuilder();
+            CriteriaBuilder cb = em.getCriteriaBuilder();
             CriteriaQuery<Placa> cq = cb.createQuery(Placa.class);
             Root<Placa> root = cq.from(Placa.class);
             Predicate predicate = cb.equal(root.get("persona"), personaProspecto);
             cq.where(predicate); // Aplicar la restricción a la consulta
-            return bd.createQuery(cq).getResultList();
+            return em.createQuery(cq).getResultList();
         } finally {
-            bd.close();
+            em.close();
         }
     }
 
-    
+    public List<Placa> listaPlacas() {
+        EntityManager em = conexion.obtenerConexion();
+        em.getTransaction().begin();
+        List<Placa> placas = em.createQuery("Select p from Placa p", Placa.class).getResultList();
+        em.getTransaction().commit();
+        return placas;
+ 
+    }
+
 }

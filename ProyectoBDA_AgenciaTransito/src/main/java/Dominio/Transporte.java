@@ -33,7 +33,7 @@ import javax.persistence.OneToMany;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Transporte implements Serializable {
 
-    @Id
+    @Id 
     @Column(name = "numSerie", nullable = false, length = 7)
     private String numSerie;
     @Column(name = "modelo", nullable = false, length = 20)

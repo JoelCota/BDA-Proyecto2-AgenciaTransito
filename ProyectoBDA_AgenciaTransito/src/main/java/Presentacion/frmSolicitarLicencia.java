@@ -15,15 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.accessibility.AccessibleContext;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JRootPane;
-import javax.swing.JSeparator;
-import javax.swing.JTextField;
 
 /**
  * Descripción de la clase:
@@ -50,6 +42,7 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
         this.persona = new PersonasDAO();
         this.pnlInfoPersona.setVisible(false);
         this.licenciasDAO = new LicenciasDAO();
+        this.btnSolicitar.setEnabled(false);
     }
 
     /**
@@ -74,7 +67,6 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
         btnSolicitar = new javax.swing.JButton();
         Separator1 = new javax.swing.JSeparator();
         btnBorrarCampos = new javax.swing.JButton();
-        btnCancelar = new javax.swing.JButton();
         txtCosto = new javax.swing.JLabel();
         btnBuscar = new javax.swing.JButton();
         pnlInfoPersona = new javax.swing.JPanel();
@@ -88,6 +80,9 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
+            }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
             }
         });
 
@@ -179,11 +174,9 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
         });
 
         btnBorrarCampos.setText("Borrar datos");
-
-        btnCancelar.setText("Cancelar");
-        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+        btnBorrarCampos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelarActionPerformed(evt);
+                btnBorrarCamposActionPerformed(evt);
             }
         });
 
@@ -256,16 +249,9 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(323, 323, 323)
-                .addComponent(btnBorrarCampos, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(31, 31, 31)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(txtCosto, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtRFC, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtRFC1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -278,20 +264,22 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
                                 .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(cbxVigencia, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(cbxTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
                         .addComponent(pnlInfoPersona, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(55, 55, 55))))
+                        .addGap(55, 55, 55))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtCosto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+                                .addGap(147, 147, 147)
+                                .addComponent(btnSolicitar, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(165, 165, 165)
+                                .addComponent(btnBorrarCampos, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel3Layout.createSequentialGroup()
                     .addContainerGap()
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel3Layout.createSequentialGroup()
-                            .addGap(77, 77, 77)
-                            .addComponent(btnSolicitar, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 361, Short.MAX_VALUE)
-                            .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(76, 76, 76))
-                        .addComponent(Separator1))
+                    .addComponent(Separator1)
                     .addContainerGap()))
         );
         jPanel3Layout.setVerticalGroup(
@@ -315,18 +303,16 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
                             .addComponent(cbxTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addComponent(txtCosto)
-                .addGap(32, 32, 32)
-                .addComponent(btnBorrarCampos, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21))
+                .addGap(36, 36, 36)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnBorrarCampos, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSolicitar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(17, 17, 17))
             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel3Layout.createSequentialGroup()
                     .addGap(281, 281, 281)
                     .addComponent(Separator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnSolicitar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addContainerGap(20, Short.MAX_VALUE)))
+                    .addContainerGap(59, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -373,31 +359,28 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCampoRFCActionPerformed
 
-    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        try {
-            new frmMenu().setVisible(true);
-        } catch (PersistenciaException ex) {
-            Logger.getLogger(frmSolicitarLicencia.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        this.dispose();
-    }//GEN-LAST:event_btnCancelarActionPerformed
-
     private void cbxTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxTipoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbxTipoActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        if (this.txtCampoRFC.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingrese un RFC valido");
+        } else {
+            try {
+                personaProspecto = persona.buscarPersonaRFC(this.txtCampoRFC.getText());
+                if (personaProspecto != null) {
+                    this.pnlInfoPersona.setVisible(true);
+                    setearInfo(personaProspecto);
+                    this.txtCosto.setText("Costo: " + generarCosto());
+                    this.btnSolicitar.setEnabled(true);
+                }
 
-        try {
-            personaProspecto = persona.buscarPersonaRFC(this.txtCampoRFC.getText());
-            this.pnlInfoPersona.setVisible(true);
-            setearInfo(personaProspecto);
-            this.txtCosto.setText("Costo: " + generarCosto());
+            } catch (PersistenciaException ex) {
+                JOptionPane.showMessageDialog(this, "El RFC no pertenece a ninguna persona");
 
-        } catch (PersistenciaException ex) {
-            Logger.getLogger(frmSolicitarLicencia.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void txtCampoRFCKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCampoRFCKeyTyped
@@ -405,15 +388,9 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCampoRFCKeyTyped
 
     private void btnSolicitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolicitarActionPerformed
-        Licencia licenciaGenerada = this.generarLicencia();
-        try {
-            licenciasDAO.agregarLicencia(licenciaGenerada);
-            if (licenciaGenerada != null) {
-                JOptionPane.showMessageDialog(this, "Se genero la licencia \nCosto:" + licenciaGenerada.getCosto());
-            }
-        } catch (PersistenciaException ex) {
-            Logger.getLogger(frmSolicitarPlacasAutoNuevo.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    generarLicencia();              
+            
+        
     }//GEN-LAST:event_btnSolicitarActionPerformed
 
     private void cbxTipoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxTipoItemStateChanged
@@ -439,17 +416,21 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
     }//GEN-LAST:event_cbxVigenciaItemStateChanged
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        try {
-            new frmMenu().setVisible(true);
-        } catch (PersistenciaException ex) {
-            Logger.getLogger(frmSolicitarLicencia.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+        new frmMenu().setVisible(true);
     }//GEN-LAST:event_formWindowClosed
 
-    /**
+
+    private void btnBorrarCamposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarCamposActionPerformed
+     limpiarCampos();
+    }//GEN-LAST:event_btnBorrarCamposActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        new frmMenu().setVisible(true);
+    }//GEN-LAST:event_formWindowClosing
+
+     /**
      * 
-     * Metodo para cargar los combox de los anios.
+     * Metodo para cargar los combox de los años.
      */
     private void cargarComboBoxVigencia() {
         this.cbxVigencia.removeAllItems();
@@ -497,7 +478,6 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
     private javax.swing.JSeparator Separator1;
     private javax.swing.JButton btnBorrarCampos;
     private javax.swing.JButton btnBuscar;
-    private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnSolicitar;
     private javax.swing.JComboBox<String> cbxTipo;
     private javax.swing.JComboBox<String> cbxVigencia;
@@ -573,257 +553,22 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
         try {
             if (licenciasDAO.buscarLicenciaRFC(personaProspecto) == null) {
                 licenciasDAO.agregarLicencia(licencia);
+                JOptionPane.showMessageDialog(this, "Se genero la licencia \nCosto:" + licencia.getCosto());
+                limpiarCampos();
             } else {
-                System.out.println(licencia);
                 licenciasDAO.actualizarLicencia(licencia);
+                 JOptionPane.showMessageDialog(this, "Se genero la licencia \nCosto:" + licencia.getCosto());
+                limpiarCampos();
             }
         } catch (PersistenciaException ex) {
             Logger.getLogger(frmSolicitarLicencia.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
-
-    public PersonasDAO getPersona() {
-        return persona;
+    private void limpiarCampos() {
+        this.txtCampoRFC.setText("");
+        this.btnSolicitar.setEnabled(false);
+        this.pnlInfoPersona.setVisible(false);
     }
-
-    public void setPersona(PersonasDAO persona) {
-        this.persona = persona;
-    }
-
-    public Persona getPersonaProspecto() {
-        return personaProspecto;
-    }
-
-    public void setPersonaProspecto(Persona personaProspecto) {
-        this.personaProspecto = personaProspecto;
-    }
-
-    public LicenciasDAO getLicenciasDAO() {
-        return licenciasDAO;
-    }
-
-    public void setLicenciasDAO(LicenciasDAO licenciasDAO) {
-        this.licenciasDAO = licenciasDAO;
-    }
-
-    public int getVigencia() {
-        return vigencia;
-    }
-
-    public void setVigencia(int vigencia) {
-        this.vigencia = vigencia;
-    }
-
-    public tipoLicencia getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(tipoLicencia tipo) {
-        this.tipo = tipo;
-    }
-
-    public JSeparator getSeparator1() {
-        return Separator1;
-    }
-
-    public void setSeparator1(JSeparator Separator1) {
-        this.Separator1 = Separator1;
-    }
-
-    public JButton getBtnBorrarCampos() {
-        return btnBorrarCampos;
-    }
-
-    public void setBtnBorrarCampos(JButton btnBorrarCampos) {
-        this.btnBorrarCampos = btnBorrarCampos;
-    }
-
-    public JButton getBtnBuscar() {
-        return btnBuscar;
-    }
-
-    public void setBtnBuscar(JButton btnBuscar) {
-        this.btnBuscar = btnBuscar;
-    }
-
-    public JButton getBtnCancelar() {
-        return btnCancelar;
-    }
-
-    public void setBtnCancelar(JButton btnCancelar) {
-        this.btnCancelar = btnCancelar;
-    }
-
-    public JButton getBtnSolicitar() {
-        return btnSolicitar;
-    }
-
-    public void setBtnSolicitar(JButton btnSolicitar) {
-        this.btnSolicitar = btnSolicitar;
-    }
-
-    public JComboBox<String> getCbxTipo() {
-        return cbxTipo;
-    }
-
-    public void setCbxTipo(JComboBox<String> cbxTipo) {
-        this.cbxTipo = cbxTipo;
-    }
-
-    public JComboBox<String> getCbxVigencia() {
-        return cbxVigencia;
-    }
-
-    public void setCbxVigencia(JComboBox<String> cbxVigencia) {
-        this.cbxVigencia = cbxVigencia;
-    }
-
-    public JPanel getjPanel1() {
-        return jPanel1;
-    }
-
-    public void setjPanel1(JPanel jPanel1) {
-        this.jPanel1 = jPanel1;
-    }
-
-    public JPanel getjPanel2() {
-        return jPanel2;
-    }
-
-    public void setjPanel2(JPanel jPanel2) {
-        this.jPanel2 = jPanel2;
-    }
-
-    public JPanel getjPanel3() {
-        return jPanel3;
-    }
-
-    public void setjPanel3(JPanel jPanel3) {
-        this.jPanel3 = jPanel3;
-    }
-
-    public JPanel getPnlInfoPersona() {
-        return pnlInfoPersona;
-    }
-
-    public void setPnlInfoPersona(JPanel pnlInfoPersona) {
-        this.pnlInfoPersona = pnlInfoPersona;
-    }
-
-    public JTextField getTxtCampoRFC() {
-        return txtCampoRFC;
-    }
-
-    public void setTxtCampoRFC(JTextField txtCampoRFC) {
-        this.txtCampoRFC = txtCampoRFC;
-    }
-
-    public JLabel getTxtCosto() {
-        return txtCosto;
-    }
-
-    public void setTxtCosto(JLabel txtCosto) {
-        this.txtCosto = txtCosto;
-    }
-
-    public JLabel getTxtFechaCliente() {
-        return txtFechaCliente;
-    }
-
-    public void setTxtFechaCliente(JLabel txtFechaCliente) {
-        this.txtFechaCliente = txtFechaCliente;
-    }
-
-    public JLabel getTxtNombreCliente() {
-        return txtNombreCliente;
-    }
-
-    public void setTxtNombreCliente(JLabel txtNombreCliente) {
-        this.txtNombreCliente = txtNombreCliente;
-    }
-
-    public JLabel getTxtNumeroCliente() {
-        return txtNumeroCliente;
-    }
-
-    public void setTxtNumeroCliente(JLabel txtNumeroCliente) {
-        this.txtNumeroCliente = txtNumeroCliente;
-    }
-
-    public JLabel getTxtRFC() {
-        return txtRFC;
-    }
-
-    public void setTxtRFC(JLabel txtRFC) {
-        this.txtRFC = txtRFC;
-    }
-
-    public JLabel getTxtRFC1() {
-        return txtRFC1;
-    }
-
-    public void setTxtRFC1(JLabel txtRFC1) {
-        this.txtRFC1 = txtRFC1;
-    }
-
-    public JLabel getTxtRFC2() {
-        return txtRFC2;
-    }
-
-    public void setTxtRFC2(JLabel txtRFC2) {
-        this.txtRFC2 = txtRFC2;
-    }
-
-    public JLabel getTxtRFCCliente() {
-        return txtRFCCliente;
-    }
-
-    public void setTxtRFCCliente(JLabel txtRFCCliente) {
-        this.txtRFCCliente = txtRFCCliente;
-    }
-
-    public JLabel getTxtSolicitarPlacas() {
-        return txtSolicitarPlacas;
-    }
-
-    public void setTxtSolicitarPlacas(JLabel txtSolicitarPlacas) {
-        this.txtSolicitarPlacas = txtSolicitarPlacas;
-    }
-
-    public JLabel getTxtSolicitarPlacas1() {
-        return txtSolicitarPlacas1;
-    }
-
-    public void setTxtSolicitarPlacas1(JLabel txtSolicitarPlacas1) {
-        this.txtSolicitarPlacas1 = txtSolicitarPlacas1;
-    }
-
-    public JRootPane getRootPane() {
-        return rootPane;
-    }
-
-    public void setRootPane(JRootPane rootPane) {
-        this.rootPane = rootPane;
-    }
-
-    public boolean isRootPaneCheckingEnabled() {
-        return rootPaneCheckingEnabled;
-    }
-
-    public void setRootPaneCheckingEnabled(boolean rootPaneCheckingEnabled) {
-        this.rootPaneCheckingEnabled = rootPaneCheckingEnabled;
-    }
-
-    public AccessibleContext getAccessibleContext() {
-        return accessibleContext;
-    }
-
-    public void setAccessibleContext(AccessibleContext accessibleContext) {
-        this.accessibleContext = accessibleContext;
-    }
-
-    
-    
 
 }
