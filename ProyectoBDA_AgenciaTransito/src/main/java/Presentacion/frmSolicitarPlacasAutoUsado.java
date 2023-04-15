@@ -19,16 +19,24 @@ import java.util.Calendar;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.accessibility.AccessibleContext;
+import javax.swing.JButton;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRootPane;
+import javax.swing.JSeparator;
+import javax.swing.JTextField;
 
 /**
- * Descripción de la clase:
  *
+ * Clase de tipo frame para solicitar las placas de un automovil usado
  * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox
  * ID:229384
  */
 public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
-
+//objetos - atributos
     private PersonasDAO personasDAO;
     private PlacasDAO placasDAO;
     private AutomovilesDAO automovilesDAO;
@@ -522,6 +530,12 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowClosed
 
+    
+    /**
+     * 
+     * Metodo que ayuda a setear la informacion de la persona.
+     * @param persona objeto persona.
+     */
     private void setearInfoPersona(Persona persona) {
         this.pnlInfoPersona.setVisible(true);
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -531,6 +545,11 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
         this.txtNumeroCliente.setText("Numero Telefono: " + persona.getTelefono());
     }
 
+    /**
+     * 
+     * Metodo para setear la informacion de la placa.
+     * @param placa objeto tipo placa.
+     */
     private void setearInfoPlaca(Placa placa) {
         this.pnlInfoPlacas.setVisible(true);
         this.txtPropietario.setText("Propietario: " + placa.getPersona().getNombreCompleto());
@@ -541,6 +560,11 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
 
     }
 
+    /**
+     * 
+     * Metodo para generar el numero de serie.
+     * @return el String del numero de serie.
+     */
     public String generarNumeroSerie() {
         StringBuilder numeroSerie = new StringBuilder();
         Random random = new Random();
@@ -556,6 +580,327 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
         }
         return numeroSerie.toString();
     }
+
+    public PersonasDAO getPersonasDAO() {
+        return personasDAO;
+    }
+
+    public void setPersonasDAO(PersonasDAO personasDAO) {
+        this.personasDAO = personasDAO;
+    }
+
+    public PlacasDAO getPlacasDAO() {
+        return placasDAO;
+    }
+
+    public void setPlacasDAO(PlacasDAO placasDAO) {
+        this.placasDAO = placasDAO;
+    }
+
+    public AutomovilesDAO getAutomovilesDAO() {
+        return automovilesDAO;
+    }
+
+    public void setAutomovilesDAO(AutomovilesDAO automovilesDAO) {
+        this.automovilesDAO = automovilesDAO;
+    }
+
+    public Persona getPersonaProspecto() {
+        return personaProspecto;
+    }
+
+    public void setPersonaProspecto(Persona personaProspecto) {
+        this.personaProspecto = personaProspecto;
+    }
+
+    public Placa getPlacaSolicitud() {
+        return placaSolicitud;
+    }
+
+    public void setPlacaSolicitud(Placa placaSolicitud) {
+        this.placaSolicitud = placaSolicitud;
+    }
+
+    public LicenciasDAO getLicenciasDAO() {
+        return licenciasDAO;
+    }
+
+    public void setLicenciasDAO(LicenciasDAO licenciasDAO) {
+        this.licenciasDAO = licenciasDAO;
+    }
+
+    public float getCosto() {
+        return costo;
+    }
+
+    public void setCosto(float costo) {
+        this.costo = costo;
+    }
+
+    public JSeparator getSeparator1() {
+        return Separator1;
+    }
+
+    public void setSeparator1(JSeparator Separator1) {
+        this.Separator1 = Separator1;
+    }
+
+    public JButton getBtnBorrarCampos() {
+        return btnBorrarCampos;
+    }
+
+    public void setBtnBorrarCampos(JButton btnBorrarCampos) {
+        this.btnBorrarCampos = btnBorrarCampos;
+    }
+
+    public JButton getBtnCancelar() {
+        return btnCancelar;
+    }
+
+    public void setBtnCancelar(JButton btnCancelar) {
+        this.btnCancelar = btnCancelar;
+    }
+
+    public JButton getBtnSolicitar() {
+        return btnSolicitar;
+    }
+
+    public void setBtnSolicitar(JButton btnSolicitar) {
+        this.btnSolicitar = btnSolicitar;
+    }
+
+    public JButton getjButton1() {
+        return jButton1;
+    }
+
+    public void setjButton1(JButton jButton1) {
+        this.jButton1 = jButton1;
+    }
+
+    public JButton getjButton2() {
+        return jButton2;
+    }
+
+    public void setjButton2(JButton jButton2) {
+        this.jButton2 = jButton2;
+    }
+
+    public JCheckBoxMenuItem getjCheckBoxMenuItem1() {
+        return jCheckBoxMenuItem1;
+    }
+
+    public void setjCheckBoxMenuItem1(JCheckBoxMenuItem jCheckBoxMenuItem1) {
+        this.jCheckBoxMenuItem1 = jCheckBoxMenuItem1;
+    }
+
+    public JPanel getjPanel1() {
+        return jPanel1;
+    }
+
+    public void setjPanel1(JPanel jPanel1) {
+        this.jPanel1 = jPanel1;
+    }
+
+    public JPanel getPnlInfoPersona() {
+        return pnlInfoPersona;
+    }
+
+    public void setPnlInfoPersona(JPanel pnlInfoPersona) {
+        this.pnlInfoPersona = pnlInfoPersona;
+    }
+
+    public JPanel getPnlInfoPlacas() {
+        return pnlInfoPlacas;
+    }
+
+    public void setPnlInfoPlacas(JPanel pnlInfoPlacas) {
+        this.pnlInfoPlacas = pnlInfoPlacas;
+    }
+
+    public JPanel getPnlInformacion() {
+        return pnlInformacion;
+    }
+
+    public void setPnlInformacion(JPanel pnlInformacion) {
+        this.pnlInformacion = pnlInformacion;
+    }
+
+    public JPanel getPnlPrincipal() {
+        return pnlPrincipal;
+    }
+
+    public void setPnlPrincipal(JPanel pnlPrincipal) {
+        this.pnlPrincipal = pnlPrincipal;
+    }
+
+    public JPanel getPnlTitulo() {
+        return pnlTitulo;
+    }
+
+    public void setPnlTitulo(JPanel pnlTitulo) {
+        this.pnlTitulo = pnlTitulo;
+    }
+
+    public JTextField getTxtCampoPlacas() {
+        return txtCampoPlacas;
+    }
+
+    public void setTxtCampoPlacas(JTextField txtCampoPlacas) {
+        this.txtCampoPlacas = txtCampoPlacas;
+    }
+
+    public JTextField getTxtCampoRFC() {
+        return txtCampoRFC;
+    }
+
+    public void setTxtCampoRFC(JTextField txtCampoRFC) {
+        this.txtCampoRFC = txtCampoRFC;
+    }
+
+    public JLabel getTxtColor() {
+        return txtColor;
+    }
+
+    public void setTxtColor(JLabel txtColor) {
+        this.txtColor = txtColor;
+    }
+
+    public JLabel getTxtCostoPlacas() {
+        return txtCostoPlacas;
+    }
+
+    public void setTxtCostoPlacas(JLabel txtCostoPlacas) {
+        this.txtCostoPlacas = txtCostoPlacas;
+    }
+
+    public JLabel getTxtFechaCliente() {
+        return txtFechaCliente;
+    }
+
+    public void setTxtFechaCliente(JLabel txtFechaCliente) {
+        this.txtFechaCliente = txtFechaCliente;
+    }
+
+    public JLabel getTxtLinea() {
+        return txtLinea;
+    }
+
+    public void setTxtLinea(JLabel txtLinea) {
+        this.txtLinea = txtLinea;
+    }
+
+    public JLabel getTxtMarca() {
+        return txtMarca;
+    }
+
+    public void setTxtMarca(JLabel txtMarca) {
+        this.txtMarca = txtMarca;
+    }
+
+    public JLabel getTxtModelo() {
+        return txtModelo;
+    }
+
+    public void setTxtModelo(JLabel txtModelo) {
+        this.txtModelo = txtModelo;
+    }
+
+    public JLabel getTxtNombreCliente() {
+        return txtNombreCliente;
+    }
+
+    public void setTxtNombreCliente(JLabel txtNombreCliente) {
+        this.txtNombreCliente = txtNombreCliente;
+    }
+
+    public JLabel getTxtNumeroCliente() {
+        return txtNumeroCliente;
+    }
+
+    public void setTxtNumeroCliente(JLabel txtNumeroCliente) {
+        this.txtNumeroCliente = txtNumeroCliente;
+    }
+
+    public JLabel getTxtPlacas() {
+        return txtPlacas;
+    }
+
+    public void setTxtPlacas(JLabel txtPlacas) {
+        this.txtPlacas = txtPlacas;
+    }
+
+    public JLabel getTxtPropietario() {
+        return txtPropietario;
+    }
+
+    public void setTxtPropietario(JLabel txtPropietario) {
+        this.txtPropietario = txtPropietario;
+    }
+
+    public JLabel getTxtRFC() {
+        return txtRFC;
+    }
+
+    public void setTxtRFC(JLabel txtRFC) {
+        this.txtRFC = txtRFC;
+    }
+
+    public JLabel getTxtRFCCliente() {
+        return txtRFCCliente;
+    }
+
+    public void setTxtRFCCliente(JLabel txtRFCCliente) {
+        this.txtRFCCliente = txtRFCCliente;
+    }
+
+    public JLabel getTxtSolicitarPlacas() {
+        return txtSolicitarPlacas;
+    }
+
+    public void setTxtSolicitarPlacas(JLabel txtSolicitarPlacas) {
+        this.txtSolicitarPlacas = txtSolicitarPlacas;
+    }
+
+    public JLabel getTxtSolicitarPlacas1() {
+        return txtSolicitarPlacas1;
+    }
+
+    public void setTxtSolicitarPlacas1(JLabel txtSolicitarPlacas1) {
+        this.txtSolicitarPlacas1 = txtSolicitarPlacas1;
+    }
+
+    public JLabel getTxtSolicitarPlacas2() {
+        return txtSolicitarPlacas2;
+    }
+
+    public void setTxtSolicitarPlacas2(JLabel txtSolicitarPlacas2) {
+        this.txtSolicitarPlacas2 = txtSolicitarPlacas2;
+    }
+
+    public JRootPane getRootPane() {
+        return rootPane;
+    }
+
+    public void setRootPane(JRootPane rootPane) {
+        this.rootPane = rootPane;
+    }
+
+    public boolean isRootPaneCheckingEnabled() {
+        return rootPaneCheckingEnabled;
+    }
+
+    public void setRootPaneCheckingEnabled(boolean rootPaneCheckingEnabled) {
+        this.rootPaneCheckingEnabled = rootPaneCheckingEnabled;
+    }
+
+    public AccessibleContext getAccessibleContext() {
+        return accessibleContext;
+    }
+
+    public void setAccessibleContext(AccessibleContext accessibleContext) {
+        this.accessibleContext = accessibleContext;
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSeparator Separator1;
     private javax.swing.JButton btnBorrarCampos;

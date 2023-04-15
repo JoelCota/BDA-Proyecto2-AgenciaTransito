@@ -59,11 +59,22 @@ public class Tramite implements Serializable {
 
     /**
      *
+     * Constructor por default
      */
     public Tramite() {
 
     }
 
+    /**
+     * 
+     * Constructor con sus respectivos atributos
+     * @param id llave primaria
+     * @param costo
+     * @param fechaExpedicion
+     * @param fechaVigencia
+     * @param persona
+     * @param activo 
+     */
     public Tramite(Long id, float costo, Calendar fechaExpedicion, Calendar fechaVigencia, Persona persona, boolean activo) {
         this.id = id;
         this.costo = costo;
@@ -73,6 +84,15 @@ public class Tramite implements Serializable {
         this.activa = activo;
     }
 
+    /**
+     * 
+     * Constucto de trasmite sin el id
+     * @param costo
+     * @param fechaExpedicion
+     * @param fechaVigencia
+     * @param persona
+     * @param activo 
+     */
     public Tramite(float costo, Calendar fechaExpedicion, Calendar fechaVigencia, Persona persona,boolean activo) {
         this.costo = costo;
         this.fechaExpedicion = fechaExpedicion;
@@ -82,54 +102,114 @@ public class Tramite implements Serializable {
 
     }
 
+    /**
+     * Metodo para obtener el id
+     * @return 
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * Setear id
+     * @param id 
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     * 
+     * obtener costos
+     * @return 
+     */
     public float getCosto() {
         return costo;
     }
 
+    /**
+     * 
+     * setear costos
+     * @param costo 
+     */
     public void setCosto(float costo) {
         this.costo = costo;
     }
 
+    /**
+     * 
+     * obtener fecha de expedicion
+     * @return 
+     */
     public Calendar getFechaExpedicion() {
         return fechaExpedicion;
     }
 
+    /**
+     * 
+     * setear fecha de expedicion
+     * @param fechaExpedicion 
+     */
     public void setFechaExpedicion(Calendar fechaExpedicion) {
         this.fechaExpedicion = fechaExpedicion;
     }
 
+    /**
+     * 
+     * obtener fecha de vigencia
+     * @return 
+     */
     public Calendar getFechaVigencia() {
         return fechaVigencia;
     }
 
+    /**
+     * 
+     * setear fecha de vigencia
+     * @param fechaVigencia 
+     */
     public void setFechaVigencia(Calendar fechaVigencia) {
         this.fechaVigencia = fechaVigencia;
     }
 
+    /**
+     * obtener persona
+     * @return 
+     */
     public Persona getPersona() {
         return persona;
     }
 
+    /**
+     * setear persona
+     * @param persona 
+     */
     public void setPersona(Persona persona) {
         this.persona = persona;
     }
 
+    /**
+     * 
+     * obtener si es activa
+     * @return 
+     */
     public boolean isActiva() {
         return activa;
     }
 
+    /**
+     * s
+     * setear si es activa
+     * @param activa 
+     */
     public void setActiva(boolean activa) {
         this.activa = activa;
     }
 
+    /**
+     * hashcode
+     * @return 
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -137,6 +217,11 @@ public class Tramite implements Serializable {
         return hash;
     }
 
+    /**
+     * metodo equals
+     * @param object
+     * @return 
+     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set

@@ -30,6 +30,8 @@ public class Automovil extends Transporte implements Serializable {
     public Automovil() {
     }
 
+    
+    
     /**
      * 
      * Constructor de herencia de la clase automovil con atributos heredados de la clase de transporte con la lista placas
@@ -56,6 +58,11 @@ public class Automovil extends Transporte implements Serializable {
     
     public Automovil(String numSerie, String modelo, String linea, String marca, String color) {
         super(numSerie, modelo, linea, marca, color);
+    }
+
+    @Override
+    public String toString() {
+        return "Automovil{" + '}';
     }
 
    

@@ -47,9 +47,21 @@ public class Transporte implements Serializable {
     @OneToMany(mappedBy = "transporte")
     private List<Placa> listaPlacas;
 
+    /**
+     * Consutrcotr por default
+     */
     public Transporte() {
     }
 
+    /**
+     * Consutructor de lka clase con todos sus atributos incluido la lista de placas.
+     * @param numSerie Numero de serie
+     * @param modelo Modelo del vehiculo
+     * @param linea Linea del vehiculo
+     * @param marca Marca del vehiculo
+     * @param color Color del vehiculo
+     * @param listaPlacas Placas del vehiculo
+     */
     public Transporte(String numSerie, String modelo, String linea, String marca, String color, List<Placa> listaPlacas) {
         this.numSerie = numSerie;
         this.modelo = modelo;
@@ -59,6 +71,15 @@ public class Transporte implements Serializable {
         this.listaPlacas = listaPlacas;
     }
 
+    /**
+     * 
+     * Consutructor de lka clase con todos sus atributos con excepcion de la lista de placas.
+     * @param numSerie Numero de serie
+     * @param modelo Modelo del vehiculo
+     * @param linea Linea del vehiculo
+     * @param marca Marca del vehiculo
+     * @param color Color del vehiculo
+     */
     public Transporte(String numSerie, String modelo, String linea, String marca, String color) {
         this.numSerie = numSerie;
         this.modelo = modelo;
@@ -67,26 +88,63 @@ public class Transporte implements Serializable {
         this.color = color;
     }
 
+    /**
+     * 
+     * Constructor por puro numero de serie
+     * @param numSerie 
+     */
+    public Transporte(String numSerie) {
+        this.numSerie = numSerie;
+    }
+
+    
+    
+    /**
+     * 
+     * Metodo para obtener el numero de serie.
+     * @return 
+     */
     public String getNumSerie() {
         return numSerie;
     }
 
+    /**
+     * \
+     * Metodo para setear el numero de serie
+     * @param numSerie 
+     */
     public void setNumSerie(String numSerie) {
         this.numSerie = numSerie;
     }
 
+    /**
+     * Metodo para obtener el modelo
+     * @return 
+     */
     public String getModelo() {
         return modelo;
     }
 
+    /**
+     * Metodo para setear el modelo.
+     * @param modelo Modelo
+     */
     public void setModelo(String modelo) {
         this.modelo = modelo;
     }
 
+    /**
+     * Metodo para obtener la linea
+     * @return Linea
+     */
     public String getLinea() {
         return linea;
     }
 
+    /**
+     * Metodo para setear la licencia.
+     * @param linea Linea
+     */
     public void setLinea(String linea) {
         this.linea = linea;
     }
@@ -95,26 +153,50 @@ public class Transporte implements Serializable {
         return marca;
     }
 
+    /**
+     * Metodo para la setear la marca del vehiculo
+     * @param marca marca 
+     */
     public void setMarca(String marca) {
         this.marca = marca;
     }
 
+    /**
+     * Metodo para obtener el color del vehiculo
+     * @return color
+     */
     public String getColor() {
         return color;
     }
 
+    /**
+     * Metodo para setear el color del vehiculo
+     * @param color 
+     */
     public void setColor(String color) {
         this.color = color;
     }
 
+    /**
+     * Metodo para obtener la lista de placas del vehiculo
+     * @return Lista de placas
+     */
     public List<Placa> getListaPlacas() {
         return listaPlacas;
     }
 
+    /**
+     * Metodo para setear la lista de placas del vehiculo
+     * @param listaPlacas lista de placas
+     */
     public void setListaPlacas(List<Placa> listaPlacas) {
         this.listaPlacas = listaPlacas;
     }
 
+    /**
+     * Metodo HashCode
+     * @return 
+     */
     @Override
     public int hashCode() {
         int hash = 7;
@@ -122,6 +204,11 @@ public class Transporte implements Serializable {
         return hash;
     }
 
+    /**
+     * Metodo para el equals
+     * @param obj objeto
+     * @return  si es o no igual
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -137,4 +224,10 @@ public class Transporte implements Serializable {
         return Objects.equals(this.numSerie, other.numSerie);
     }
 
+    @Override
+    public String toString() {
+        return "Transporte{" + "numSerie=" + numSerie + ", modelo=" + modelo + ", linea=" + linea + ", marca=" + marca + ", color=" + color + ", listaPlacas=" + listaPlacas + '}';
+    }
+
+    
 }

@@ -19,6 +19,7 @@ public interface ILicenciasDAO {
      * @param licencia objeto licencia.
      * @throws PersistenciaException Excepciones(evita errores).
      */
+    
     public void agregarLicencia(Licencia licencia) throws PersistenciaException;
     
     /**
@@ -26,6 +27,7 @@ public interface ILicenciasDAO {
      * @param licencia Objeto de licencia.
      * @throws PersistenciaException Excepciones(evita errores).
      */
+    
     public void actualizarLicencia(Licencia licencia) throws PersistenciaException;
      public Persona buscarLicenciaRFC(Persona personaProspecto) throws PersistenciaException;
 }

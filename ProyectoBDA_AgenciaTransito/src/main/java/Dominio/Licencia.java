@@ -76,6 +76,57 @@ public class Licencia extends Tramite implements Serializable { //PONER QUE EXTI
         this.tipo = tipo;
         this.vigencia = vigencia;
     }
+
+    /**
+     * 
+     * Constructor con el tipo de la licencia y la vigencia
+     * @param tipo tipo
+     * @param vigencia  vigencia
+     */
+    public Licencia(tipoLicencia tipo, int vigencia) {
+        this.tipo = tipo;
+        this.vigencia = vigencia;
+    }
+
+    
+    /**
+     * 
+     * Consturctor con los atributos de la clase y los supers
+     * @param tipo
+     * @param vigencia
+     * @param id
+     * @param costo
+     * @param fechaExpedicion
+     * @param fechaVigencia
+     * @param persona
+     * @param activo 
+     */
+    public Licencia(tipoLicencia tipo, int vigencia, Long id, float costo, Calendar fechaExpedicion, Calendar fechaVigencia, Persona persona, boolean activo) {
+        super(id, costo, fechaExpedicion, fechaVigencia, persona, activo);
+        this.tipo = tipo;
+        this.vigencia = vigencia;
+    }
+
+    /**
+     * 
+     * Constructorcon sus atributos y los supers algunos
+     * @param tipo
+     * @param vigencia
+     * @param costo
+     * @param fechaExpedicion
+     * @param fechaVigencia
+     * @param persona
+     * @param activo 
+     */
+    public Licencia(tipoLicencia tipo, int vigencia, float costo, Calendar fechaExpedicion, Calendar fechaVigencia, Persona persona, boolean activo) {
+        super(costo, fechaExpedicion, fechaVigencia, persona, activo);
+        this.tipo = tipo;
+        this.vigencia = vigencia;
+    }
+    
+    
+    
+    
     /**
      * Metodo para obtener el tipo de licencia.
      * @return tipo de la licencia.

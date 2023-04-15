@@ -16,10 +16,20 @@ import java.awt.event.KeyEvent;
 import static java.lang.Integer.parseInt;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.accessibility.AccessibleContext;
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRootPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 
 /**
  * Descripción de la clase: Clase que permite poder seleccionar las personas de
@@ -319,10 +329,18 @@ public class frmSeleccionPersonas extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnContinuarActionPerformed
 
+    /**
+     * Lista de resulados
+     * @param evt  eventos
+     */
     private void listaResultadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaResultadosMouseClicked
         elementoSeleccionado = this.listaResultados.getSelectedIndex();
     }//GEN-LAST:event_listaResultadosMouseClicked
 
+    /**
+     * Metodo de casos
+     * @param evt eventos
+     */
     private void txtCampoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCampoKeyTyped
         if (!(txtCampo.getText().length() > largo)) {
             switch (opcion) {
@@ -341,6 +359,11 @@ public class frmSeleccionPersonas extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtCampoKeyTyped
 
+    /**
+     * 
+     * Metodo para cargar la tabla de los resutados
+     * @param personas Lista de personas
+     */
     private void cargarTablaResultados(List<Persona> personas) {
         DefaultListModel<String> listModel = new DefaultListModel<>();
         for (Persona persona : personas) {
@@ -351,6 +374,10 @@ public class frmSeleccionPersonas extends javax.swing.JFrame {
         this.listaResultados.repaint();
     }
 
+    /**
+     * 
+     * Metodo para cargar las opciones de busqueda
+     */
     private void cargarOpcionesBusqueda() {
         this.cbxTipoConsulta.removeAllItems();
         this.cbxTipoConsulta.addItem("INDIQUE OPCION DE REPORTE");
@@ -360,6 +387,10 @@ public class frmSeleccionPersonas extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Metodo para validar el numero
+     * @param evt evento
+     */
     private void validacionNumero(java.awt.event.KeyEvent evt) {
         char txt = evt.getKeyChar();
         if (!(Character.isDigit(txt))) {
@@ -367,6 +398,11 @@ public class frmSeleccionPersonas extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * 
+     * Metodo para validar el campo alfabetico
+     * @param evt evento
+     */
     private void validacionCamposAlfabeto(java.awt.event.KeyEvent evt) {
         char txt = evt.getKeyChar();
         if (!(Character.isAlphabetic(txt) || txt == KeyEvent.VK_SPACE)) {
@@ -374,6 +410,11 @@ public class frmSeleccionPersonas extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * 
+     * Metodo para validar el RFC de la persona
+     * @param evt evento
+     */
     private void validacionRFC(java.awt.event.KeyEvent evt) {
         char txt = evt.getKeyChar();
         if (!(Character.isLetterOrDigit(txt))) {
@@ -381,6 +422,10 @@ public class frmSeleccionPersonas extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * 
+     * Metodo para generar las personas.
+     */
     private void generarPersonas() {
         String opcion = this.cbxTipoConsulta.getModel().getSelectedItem().toString();
         if (this.txtCampo.getText().isEmpty()) {
@@ -427,6 +472,290 @@ public class frmSeleccionPersonas extends javax.swing.JFrame {
             }
         }
     }
+
+    public Integer getElementoSeleccionado() {
+        return elementoSeleccionado;
+    }
+
+    public void setElementoSeleccionado(Integer elementoSeleccionado) {
+        this.elementoSeleccionado = elementoSeleccionado;
+    }
+
+    public List<Persona> getListaPersonas() {
+        return listaPersonas;
+    }
+
+    public void setListaPersonas(List<Persona> listaPersonas) {
+        this.listaPersonas = listaPersonas;
+    }
+
+    public PersonasDAO getPersonasDAO() {
+        return personasDAO;
+    }
+
+    public void setPersonasDAO(PersonasDAO personasDAO) {
+        this.personasDAO = personasDAO;
+    }
+
+    public PlacasDAO getPlacasDAO() {
+        return placasDAO;
+    }
+
+    public void setPlacasDAO(PlacasDAO placasDAO) {
+        this.placasDAO = placasDAO;
+    }
+
+    public LicenciasDAO getLicenciasDAO() {
+        return licenciasDAO;
+    }
+
+    public void setLicenciasDAO(LicenciasDAO licenciasDAO) {
+        this.licenciasDAO = licenciasDAO;
+    }
+
+    public int getLargo() {
+        return largo;
+    }
+
+    public void setLargo(int largo) {
+        this.largo = largo;
+    }
+
+    public int getOpcion() {
+        return opcion;
+    }
+
+    public void setOpcion(int opcion) {
+        this.opcion = opcion;
+    }
+
+    public JButton getBtnAtras() {
+        return btnAtras;
+    }
+
+    public void setBtnAtras(JButton btnAtras) {
+        this.btnAtras = btnAtras;
+    }
+
+    public JButton getBtnBuscar() {
+        return btnBuscar;
+    }
+
+    public void setBtnBuscar(JButton btnBuscar) {
+        this.btnBuscar = btnBuscar;
+    }
+
+    public JButton getBtnContinuar() {
+        return btnContinuar;
+    }
+
+    public void setBtnContinuar(JButton btnContinuar) {
+        this.btnContinuar = btnContinuar;
+    }
+
+    public JComboBox<String> getCbxTipoConsulta() {
+        return cbxTipoConsulta;
+    }
+
+    public void setCbxTipoConsulta(JComboBox<String> cbxTipoConsulta) {
+        this.cbxTipoConsulta = cbxTipoConsulta;
+    }
+
+    public JScrollPane getjScrollResultados() {
+        return jScrollResultados;
+    }
+
+    public void setjScrollResultados(JScrollPane jScrollResultados) {
+        this.jScrollResultados = jScrollResultados;
+    }
+
+    public JList<String> getListaResultados() {
+        return listaResultados;
+    }
+
+    public void setListaResultados(JList<String> listaResultados) {
+        this.listaResultados = listaResultados;
+    }
+
+    public JPanel getPnlComponentes() {
+        return pnlComponentes;
+    }
+
+    public void setPnlComponentes(JPanel pnlComponentes) {
+        this.pnlComponentes = pnlComponentes;
+    }
+
+    public JPanel getPnlFondo() {
+        return pnlFondo;
+    }
+
+    public void setPnlFondo(JPanel pnlFondo) {
+        this.pnlFondo = pnlFondo;
+    }
+
+    public JPanel getPnlTablas() {
+        return pnlTablas;
+    }
+
+    public void setPnlTablas(JPanel pnlTablas) {
+        this.pnlTablas = pnlTablas;
+    }
+
+    public JPanel getPnlTitulo() {
+        return pnlTitulo;
+    }
+
+    public void setPnlTitulo(JPanel pnlTitulo) {
+        this.pnlTitulo = pnlTitulo;
+    }
+
+    public JTextField getTxtCampo() {
+        return txtCampo;
+    }
+
+    public void setTxtCampo(JTextField txtCampo) {
+        this.txtCampo = txtCampo;
+    }
+
+    public JLabel getTxtSeleccionados() {
+        return txtSeleccionados;
+    }
+
+    public void setTxtSeleccionados(JLabel txtSeleccionados) {
+        this.txtSeleccionados = txtSeleccionados;
+    }
+
+    public JLabel getTxtSolicitarPlacas() {
+        return txtSolicitarPlacas;
+    }
+
+    public void setTxtSolicitarPlacas(JLabel txtSolicitarPlacas) {
+        this.txtSolicitarPlacas = txtSolicitarPlacas;
+    }
+
+    public JRootPane getRootPane() {
+        return rootPane;
+    }
+
+    public void setRootPane(JRootPane rootPane) {
+        this.rootPane = rootPane;
+    }
+
+    public boolean isRootPaneCheckingEnabled() {
+        return rootPaneCheckingEnabled;
+    }
+
+    public void setRootPaneCheckingEnabled(boolean rootPaneCheckingEnabled) {
+        this.rootPaneCheckingEnabled = rootPaneCheckingEnabled;
+    }
+
+    public AccessibleContext getAccessibleContext() {
+        return accessibleContext;
+    }
+
+    public void setAccessibleContext(AccessibleContext accessibleContext) {
+        this.accessibleContext = accessibleContext;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 89 * hash + Objects.hashCode(this.elementoSeleccionado);
+        hash = 89 * hash + Objects.hashCode(this.listaPersonas);
+        hash = 89 * hash + Objects.hashCode(this.personasDAO);
+        hash = 89 * hash + Objects.hashCode(this.placasDAO);
+        hash = 89 * hash + Objects.hashCode(this.licenciasDAO);
+        hash = 89 * hash + this.largo;
+        hash = 89 * hash + this.opcion;
+        hash = 89 * hash + Objects.hashCode(this.btnAtras);
+        hash = 89 * hash + Objects.hashCode(this.btnBuscar);
+        hash = 89 * hash + Objects.hashCode(this.btnContinuar);
+        hash = 89 * hash + Objects.hashCode(this.cbxTipoConsulta);
+        hash = 89 * hash + Objects.hashCode(this.jScrollResultados);
+        hash = 89 * hash + Objects.hashCode(this.listaResultados);
+        hash = 89 * hash + Objects.hashCode(this.pnlComponentes);
+        hash = 89 * hash + Objects.hashCode(this.pnlFondo);
+        hash = 89 * hash + Objects.hashCode(this.pnlTablas);
+        hash = 89 * hash + Objects.hashCode(this.pnlTitulo);
+        hash = 89 * hash + Objects.hashCode(this.txtCampo);
+        hash = 89 * hash + Objects.hashCode(this.txtSeleccionados);
+        hash = 89 * hash + Objects.hashCode(this.txtSolicitarPlacas);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final frmSeleccionPersonas other = (frmSeleccionPersonas) obj;
+        if (this.largo != other.largo) {
+            return false;
+        }
+        if (this.opcion != other.opcion) {
+            return false;
+        }
+        if (!Objects.equals(this.elementoSeleccionado, other.elementoSeleccionado)) {
+            return false;
+        }
+        if (!Objects.equals(this.listaPersonas, other.listaPersonas)) {
+            return false;
+        }
+        if (!Objects.equals(this.personasDAO, other.personasDAO)) {
+            return false;
+        }
+        if (!Objects.equals(this.placasDAO, other.placasDAO)) {
+            return false;
+        }
+        if (!Objects.equals(this.licenciasDAO, other.licenciasDAO)) {
+            return false;
+        }
+        if (!Objects.equals(this.btnAtras, other.btnAtras)) {
+            return false;
+        }
+        if (!Objects.equals(this.btnBuscar, other.btnBuscar)) {
+            return false;
+        }
+        if (!Objects.equals(this.btnContinuar, other.btnContinuar)) {
+            return false;
+        }
+        if (!Objects.equals(this.cbxTipoConsulta, other.cbxTipoConsulta)) {
+            return false;
+        }
+        if (!Objects.equals(this.jScrollResultados, other.jScrollResultados)) {
+            return false;
+        }
+        if (!Objects.equals(this.listaResultados, other.listaResultados)) {
+            return false;
+        }
+        if (!Objects.equals(this.pnlComponentes, other.pnlComponentes)) {
+            return false;
+        }
+        if (!Objects.equals(this.pnlFondo, other.pnlFondo)) {
+            return false;
+        }
+        if (!Objects.equals(this.pnlTablas, other.pnlTablas)) {
+            return false;
+        }
+        if (!Objects.equals(this.pnlTitulo, other.pnlTitulo)) {
+            return false;
+        }
+        if (!Objects.equals(this.txtCampo, other.txtCampo)) {
+            return false;
+        }
+        if (!Objects.equals(this.txtSeleccionados, other.txtSeleccionados)) {
+            return false;
+        }
+        return Objects.equals(this.txtSolicitarPlacas, other.txtSolicitarPlacas);
+    }
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAtras;
     private javax.swing.JButton btnBuscar;

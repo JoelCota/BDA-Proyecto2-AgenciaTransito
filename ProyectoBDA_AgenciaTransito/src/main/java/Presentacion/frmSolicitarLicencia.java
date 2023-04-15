@@ -15,11 +15,19 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.accessibility.AccessibleContext;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRootPane;
+import javax.swing.JSeparator;
+import javax.swing.JTextField;
 
 /**
  * Descripción de la clase:
- *
+ * Clase de tipo frame para solicitar la licencia.
  * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox
  * ID:229384
  */
@@ -33,6 +41,7 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
 
     /**
      * Creates new form frmSolicitarLicencia
+     * Constructor de solicitar licencia
      */
     public frmSolicitarLicencia() {
         initComponents();
@@ -438,6 +447,10 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
 
     }//GEN-LAST:event_formWindowClosed
 
+    /**
+     * 
+     * Metodo para cargar los combox de los anios.
+     */
     private void cargarComboBoxVigencia() {
         this.cbxVigencia.removeAllItems();
         this.cbxVigencia.addItem("1 año");
@@ -446,6 +459,9 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
 
     }
 
+    /**
+     * combo box para poner los tipos
+     */
     private void cargarComboBoxTipo() {
         this.cbxTipo.removeAllItems();
         this.cbxTipo.addItem("Normal");
@@ -453,6 +469,11 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
 
     }
 
+    /**
+     * 
+     * Metodo para la validacion de numero y letra.
+     * @param evt evento
+     */
     private void validacionNumeroLetra(java.awt.event.KeyEvent evt) {
         char txt = evt.getKeyChar();
         if (!(Character.isLetterOrDigit(txt))) {
@@ -460,6 +481,11 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * 
+     * Metodo para setear la informacion
+     * @param persona Objeto persona.
+     */
     private void setearInfo(Persona persona) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         this.txtRFCCliente.setText("RFC: " + persona.getRFC());
@@ -492,6 +518,11 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
     private javax.swing.JLabel txtSolicitarPlacas1;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * 
+     * Metodo para generar los costows
+     * @return retorna los costos
+     */
     private float generarCosto() {
         float costo = 0;
         switch (this.cbxTipo.getModel().getSelectedItem().toString()) {
@@ -530,6 +561,11 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
         return costo;
     }
 
+    /**
+     * 
+     * Metodo para generar la licencia
+     * @return objeto de tipo licencia
+     */
     private Licencia generarLicencia() {
         Calendar fechaVigencia = Calendar.getInstance();
         fechaVigencia.add(Calendar.YEAR, vigencia);
@@ -546,5 +582,248 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
         }
         return null;
     }
+
+    public PersonasDAO getPersona() {
+        return persona;
+    }
+
+    public void setPersona(PersonasDAO persona) {
+        this.persona = persona;
+    }
+
+    public Persona getPersonaProspecto() {
+        return personaProspecto;
+    }
+
+    public void setPersonaProspecto(Persona personaProspecto) {
+        this.personaProspecto = personaProspecto;
+    }
+
+    public LicenciasDAO getLicenciasDAO() {
+        return licenciasDAO;
+    }
+
+    public void setLicenciasDAO(LicenciasDAO licenciasDAO) {
+        this.licenciasDAO = licenciasDAO;
+    }
+
+    public int getVigencia() {
+        return vigencia;
+    }
+
+    public void setVigencia(int vigencia) {
+        this.vigencia = vigencia;
+    }
+
+    public tipoLicencia getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(tipoLicencia tipo) {
+        this.tipo = tipo;
+    }
+
+    public JSeparator getSeparator1() {
+        return Separator1;
+    }
+
+    public void setSeparator1(JSeparator Separator1) {
+        this.Separator1 = Separator1;
+    }
+
+    public JButton getBtnBorrarCampos() {
+        return btnBorrarCampos;
+    }
+
+    public void setBtnBorrarCampos(JButton btnBorrarCampos) {
+        this.btnBorrarCampos = btnBorrarCampos;
+    }
+
+    public JButton getBtnBuscar() {
+        return btnBuscar;
+    }
+
+    public void setBtnBuscar(JButton btnBuscar) {
+        this.btnBuscar = btnBuscar;
+    }
+
+    public JButton getBtnCancelar() {
+        return btnCancelar;
+    }
+
+    public void setBtnCancelar(JButton btnCancelar) {
+        this.btnCancelar = btnCancelar;
+    }
+
+    public JButton getBtnSolicitar() {
+        return btnSolicitar;
+    }
+
+    public void setBtnSolicitar(JButton btnSolicitar) {
+        this.btnSolicitar = btnSolicitar;
+    }
+
+    public JComboBox<String> getCbxTipo() {
+        return cbxTipo;
+    }
+
+    public void setCbxTipo(JComboBox<String> cbxTipo) {
+        this.cbxTipo = cbxTipo;
+    }
+
+    public JComboBox<String> getCbxVigencia() {
+        return cbxVigencia;
+    }
+
+    public void setCbxVigencia(JComboBox<String> cbxVigencia) {
+        this.cbxVigencia = cbxVigencia;
+    }
+
+    public JPanel getjPanel1() {
+        return jPanel1;
+    }
+
+    public void setjPanel1(JPanel jPanel1) {
+        this.jPanel1 = jPanel1;
+    }
+
+    public JPanel getjPanel2() {
+        return jPanel2;
+    }
+
+    public void setjPanel2(JPanel jPanel2) {
+        this.jPanel2 = jPanel2;
+    }
+
+    public JPanel getjPanel3() {
+        return jPanel3;
+    }
+
+    public void setjPanel3(JPanel jPanel3) {
+        this.jPanel3 = jPanel3;
+    }
+
+    public JPanel getPnlInfoPersona() {
+        return pnlInfoPersona;
+    }
+
+    public void setPnlInfoPersona(JPanel pnlInfoPersona) {
+        this.pnlInfoPersona = pnlInfoPersona;
+    }
+
+    public JTextField getTxtCampoRFC() {
+        return txtCampoRFC;
+    }
+
+    public void setTxtCampoRFC(JTextField txtCampoRFC) {
+        this.txtCampoRFC = txtCampoRFC;
+    }
+
+    public JLabel getTxtCosto() {
+        return txtCosto;
+    }
+
+    public void setTxtCosto(JLabel txtCosto) {
+        this.txtCosto = txtCosto;
+    }
+
+    public JLabel getTxtFechaCliente() {
+        return txtFechaCliente;
+    }
+
+    public void setTxtFechaCliente(JLabel txtFechaCliente) {
+        this.txtFechaCliente = txtFechaCliente;
+    }
+
+    public JLabel getTxtNombreCliente() {
+        return txtNombreCliente;
+    }
+
+    public void setTxtNombreCliente(JLabel txtNombreCliente) {
+        this.txtNombreCliente = txtNombreCliente;
+    }
+
+    public JLabel getTxtNumeroCliente() {
+        return txtNumeroCliente;
+    }
+
+    public void setTxtNumeroCliente(JLabel txtNumeroCliente) {
+        this.txtNumeroCliente = txtNumeroCliente;
+    }
+
+    public JLabel getTxtRFC() {
+        return txtRFC;
+    }
+
+    public void setTxtRFC(JLabel txtRFC) {
+        this.txtRFC = txtRFC;
+    }
+
+    public JLabel getTxtRFC1() {
+        return txtRFC1;
+    }
+
+    public void setTxtRFC1(JLabel txtRFC1) {
+        this.txtRFC1 = txtRFC1;
+    }
+
+    public JLabel getTxtRFC2() {
+        return txtRFC2;
+    }
+
+    public void setTxtRFC2(JLabel txtRFC2) {
+        this.txtRFC2 = txtRFC2;
+    }
+
+    public JLabel getTxtRFCCliente() {
+        return txtRFCCliente;
+    }
+
+    public void setTxtRFCCliente(JLabel txtRFCCliente) {
+        this.txtRFCCliente = txtRFCCliente;
+    }
+
+    public JLabel getTxtSolicitarPlacas() {
+        return txtSolicitarPlacas;
+    }
+
+    public void setTxtSolicitarPlacas(JLabel txtSolicitarPlacas) {
+        this.txtSolicitarPlacas = txtSolicitarPlacas;
+    }
+
+    public JLabel getTxtSolicitarPlacas1() {
+        return txtSolicitarPlacas1;
+    }
+
+    public void setTxtSolicitarPlacas1(JLabel txtSolicitarPlacas1) {
+        this.txtSolicitarPlacas1 = txtSolicitarPlacas1;
+    }
+
+    public JRootPane getRootPane() {
+        return rootPane;
+    }
+
+    public void setRootPane(JRootPane rootPane) {
+        this.rootPane = rootPane;
+    }
+
+    public boolean isRootPaneCheckingEnabled() {
+        return rootPaneCheckingEnabled;
+    }
+
+    public void setRootPaneCheckingEnabled(boolean rootPaneCheckingEnabled) {
+        this.rootPaneCheckingEnabled = rootPaneCheckingEnabled;
+    }
+
+    public AccessibleContext getAccessibleContext() {
+        return accessibleContext;
+    }
+
+    public void setAccessibleContext(AccessibleContext accessibleContext) {
+        this.accessibleContext = accessibleContext;
+    }
+
+    
+    
 
 }

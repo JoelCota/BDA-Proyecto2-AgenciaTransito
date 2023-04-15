@@ -11,8 +11,16 @@ import javax.swing.JOptionPane;
 import Persistencia.PersonasDAO;
 import excepciones.PersistenciaException;
 import java.text.SimpleDateFormat;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.accessibility.AccessibleContext;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRootPane;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -25,6 +33,7 @@ public class frmMenu extends javax.swing.JFrame {
     private PersonasDAO personaDAO;
 
     /**
+     * 
      * Creates new form frmMenu
      */
     public frmMenu() throws PersistenciaException {
@@ -497,6 +506,11 @@ public class frmMenu extends javax.swing.JFrame {
     private javax.swing.JLabel txtTramites;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     *
+     * Metodo para generar la tabla de clientes
+     * @param listaPersonas Lista de personas
+     */
     private void generarTablaClientes(List<Persona> listaPersonas) {
         this.pnlDatosClientes.setVisible(true);
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -512,4 +526,356 @@ public class frmMenu extends javax.swing.JFrame {
             modeloTabla.addRow(fila);
         }
     }
+
+    public PersonasDAO getPersonaDAO() {
+        return personaDAO;
+    }
+
+    public void setPersonaDAO(PersonasDAO personaDAO) {
+        this.personaDAO = personaDAO;
+    }
+
+    public JLabel getjLabel2() {
+        return jLabel2;
+    }
+
+    public void setjLabel2(JLabel jLabel2) {
+        this.jLabel2 = jLabel2;
+    }
+
+    public JLabel getjLabel3() {
+        return jLabel3;
+    }
+
+    public void setjLabel3(JLabel jLabel3) {
+        this.jLabel3 = jLabel3;
+    }
+
+    public JSeparator getjSeparator1() {
+        return jSeparator1;
+    }
+
+    public void setjSeparator1(JSeparator jSeparator1) {
+        this.jSeparator1 = jSeparator1;
+    }
+
+    public JSeparator getjSeparator2() {
+        return jSeparator2;
+    }
+
+    public void setjSeparator2(JSeparator jSeparator2) {
+        this.jSeparator2 = jSeparator2;
+    }
+
+    public JSeparator getjSeparator3() {
+        return jSeparator3;
+    }
+
+    public void setjSeparator3(JSeparator jSeparator3) {
+        this.jSeparator3 = jSeparator3;
+    }
+
+    public JPanel getPnlDatosClientes() {
+        return pnlDatosClientes;
+    }
+
+    public void setPnlDatosClientes(JPanel pnlDatosClientes) {
+        this.pnlDatosClientes = pnlDatosClientes;
+    }
+
+    public JPanel getPnlMenu() {
+        return pnlMenu;
+    }
+
+    public void setPnlMenu(JPanel pnlMenu) {
+        this.pnlMenu = pnlMenu;
+    }
+
+    public JPanel getPnlPlacas() {
+        return pnlPlacas;
+    }
+
+    public void setPnlPlacas(JPanel pnlPlacas) {
+        this.pnlPlacas = pnlPlacas;
+    }
+
+    public JPanel getPnlRectangulo1() {
+        return pnlRectangulo1;
+    }
+
+    public void setPnlRectangulo1(JPanel pnlRectangulo1) {
+        this.pnlRectangulo1 = pnlRectangulo1;
+    }
+
+    public JPanel getPnlRectangulo2() {
+        return pnlRectangulo2;
+    }
+
+    public void setPnlRectangulo2(JPanel pnlRectangulo2) {
+        this.pnlRectangulo2 = pnlRectangulo2;
+    }
+
+    public JPanel getPnlTramites() {
+        return pnlTramites;
+    }
+
+    public void setPnlTramites(JPanel pnlTramites) {
+        this.pnlTramites = pnlTramites;
+    }
+
+    public JPanel getPnltxtMenu() {
+        return pnltxtMenu;
+    }
+
+    public void setPnltxtMenu(JPanel pnltxtMenu) {
+        this.pnltxtMenu = pnltxtMenu;
+    }
+
+    public JPanel getPnltxtMenu1() {
+        return pnltxtMenu1;
+    }
+
+    public void setPnltxtMenu1(JPanel pnltxtMenu1) {
+        this.pnltxtMenu1 = pnltxtMenu1;
+    }
+
+    public JScrollPane getSpClientes() {
+        return spClientes;
+    }
+
+    public void setSpClientes(JScrollPane spClientes) {
+        this.spClientes = spClientes;
+    }
+
+    public JTable getTblClientes() {
+        return tblClientes;
+    }
+
+    public void setTblClientes(JTable tblClientes) {
+        this.tblClientes = tblClientes;
+    }
+
+    public JLabel getTxtAutomovilNuevo() {
+        return txtAutomovilNuevo;
+    }
+
+    public void setTxtAutomovilNuevo(JLabel txtAutomovilNuevo) {
+        this.txtAutomovilNuevo = txtAutomovilNuevo;
+    }
+
+    public JLabel getTxtAutomovilUsado() {
+        return txtAutomovilUsado;
+    }
+
+    public void setTxtAutomovilUsado(JLabel txtAutomovilUsado) {
+        this.txtAutomovilUsado = txtAutomovilUsado;
+    }
+
+    public JLabel getTxtConsultas() {
+        return txtConsultas;
+    }
+
+    public void setTxtConsultas(JLabel txtConsultas) {
+        this.txtConsultas = txtConsultas;
+    }
+
+    public JLabel getTxtGenerarClientes() {
+        return txtGenerarClientes;
+    }
+
+    public void setTxtGenerarClientes(JLabel txtGenerarClientes) {
+        this.txtGenerarClientes = txtGenerarClientes;
+    }
+
+    public JLabel getTxtLicencias() {
+        return txtLicencias;
+    }
+
+    public void setTxtLicencias(JLabel txtLicencias) {
+        this.txtLicencias = txtLicencias;
+    }
+
+    public JLabel getTxtPlacas() {
+        return txtPlacas;
+    }
+
+    public void setTxtPlacas(JLabel txtPlacas) {
+        this.txtPlacas = txtPlacas;
+    }
+
+    public JLabel getTxtReportes() {
+        return txtReportes;
+    }
+
+    public void setTxtReportes(JLabel txtReportes) {
+        this.txtReportes = txtReportes;
+    }
+
+    public JLabel getTxtTramites() {
+        return txtTramites;
+    }
+
+    public void setTxtTramites(JLabel txtTramites) {
+        this.txtTramites = txtTramites;
+    }
+
+    public JRootPane getRootPane() {
+        return rootPane;
+    }
+
+    public void setRootPane(JRootPane rootPane) {
+        this.rootPane = rootPane;
+    }
+
+    public boolean isRootPaneCheckingEnabled() {
+        return rootPaneCheckingEnabled;
+    }
+
+    public void setRootPaneCheckingEnabled(boolean rootPaneCheckingEnabled) {
+        this.rootPaneCheckingEnabled = rootPaneCheckingEnabled;
+    }
+
+    public AccessibleContext getAccessibleContext() {
+        return accessibleContext;
+    }
+
+    public void setAccessibleContext(AccessibleContext accessibleContext) {
+        this.accessibleContext = accessibleContext;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 59 * hash + Objects.hashCode(this.personaDAO);
+        hash = 59 * hash + Objects.hashCode(this.jLabel2);
+        hash = 59 * hash + Objects.hashCode(this.jLabel3);
+        hash = 59 * hash + Objects.hashCode(this.jSeparator1);
+        hash = 59 * hash + Objects.hashCode(this.jSeparator2);
+        hash = 59 * hash + Objects.hashCode(this.jSeparator3);
+        hash = 59 * hash + Objects.hashCode(this.pnlDatosClientes);
+        hash = 59 * hash + Objects.hashCode(this.pnlMenu);
+        hash = 59 * hash + Objects.hashCode(this.pnlPlacas);
+        hash = 59 * hash + Objects.hashCode(this.pnlRectangulo1);
+        hash = 59 * hash + Objects.hashCode(this.pnlRectangulo2);
+        hash = 59 * hash + Objects.hashCode(this.pnlTramites);
+        hash = 59 * hash + Objects.hashCode(this.pnltxtMenu);
+        hash = 59 * hash + Objects.hashCode(this.pnltxtMenu1);
+        hash = 59 * hash + Objects.hashCode(this.spClientes);
+        hash = 59 * hash + Objects.hashCode(this.tblClientes);
+        hash = 59 * hash + Objects.hashCode(this.txtAutomovilNuevo);
+        hash = 59 * hash + Objects.hashCode(this.txtAutomovilUsado);
+        hash = 59 * hash + Objects.hashCode(this.txtConsultas);
+        hash = 59 * hash + Objects.hashCode(this.txtGenerarClientes);
+        hash = 59 * hash + Objects.hashCode(this.txtLicencias);
+        hash = 59 * hash + Objects.hashCode(this.txtPlacas);
+        hash = 59 * hash + Objects.hashCode(this.txtReportes);
+        hash = 59 * hash + Objects.hashCode(this.txtTramites);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final frmMenu other = (frmMenu) obj;
+        if (!Objects.equals(this.personaDAO, other.personaDAO)) {
+            return false;
+        }
+        if (!Objects.equals(this.jLabel2, other.jLabel2)) {
+            return false;
+        }
+        if (!Objects.equals(this.jLabel3, other.jLabel3)) {
+            return false;
+        }
+        if (!Objects.equals(this.jSeparator1, other.jSeparator1)) {
+            return false;
+        }
+        if (!Objects.equals(this.jSeparator2, other.jSeparator2)) {
+            return false;
+        }
+        if (!Objects.equals(this.jSeparator3, other.jSeparator3)) {
+            return false;
+        }
+        if (!Objects.equals(this.pnlDatosClientes, other.pnlDatosClientes)) {
+            return false;
+        }
+        if (!Objects.equals(this.pnlMenu, other.pnlMenu)) {
+            return false;
+        }
+        if (!Objects.equals(this.pnlPlacas, other.pnlPlacas)) {
+            return false;
+        }
+        if (!Objects.equals(this.pnlRectangulo1, other.pnlRectangulo1)) {
+            return false;
+        }
+        if (!Objects.equals(this.pnlRectangulo2, other.pnlRectangulo2)) {
+            return false;
+        }
+        if (!Objects.equals(this.pnlTramites, other.pnlTramites)) {
+            return false;
+        }
+        if (!Objects.equals(this.pnltxtMenu, other.pnltxtMenu)) {
+            return false;
+        }
+        if (!Objects.equals(this.pnltxtMenu1, other.pnltxtMenu1)) {
+            return false;
+        }
+        if (!Objects.equals(this.spClientes, other.spClientes)) {
+            return false;
+        }
+        if (!Objects.equals(this.tblClientes, other.tblClientes)) {
+            return false;
+        }
+        if (!Objects.equals(this.txtAutomovilNuevo, other.txtAutomovilNuevo)) {
+            return false;
+        }
+        if (!Objects.equals(this.txtAutomovilUsado, other.txtAutomovilUsado)) {
+            return false;
+        }
+        if (!Objects.equals(this.txtConsultas, other.txtConsultas)) {
+            return false;
+        }
+        if (!Objects.equals(this.txtGenerarClientes, other.txtGenerarClientes)) {
+            return false;
+        }
+        if (!Objects.equals(this.txtLicencias, other.txtLicencias)) {
+            return false;
+        }
+        if (!Objects.equals(this.txtPlacas, other.txtPlacas)) {
+            return false;
+        }
+        if (!Objects.equals(this.txtReportes, other.txtReportes)) {
+            return false;
+        }
+        return Objects.equals(this.txtTramites, other.txtTramites);
+    }
+
+    @Override
+    public String toString() {
+        return "frmMenu{" + "personaDAO=" + personaDAO + ", jLabel2=" + jLabel2 
+                + ", jLabel3=" + jLabel3 + ", jSeparator1=" + jSeparator1 + ", "
+                + "jSeparator2=" + jSeparator2 + ", jSeparator3=" + jSeparator3
+                + ", pnlDatosClientes=" + pnlDatosClientes + ", pnlMenu=" + 
+                pnlMenu + ", pnlPlacas=" + pnlPlacas + ", pnlRectangulo1=" +
+                pnlRectangulo1 + ", pnlRectangulo2=" + pnlRectangulo2 + ", "
+                + "pnlTramites=" + pnlTramites + ", pnltxtMenu=" + pnltxtMenu 
+                + ", pnltxtMenu1=" + pnltxtMenu1 + ", spClientes=" + spClientes
+                + ", tblClientes=" + tblClientes + ", txtAutomovilNuevo=" + 
+                txtAutomovilNuevo + ", txtAutomovilUsado=" + txtAutomovilUsado 
+                + ", txtConsultas=" + txtConsultas + ", txtGenerarClientes=" + 
+                txtGenerarClientes + ", txtLicencias=" + txtLicencias + ", "
+                + "txtPlacas=" + txtPlacas + ", txtReportes=" + txtReportes
+                + ", txtTramites=" + txtTramites + '}';
+    }
+
+    
+    
+    
 }

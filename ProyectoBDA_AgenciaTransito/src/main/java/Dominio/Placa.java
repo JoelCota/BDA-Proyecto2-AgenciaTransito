@@ -6,6 +6,7 @@ package Dominio;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
@@ -31,20 +32,45 @@ public class Placa extends Tramite implements Serializable {
      @ManyToOne(cascade=CascadeType.PERSIST)
      @JoinColumn(name = "id_transporte",nullable = true)
     private Transporte transporte;
-    
-    /**
-     *
-     */
+
+     
+     /**
+      * 
+      * Constructor por default de la clase
+      */
     public Placa() {
 
     }
-
+    
+    /**
+     * 
+     * Construcotr con todos los atributosd de la clase polaca
+     * @param numeroPlaca
+     * @param activo
+     * @param transporte
+     * @param costo
+     * @param fechaExpedicion
+     * @param fechaVigencia
+     * @param persona 
+     */
+    
     public Placa(String numeroPlaca, boolean activo, Transporte transporte,float costo, Calendar fechaExpedicion, Calendar fechaVigencia,Persona persona) {
         super(costo,fechaExpedicion,fechaVigencia,persona,activo);
         this.numeroPlaca = numeroPlaca;
         this.transporte = transporte;
     }
 
+    /**
+     * 
+     * Constructor con todos sus atributos excepto el objeto de persona.
+     * @param transporte
+     * @param costo
+     * @param fechaExpedicion
+     * @param fechaVigencia
+     * @param persona
+     * @param activo 
+     */
+    
     public Placa(Transporte transporte, float costo, Calendar fechaExpedicion, Calendar fechaVigencia, Persona persona, boolean activo) {
         super(costo, fechaExpedicion, fechaVigencia, persona, activo);
         this.transporte = transporte;
@@ -52,20 +78,94 @@ public class Placa extends Tramite implements Serializable {
     
     
     
+    /**
+     * 
+     * obtiene el numero de placa
+     * @return 
+     */
     public String getNumeroPlaca() {
         return numeroPlaca;
     }
 
+    /**
+     * 
+     * Metodo para setear el numero de placa
+     * @param numeroPlaca 
+     */
+    
     public void setNumeroPlaca(String numeroPlaca) {
         this.numeroPlaca = numeroPlaca;
     }
+    
+    /**
+     * 
+     * Metodo para obtener el transporte.
+     * @return 
+     */
     
     public Transporte getTransporte() {
         return transporte;
     }
 
+    /**
+     * 
+     * Metodo para setear el transporte
+     * @param transporte 
+     */
+    
     public void setTransporte(Transporte transporte) {
         this.transporte = transporte;
     }
+
+    /**
+     * 
+     * Metodo hash
+     * @return 
+     */
+    
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 47 * hash + Objects.hashCode(this.numeroPlaca);
+        hash = 47 * hash + Objects.hashCode(this.transporte);
+        return hash;
+    }
+
+    /**
+     * 
+     * Metodo equals
+     * @param obj
+     * @return 
+     */
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Placa other = (Placa) obj;
+        if (!Objects.equals(this.numeroPlaca, other.numeroPlaca)) {
+            return false;
+        }
+        return Objects.equals(this.transporte, other.transporte);
+    }
+
+    
+    /**
+     * 
+     * Metodo toString de la clase
+     * @return toString
+     */
+    @Override
+    public String toString() {
+        return "Placa{" + "numeroPlaca=" + numeroPlaca + ", transporte=" + transporte + '}';
+    }
+    
     
 }

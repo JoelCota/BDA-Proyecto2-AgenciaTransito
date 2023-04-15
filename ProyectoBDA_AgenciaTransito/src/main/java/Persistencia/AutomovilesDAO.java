@@ -52,7 +52,7 @@ public class AutomovilesDAO implements IAutomovilesDAO{
      * @return retorna el automovil deseado.
      */
     
-    public Automovil consultarAutomovil(String numSerie){
+    public Automovil consultarAutomovil(String numSerie)throws PersistenciaException{
          EntityManager bd = conexion.obtenerConexion();
 
         try {

@@ -10,5 +10,30 @@ package Dominio;
  * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox ID:229384
  */
 public enum tipoLicencia {
-    NORMAL,DISCAPACITADO
+    NORMAL,DISCAPACITADO;
+    
+    @Override    
+    public String toString() {
+        return "tipoLicencia{" + '}';
+    }
+
+    /**
+     * Metodo para obtener el tipo
+     * @return 
+     */
+    
+    public static tipoLicencia getNORMAL() {
+        return NORMAL;
+    }
+
+    /**
+     * metodo para obtener el tipo
+     * @return 
+     */
+    
+    public static tipoLicencia getDISCAPACITADO() {
+        return DISCAPACITADO;
+    }
+    
+    
 }

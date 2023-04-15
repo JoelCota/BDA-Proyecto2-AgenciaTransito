@@ -21,6 +21,7 @@ public interface IPersonasDAO {
      * @param persona Objeto de persona.
      * @throws PersistenciaException Excepciones(evita errores).
      */
+    
     public void agregarPersona (Persona persona) throws PersistenciaException;
     
     /**
@@ -30,6 +31,7 @@ public interface IPersonasDAO {
      * @return retorna el objeto de la persona
      * @throws PersistenciaException Excepciones(evita errores).
      */
+    
     public Persona buscarPersonaRFC (String RFC) throws PersistenciaException;
     
     /**
@@ -37,6 +39,7 @@ public interface IPersonasDAO {
      * Metodo para crear las 20 personas hardcodeada.
      * @throws PersistenciaException Excepciones(evita errores).
      */
+    
     public void invocarPersonas() throws PersistenciaException;
     public List<Persona> consultaPersonasTotal() throws PersistenciaException;
 }

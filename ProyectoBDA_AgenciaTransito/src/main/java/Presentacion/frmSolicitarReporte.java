@@ -18,8 +18,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.accessibility.AccessibleContext;
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRootPane;
+import javax.swing.JTextField;
 
 /**
  * Descripción de la clase: Clase que permite poder seleccionar las personas de
@@ -369,6 +376,11 @@ public class frmSolicitarReporte extends javax.swing.JFrame {
         this.cbxTipoConsulta.addItem("TIPO TRAMITE");
     }
 
+    /**
+     * 
+     * Metodo para hacer las validaciones del campo alfabetico
+     * @param evt 
+     */
     private void validacionCamposAlfabeto(java.awt.event.KeyEvent evt) {
         char txt = evt.getKeyChar();
         if (!(Character.isAlphabetic(txt) || txt == KeyEvent.VK_SPACE)) {
@@ -396,11 +408,201 @@ public class frmSolicitarReporte extends javax.swing.JFrame {
     private javax.swing.JLabel txtTipoTramite;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * 
+     * Metodo para cargar el tipo de tramite
+     */
     private void cargarTipoTramite() {
        this.cbxTipoTramite.removeAllItems();
         this.cbxTipoTramite.addItem("INDIQUE El TIPO");
         this.cbxTipoTramite.addItem("LICENCIA");
         this.cbxTipoTramite.addItem("PLACAS");
     }
+
+    public List<Persona> getListaPersonas() {
+        return listaPersonas;
+    }
+
+    public void setListaPersonas(List<Persona> listaPersonas) {
+        this.listaPersonas = listaPersonas;
+    }
+
+    public PersonasDAO getPersonasDAO() {
+        return personasDAO;
+    }
+
+    public void setPersonasDAO(PersonasDAO personasDAO) {
+        this.personasDAO = personasDAO;
+    }
+
+    public PlacasDAO getPlacasDAO() {
+        return placasDAO;
+    }
+
+    public void setPlacasDAO(PlacasDAO placasDAO) {
+        this.placasDAO = placasDAO;
+    }
+
+    public LicenciasDAO getLicenciasDAO() {
+        return licenciasDAO;
+    }
+
+    public void setLicenciasDAO(LicenciasDAO licenciasDAO) {
+        this.licenciasDAO = licenciasDAO;
+    }
+
+    public JButton getBtnAtras() {
+        return btnAtras;
+    }
+
+    public void setBtnAtras(JButton btnAtras) {
+        this.btnAtras = btnAtras;
+    }
+
+    public JButton getBtnGenerarReporte() {
+        return btnGenerarReporte;
+    }
+
+    public void setBtnGenerarReporte(JButton btnGenerarReporte) {
+        this.btnGenerarReporte = btnGenerarReporte;
+    }
+
+    public JComboBox<String> getCbxTipoConsulta() {
+        return cbxTipoConsulta;
+    }
+
+    public void setCbxTipoConsulta(JComboBox<String> cbxTipoConsulta) {
+        this.cbxTipoConsulta = cbxTipoConsulta;
+    }
+
+    public JComboBox<String> getCbxTipoTramite() {
+        return cbxTipoTramite;
+    }
+
+    public void setCbxTipoTramite(JComboBox<String> cbxTipoTramite) {
+        this.cbxTipoTramite = cbxTipoTramite;
+    }
+
+    public DatePicker getDpFechaFin() {
+        return dpFechaFin;
+    }
+
+    public void setDpFechaFin(DatePicker dpFechaFin) {
+        this.dpFechaFin = dpFechaFin;
+    }
+
+    public DatePicker getDpFechaInicio() {
+        return dpFechaInicio;
+    }
+
+    public void setDpFechaInicio(DatePicker dpFechaInicio) {
+        this.dpFechaInicio = dpFechaInicio;
+    }
+
+    public JPanel getPnlComponentes() {
+        return pnlComponentes;
+    }
+
+    public void setPnlComponentes(JPanel pnlComponentes) {
+        this.pnlComponentes = pnlComponentes;
+    }
+
+    public JPanel getPnlConsultas() {
+        return pnlConsultas;
+    }
+
+    public void setPnlConsultas(JPanel pnlConsultas) {
+        this.pnlConsultas = pnlConsultas;
+    }
+
+    public JPanel getPnlFondo() {
+        return pnlFondo;
+    }
+
+    public void setPnlFondo(JPanel pnlFondo) {
+        this.pnlFondo = pnlFondo;
+    }
+
+    public JPanel getPnlTitulo() {
+        return pnlTitulo;
+    }
+
+    public void setPnlTitulo(JPanel pnlTitulo) {
+        this.pnlTitulo = pnlTitulo;
+    }
+
+    public JTextField getTxtCampoNombre() {
+        return txtCampoNombre;
+    }
+
+    public void setTxtCampoNombre(JTextField txtCampoNombre) {
+        this.txtCampoNombre = txtCampoNombre;
+    }
+
+    public JLabel getTxtFechaFin() {
+        return txtFechaFin;
+    }
+
+    public void setTxtFechaFin(JLabel txtFechaFin) {
+        this.txtFechaFin = txtFechaFin;
+    }
+
+    public JLabel getTxtFechaInicio() {
+        return txtFechaInicio;
+    }
+
+    public void setTxtFechaInicio(JLabel txtFechaInicio) {
+        this.txtFechaInicio = txtFechaInicio;
+    }
+
+    public JLabel getTxtNombre() {
+        return txtNombre;
+    }
+
+    public void setTxtNombre(JLabel txtNombre) {
+        this.txtNombre = txtNombre;
+    }
+
+    public JLabel getTxtSolicitarPlacas() {
+        return txtSolicitarPlacas;
+    }
+
+    public void setTxtSolicitarPlacas(JLabel txtSolicitarPlacas) {
+        this.txtSolicitarPlacas = txtSolicitarPlacas;
+    }
+
+    public JLabel getTxtTipoTramite() {
+        return txtTipoTramite;
+    }
+
+    public void setTxtTipoTramite(JLabel txtTipoTramite) {
+        this.txtTipoTramite = txtTipoTramite;
+    }
+
+    public JRootPane getRootPane() {
+        return rootPane;
+    }
+
+    public void setRootPane(JRootPane rootPane) {
+        this.rootPane = rootPane;
+    }
+
+    public boolean isRootPaneCheckingEnabled() {
+        return rootPaneCheckingEnabled;
+    }
+
+    public void setRootPaneCheckingEnabled(boolean rootPaneCheckingEnabled) {
+        this.rootPaneCheckingEnabled = rootPaneCheckingEnabled;
+    }
+
+    public AccessibleContext getAccessibleContext() {
+        return accessibleContext;
+    }
+
+    public void setAccessibleContext(AccessibleContext accessibleContext) {
+        this.accessibleContext = accessibleContext;
+    }
+    
+    
 
 }

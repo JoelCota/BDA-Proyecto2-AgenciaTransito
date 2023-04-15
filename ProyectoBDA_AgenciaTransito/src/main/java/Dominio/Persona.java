@@ -46,11 +46,32 @@ public class Persona implements Serializable {
      @OneToMany(mappedBy = "Persona")
     private List<Tramite> listaTramites;
 
+     
+     
     /**
      *
      */
     public Persona() {
 
+    }
+    
+    public Persona(String RFC) {
+        this.RFC = RFC;
+    }
+    
+     public Persona(String RFC, String telefono, String nombreCompleto, Calendar fechaNacimiento, List<Tramite> listaTramites) {
+        this.RFC = RFC;
+        this.telefono = telefono;
+        this.nombreCompleto = nombreCompleto;
+        this.fechaNacimiento = fechaNacimiento;
+        this.listaTramites = listaTramites;
+    }
+
+    public Persona(String RFC, String telefono, String nombreCompleto, Calendar fechaNacimiento) {
+        this.RFC = RFC;
+        this.telefono = telefono;
+        this.nombreCompleto = nombreCompleto;
+        this.fechaNacimiento = fechaNacimiento;
     }
 
     public String getRFC() {
@@ -92,24 +113,6 @@ public class Persona implements Serializable {
     public void setListaTramites(List<Tramite> listaTramites) {
         this.listaTramites = listaTramites;
     }
-
-    public Persona(String RFC, String telefono, String nombreCompleto, Calendar fechaNacimiento, List<Tramite> listaTramites) {
-        this.RFC = RFC;
-        this.telefono = telefono;
-        this.nombreCompleto = nombreCompleto;
-        this.fechaNacimiento = fechaNacimiento;
-        this.listaTramites = listaTramites;
-    }
-
-    public Persona(String RFC, String telefono, String nombreCompleto, Calendar fechaNacimiento) {
-        this.RFC = RFC;
-        this.telefono = telefono;
-        this.nombreCompleto = nombreCompleto;
-        this.fechaNacimiento = fechaNacimiento;
-    }
-
-    
-    
     
     @Override
     public int hashCode() {
@@ -139,4 +142,11 @@ public class Persona implements Serializable {
         return "RFC=" + RFC  + ", NombreCompleto=" + nombreCompleto + ", Telefono=" + telefono +", FechaNacimiento=" + sdf.format(getFechaNacimiento().getTime());
     }
 
+    
+    
+    
+    
+
+    
+    
     }

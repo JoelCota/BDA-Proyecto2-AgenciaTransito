@@ -10,6 +10,14 @@ import Dominio.Licencia;
 import Dominio.Placa;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Objects;
+import javax.accessibility.AccessibleContext;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRootPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -294,6 +302,10 @@ public class frmConsultas extends javax.swing.JFrame {
     private javax.swing.JLabel txtSolicitarPlacas;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * Metodo para cargar la tabla de licencias
+     * @param lista Lista de licencia
+     */
     private void cargarTablaLicencias(List<Licencia> lista) {
          SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
          String activa="";
@@ -316,6 +328,11 @@ public class frmConsultas extends javax.swing.JFrame {
          }
     }
 
+    /**
+     * 
+     * Metodo para cargar la tabla de las placas
+     * @param placas Lista de placas
+     */
     private void cargarTablaPlacas(List<Placa> placas) {
        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
          String activa="";
@@ -338,5 +355,218 @@ public class frmConsultas extends javax.swing.JFrame {
              modeloTabla.addRow(fila);
          }
     }
+
+    public JButton getBtnAtras() {
+        return btnAtras;
+    }
+
+    public void setBtnAtras(JButton btnAtras) {
+        this.btnAtras = btnAtras;
+    }
+
+    public JScrollPane getjScrollPane1() {
+        return jScrollPane1;
+    }
+
+    public void setjScrollPane1(JScrollPane jScrollPane1) {
+        this.jScrollPane1 = jScrollPane1;
+    }
+
+    public JPanel getPnlFondo() {
+        return pnlFondo;
+    }
+
+    public void setPnlFondo(JPanel pnlFondo) {
+        this.pnlFondo = pnlFondo;
+    }
+
+    public JPanel getPnlInfo() {
+        return pnlInfo;
+    }
+
+    public void setPnlInfo(JPanel pnlInfo) {
+        this.pnlInfo = pnlInfo;
+    }
+
+    public JPanel getPnlTablaLicencia() {
+        return pnlTablaLicencia;
+    }
+
+    public void setPnlTablaLicencia(JPanel pnlTablaLicencia) {
+        this.pnlTablaLicencia = pnlTablaLicencia;
+    }
+
+    public JPanel getPnlTablaPlacas() {
+        return pnlTablaPlacas;
+    }
+
+    public void setPnlTablaPlacas(JPanel pnlTablaPlacas) {
+        this.pnlTablaPlacas = pnlTablaPlacas;
+    }
+
+    public JPanel getPnlTitulo() {
+        return pnlTitulo;
+    }
+
+    public void setPnlTitulo(JPanel pnlTitulo) {
+        this.pnlTitulo = pnlTitulo;
+    }
+
+    public JScrollPane getScPanelLicencias() {
+        return scPanelLicencias;
+    }
+
+    public void setScPanelLicencias(JScrollPane scPanelLicencias) {
+        this.scPanelLicencias = scPanelLicencias;
+    }
+
+    public JTable getTblLicencias() {
+        return tblLicencias;
+    }
+
+    public void setTblLicencias(JTable tblLicencias) {
+        this.tblLicencias = tblLicencias;
+    }
+
+    public JTable getTblPlacas() {
+        return tblPlacas;
+    }
+
+    public void setTblPlacas(JTable tblPlacas) {
+        this.tblPlacas = tblPlacas;
+    }
+
+    public JLabel getTxtLicencias() {
+        return txtLicencias;
+    }
+
+    public void setTxtLicencias(JLabel txtLicencias) {
+        this.txtLicencias = txtLicencias;
+    }
+
+    public JLabel getTxtPlacas() {
+        return txtPlacas;
+    }
+
+    public void setTxtPlacas(JLabel txtPlacas) {
+        this.txtPlacas = txtPlacas;
+    }
+
+    public JLabel getTxtSolicitarPlacas() {
+        return txtSolicitarPlacas;
+    }
+
+    public void setTxtSolicitarPlacas(JLabel txtSolicitarPlacas) {
+        this.txtSolicitarPlacas = txtSolicitarPlacas;
+    }
+
+    public JRootPane getRootPane() {
+        return rootPane;
+    }
+
+    public void setRootPane(JRootPane rootPane) {
+        this.rootPane = rootPane;
+    }
+
+    public boolean isRootPaneCheckingEnabled() {
+        return rootPaneCheckingEnabled;
+    }
+
+    public void setRootPaneCheckingEnabled(boolean rootPaneCheckingEnabled) {
+        this.rootPaneCheckingEnabled = rootPaneCheckingEnabled;
+    }
+
+    public AccessibleContext getAccessibleContext() {
+        return accessibleContext;
+    }
+
+    public void setAccessibleContext(AccessibleContext accessibleContext) {
+        this.accessibleContext = accessibleContext;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 79 * hash + Objects.hashCode(this.btnAtras);
+        hash = 79 * hash + Objects.hashCode(this.jScrollPane1);
+        hash = 79 * hash + Objects.hashCode(this.pnlFondo);
+        hash = 79 * hash + Objects.hashCode(this.pnlInfo);
+        hash = 79 * hash + Objects.hashCode(this.pnlTablaLicencia);
+        hash = 79 * hash + Objects.hashCode(this.pnlTablaPlacas);
+        hash = 79 * hash + Objects.hashCode(this.pnlTitulo);
+        hash = 79 * hash + Objects.hashCode(this.scPanelLicencias);
+        hash = 79 * hash + Objects.hashCode(this.tblLicencias);
+        hash = 79 * hash + Objects.hashCode(this.tblPlacas);
+        hash = 79 * hash + Objects.hashCode(this.txtLicencias);
+        hash = 79 * hash + Objects.hashCode(this.txtPlacas);
+        hash = 79 * hash + Objects.hashCode(this.txtSolicitarPlacas);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final frmConsultas other = (frmConsultas) obj;
+        if (!Objects.equals(this.btnAtras, other.btnAtras)) {
+            return false;
+        }
+        if (!Objects.equals(this.jScrollPane1, other.jScrollPane1)) {
+            return false;
+        }
+        if (!Objects.equals(this.pnlFondo, other.pnlFondo)) {
+            return false;
+        }
+        if (!Objects.equals(this.pnlInfo, other.pnlInfo)) {
+            return false;
+        }
+        if (!Objects.equals(this.pnlTablaLicencia, other.pnlTablaLicencia)) {
+            return false;
+        }
+        if (!Objects.equals(this.pnlTablaPlacas, other.pnlTablaPlacas)) {
+            return false;
+        }
+        if (!Objects.equals(this.pnlTitulo, other.pnlTitulo)) {
+            return false;
+        }
+        if (!Objects.equals(this.scPanelLicencias, other.scPanelLicencias)) {
+            return false;
+        }
+        if (!Objects.equals(this.tblLicencias, other.tblLicencias)) {
+            return false;
+        }
+        if (!Objects.equals(this.tblPlacas, other.tblPlacas)) {
+            return false;
+        }
+        if (!Objects.equals(this.txtLicencias, other.txtLicencias)) {
+            return false;
+        }
+        if (!Objects.equals(this.txtPlacas, other.txtPlacas)) {
+            return false;
+        }
+        return Objects.equals(this.txtSolicitarPlacas, other.txtSolicitarPlacas);
+    }
+
+    @Override
+    public String toString() {
+        return "frmConsultas{" + "btnAtras=" + btnAtras + ", jScrollPane1=" + 
+                jScrollPane1 + ", pnlFondo=" + pnlFondo + ", pnlInfo=" + pnlInfo + 
+                ", pnlTablaLicencia=" + pnlTablaLicencia + ", pnlTablaPlacas=" + 
+                pnlTablaPlacas + ", pnlTitulo=" + pnlTitulo + ", scPanelLicencias=" 
+                + scPanelLicencias + ", tblLicencias=" + tblLicencias + ", tblPlacas="
+                + tblPlacas + ", txtLicencias=" + txtLicencias + ", txtPlacas=" 
+                + txtPlacas + ", txtSolicitarPlacas=" + txtSolicitarPlacas + '}';
+    }
+
+  
+  
+    
 
 }
