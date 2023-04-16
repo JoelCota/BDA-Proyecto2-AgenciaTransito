@@ -30,25 +30,35 @@ import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
+ * Clase que permite gestionar los tramites con jasper reports
  *
  * @author Joel Antonio Lopez Cota ID:228926
  */
 public class JasperReportes {
 
     /**
-     *
+     * Metodo constructor por defecto
      */
     public JasperReportes() {
 
     }
 
+    /**
+     * Metodo para generar los reportes y mostrarlos.
+     *
+     * @param reporte es la lista de los tramites en el formato de tipo reporte.
+     * @return el reporte listo para imprimir
+     * @throws JRException se lanza cuando hay un error con el jasper reports.
+     * @throws FileNotFoundException se lanza cuando la ruta de entrada no
+     * existe.
+     */
     public JasperPrint generarReporte(List<Reportes> reporte) throws JRException, FileNotFoundException {
         List<Reportes> listItems = new ArrayList<Reportes>();
         listItems.addAll(reporte);
         JRBeanCollectionDataSource itemsJRBean = new JRBeanCollectionDataSource(listItems);
         Map<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("CollectionBeanParam", itemsJRBean);
-        InputStream input = new FileInputStream(new File("C:\\Users\\aroco\\JaspersoftWorkspace\\ReporteTramites\\ReporteTramites.jrxml\\"));
+        InputStream input = new FileInputStream(new File("C:\\Users\\aroco\\OneDrive - potros.itson.edu.mx\\Escritorio\\Proyecto2_BDA\\BDA-Proyecto2-AgenciaTransito\\ReporteTramites.jrxml\\"));
         JasperDesign jasperDesign = JRXmlLoader.load(input);
         JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());
@@ -57,9 +67,17 @@ public class JasperReportes {
         return jasperPrint;
     }
 
+    /**
+     * Metodo que permite exportar el reporte
+     *
+     * @param jasperPrint es el formato de jasper print generado en el metodo
+     * generar reporte
+     * @throws FileNotFoundException se lanza si no existe la ruta
+     * @throws JRException se lanza en caso de que no se pueda exportar
+     */
     public void exportarReporte(JasperPrint jasperPrint) throws FileNotFoundException, JRException {
-        String outputFile = "C:\\Users\\aroco\\OneDrive - potros.itson.edu.mx\\Escritorio\\Proyecto2_BDA\\BDA-Proyecto2-AgenciaTransito\\ProyectoBDA_AgenciaTransito\\Reportes\\" + "ReporteTramites.pdf";
-    OutputStream outputStream = new FileOutputStream(new File(outputFile));
+        String outputFile = "C:\\Users\\aroco\\OneDrive - potros.itson.edu.mx\\Escritorio\\Proyecto2_BDA\\Reportes\\" + "ReporteTramites.pdf";
+        OutputStream outputStream = new FileOutputStream(new File(outputFile));
         JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
     }
 }

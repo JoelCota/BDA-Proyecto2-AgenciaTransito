@@ -15,11 +15,11 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
- 
+
 /**
  *
- * Clase DAO para hacer las consultas a la base de datos con todo relacionado a la base
- * de datos con el tema de las licencias.
+ * Clase DAO para gestionar todos los tramites relacionados con las licencias.
+ *
  * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox
  * ID:229384
  */
@@ -28,10 +28,16 @@ public class LicenciasDAO implements ILicenciasDAO {
     //Se obtiene una nueva conexion
     ConexionBD conexion = new ConexionBD();
 
-    
     /**
-     * 
+     * Metodo constructor por defecto.
+     */
+    public LicenciasDAO() {
+    }
+
+    /**
+     *
      * Metodo para agregar una nueva licencia
+     *
      * @param licencia objeto de licencia
      * @throws PersistenciaException Excepciones (evita errroes).
      */
@@ -41,7 +47,7 @@ public class LicenciasDAO implements ILicenciasDAO {
 
         try {
             bd.getTransaction().begin();//entre a la base de datos
-            if (licencia!=null) {
+            if (licencia != null) {
                 bd.persist(licencia);
             }
             bd.getTransaction().commit();//cerre conexion
@@ -50,10 +56,9 @@ public class LicenciasDAO implements ILicenciasDAO {
         }
     }
 
-    
     /**
-     * 
      * Metodo para actualizar una licencia ya creada
+     *
      * @param licencia objeto licencia.
      * @throws PersistenciaException Excepciones (evita errroes).
      */
@@ -66,15 +71,15 @@ public class LicenciasDAO implements ILicenciasDAO {
             //Consultar Licencia
             CriteriaQuery consulta = builder.createQuery(Licencia.class);
             Root<Licencia> root = consulta.from(Licencia.class);
-             consulta.select(root);
+            consulta.select(root);
             Predicate predicatePersona = builder.equal(root.get("persona"), licencia.getPersona());
             Predicate activo = builder.equal(root.get("activa"), true);
-            consulta.where(predicatePersona,activo);
+            consulta.where(predicatePersona, activo);
             TypedQuery<Licencia> resultado = bd.createQuery(consulta);
             List<Licencia> licenciaNew = resultado.getResultList();
             //Actualiza
             for (Licencia licencVieja : licenciaNew) {
-                  licencVieja.setActiva(false);
+                licencVieja.setActiva(false);
             }
             bd.persist(licencia);
             bd.getTransaction().commit();
@@ -84,13 +89,15 @@ public class LicenciasDAO implements ILicenciasDAO {
     }
 
     /**
-     * 
-     * Metodo para buscar una licencia por medio de el RFC.
-     * @param personaProspecto objeto de persona.
-     * @return retorna a la persona que se busco.
+     * Metood para buscar si la persona cuenta con una licencia
+     *
+     * @param personaProspecto Es el objeto persona con el cual se va a buscar
+     * @return la persona si cuenta con una licencia , null en caso contrario
      */
-    public Persona buscarLicenciaRFC(Persona personaProspecto) {
+    @Override
+    public Persona buscarLicenciaPersona(Persona personaProspecto) {
         EntityManager bd = conexion.obtenerConexion();
+        try {
             bd.getTransaction().begin();
             CriteriaBuilder criteriaBuilder = bd.getCriteriaBuilder();
             CriteriaQuery consulta = criteriaBuilder.createQuery();
@@ -102,9 +109,20 @@ public class LicenciasDAO implements ILicenciasDAO {
             TypedQuery<Licencia> resultado = bd.createQuery(consulta);
             Persona persona = resultado.getSingleResult().getPersona();
             bd.getTransaction().commit();
-                 return persona;
+            return persona;
+        } catch (Exception e) {
+        }
+        return null;
     }
-    
+
+    /**
+     * Metodo que permite buscar todas las licencias de una persona
+     *
+     * @param personaProspecto es la persona de la que se desean obtener todas
+     * las licencias
+     * @return la lista de licencias
+     */
+    @Override
     public List<Licencia> listaLicencias(Persona personaProspecto) {
         EntityManager bd = conexion.obtenerConexion();
         try {

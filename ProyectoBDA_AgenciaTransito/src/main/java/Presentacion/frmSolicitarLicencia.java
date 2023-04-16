@@ -10,36 +10,60 @@ import Dominio.Persona;
 import Dominio.tipoLicencia;
 import Persistencia.LicenciasDAO;
 import Persistencia.PersonasDAO;
+import Validadores.Validadores;
 import excepciones.PersistenciaException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import utilidades.EncriptadoCesar;
 
 /**
- * Descripción de la clase:
- * Clase de tipo frame para solicitar la licencia.
+ * Descripción de la clase: Clase de tipo frame para solicitar la licencia.
+ *
  * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox
  * ID:229384
  */
 public class frmSolicitarLicencia extends javax.swing.JFrame {
 
-    PersonasDAO persona;
-    Persona personaProspecto;
-    LicenciasDAO licenciasDAO;
-    int vigencia;
-    tipoLicencia tipo;
+    /**
+     * Es la persona a la cual se le desea sacar la licencia.
+     */
+    private Persona personaProspecto;
+    /**
+     * Es el objeto para acceder a la clase personasDAO.
+     */
+    private PersonasDAO personasDAO;
+    /**
+     * Es el objeto para acceder a la clase licenciasDAO.
+     */
+    private LicenciasDAO licenciasDAO;
+    /**
+     * Es la vigencia de la licencia.
+     */
+    private int vigencia;
+    /**
+     * Es el tipo de licencia.
+     */
+    private tipoLicencia tipo;
+    /**
+     * Es el objeto para acceder a la clase validadores.
+     */
+    private Validadores validador = new Validadores();
+    /**
+     * Es el objeto para acceder a la clase encriptado cesar.
+     */
+    private EncriptadoCesar encriptador = new EncriptadoCesar();
 
     /**
      * Creates new form frmSolicitarLicencia
-     * Constructor de solicitar licencia
      */
     public frmSolicitarLicencia() {
         initComponents();
         cargarComboBoxVigencia();
         cargarComboBoxTipo();
-        this.persona = new PersonasDAO();
+        this.personasDAO = new PersonasDAO();
         this.pnlInfoPersona.setVisible(false);
         this.licenciasDAO = new LicenciasDAO();
         this.btnSolicitar.setEnabled(false);
@@ -120,16 +144,6 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
         txtRFC.setText("RFC");
 
         txtCampoRFC.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        txtCampoRFC.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txtCampoRFCMouseClicked(evt);
-            }
-        });
-        txtCampoRFC.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCampoRFCActionPerformed(evt);
-            }
-        });
         txtCampoRFC.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtCampoRFCKeyTyped(evt);
@@ -142,21 +156,11 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
                 cbxVigenciaItemStateChanged(evt);
             }
         });
-        cbxVigencia.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                cbxVigenciaMouseClicked(evt);
-            }
-        });
 
         cbxTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbxTipo.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cbxTipoItemStateChanged(evt);
-            }
-        });
-        cbxTipo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbxTipoActionPerformed(evt);
             }
         });
 
@@ -351,85 +355,40 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtCampoRFCMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtCampoRFCMouseClicked
-
-    }//GEN-LAST:event_txtCampoRFCMouseClicked
-
-    private void txtCampoRFCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCampoRFCActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCampoRFCActionPerformed
-
-    private void cbxTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxTipoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cbxTipoActionPerformed
-
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        if (this.txtCampoRFC.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Ingrese un RFC valido");
-        } else {
-            try {
-                personaProspecto = persona.buscarPersonaRFC(this.txtCampoRFC.getText());
-                if (personaProspecto != null) {
-                    this.pnlInfoPersona.setVisible(true);
-                    setearInfo(personaProspecto);
-                    this.txtCosto.setText("Costo: " + generarCosto());
-                    this.btnSolicitar.setEnabled(true);
-                }
-
-            } catch (PersistenciaException ex) {
-                JOptionPane.showMessageDialog(this, "El RFC no pertenece a ninguna persona");
-
-            }
-        }
+        this.buscarPersona();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void txtCampoRFCKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCampoRFCKeyTyped
-        validacionNumeroLetra(evt);
+        validador.validacionRFC(evt);
     }//GEN-LAST:event_txtCampoRFCKeyTyped
 
     private void btnSolicitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolicitarActionPerformed
-    generarLicencia();              
-            
-        
+        generarLicencia();
     }//GEN-LAST:event_btnSolicitarActionPerformed
 
     private void cbxTipoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxTipoItemStateChanged
-        try {
-            this.txtCosto.setText("Costo: " + generarCosto());
-        } catch (NullPointerException nul) {
-            nul.getMessage();
-        }
-
+        setearCosto();
     }//GEN-LAST:event_cbxTipoItemStateChanged
 
-    private void cbxVigenciaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxVigenciaMouseClicked
-
-    }//GEN-LAST:event_cbxVigenciaMouseClicked
-
     private void cbxVigenciaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxVigenciaItemStateChanged
-        try {
-            this.txtCosto.setText("Costo: " + generarCosto());
-        } catch (NullPointerException nul) {
-            nul.getMessage();
-
-        }
+        this.setearCosto();
     }//GEN-LAST:event_cbxVigenciaItemStateChanged
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         new frmMenu().setVisible(true);
     }//GEN-LAST:event_formWindowClosed
 
-
     private void btnBorrarCamposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarCamposActionPerformed
-     limpiarCampos();
+        limpiarCampos();
     }//GEN-LAST:event_btnBorrarCamposActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         new frmMenu().setVisible(true);
     }//GEN-LAST:event_formWindowClosing
 
-     /**
-     * 
+    /**
+     *
      * Metodo para cargar los combox de los años.
      */
     private void cargarComboBoxVigencia() {
@@ -441,7 +400,7 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
     }
 
     /**
-     * combo box para poner los tipos
+     * Metodo para cargar el combo box de los tipos.
      */
     private void cargarComboBoxTipo() {
         this.cbxTipo.removeAllItems();
@@ -451,20 +410,8 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
     }
 
     /**
-     * 
-     * Metodo para la validacion de numero y letra.
-     * @param evt evento
-     */
-    private void validacionNumeroLetra(java.awt.event.KeyEvent evt) {
-        char txt = evt.getKeyChar();
-        if (!(Character.isLetterOrDigit(txt))) {
-            evt.consume();
-        }
-    }
-
-    /**
-     * 
-     * Metodo para setear la informacion
+     * Metodo para setear la informacion.
+     *
      * @param persona Objeto persona.
      */
     private void setearInfo(Persona persona) {
@@ -499,9 +446,10 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     /**
-     * 
-     * Metodo para generar los costows
-     * @return retorna los costos
+     * Metodo para generar los costos en base al tipo seleccionado y a la
+     * vigencia.
+     *
+     * @return retorna los costos.
      */
     private float generarCosto() {
         float costo = 0;
@@ -542,33 +490,88 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
     }
 
     /**
-     * 
-     * Metodo para generar la licencia
-     * @return objeto de tipo licencia
+     * Metodo para generar la licencia.
+     *
+     * @return objeto de tipo licencia.
      */
     private Licencia generarLicencia() {
         Calendar fechaVigencia = Calendar.getInstance();
         fechaVigencia.add(Calendar.YEAR, vigencia);
         Licencia licencia = new Licencia(tipo, vigencia, true, generarCosto(), Calendar.getInstance(), fechaVigencia, personaProspecto);
         try {
-            if (licenciasDAO.buscarLicenciaRFC(personaProspecto) == null) {
+            if (licenciasDAO.buscarLicenciaPersona(personaProspecto) == null) {
                 licenciasDAO.agregarLicencia(licencia);
-                JOptionPane.showMessageDialog(this, "Se genero la licencia \nCosto:" + licencia.getCosto());
-                limpiarCampos();
+                JOptionPane.showMessageDialog(this, "Se genero la licencia \nCosto: $" + licencia.getCosto());
+                lanzarConfirmacion();
             } else {
                 licenciasDAO.actualizarLicencia(licencia);
-                 JOptionPane.showMessageDialog(this, "Se genero la licencia \nCosto:" + licencia.getCosto());
-                limpiarCampos();
+                JOptionPane.showMessageDialog(this, "Se genero la licencia \nCosto: $" + licencia.getCosto());
+                lanzarConfirmacion();
             }
         } catch (PersistenciaException ex) {
             Logger.getLogger(frmSolicitarLicencia.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
+
+    /**
+     * Metodo para lanzar confirmacion.
+     */
+    private void lanzarConfirmacion() {
+        int respuesta = JOptionPane.showOptionDialog(null, "¿Deseas realizar otro?", "Confirmación",
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+        if (respuesta == JOptionPane.YES_OPTION) {
+            limpiarCampos();
+        } else {
+            new frmMenu().setVisible(true);
+            this.setVisible(false);
+        }
+    }
+
+    /**
+     * Metodo para dejar todos los campos en blanco.
+     */
     private void limpiarCampos() {
         this.txtCampoRFC.setText("");
         this.btnSolicitar.setEnabled(false);
         this.pnlInfoPersona.setVisible(false);
+    }
+
+    /**
+     * Metodo para actualizar el costo de la licencia.
+     */
+    private void setearCosto() {
+        try {
+            this.txtCosto.setText("Costo: " + generarCosto());
+        } catch (NullPointerException nul) {
+            nul.getMessage();
+
+        }
+    }
+
+    /**
+     * Metodo para buscar la persona y setear la info en el panel de
+     * informacion.
+     */
+    private void buscarPersona() {
+        if (this.txtCampoRFC.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingrese un RFC valido");
+        } else {
+            try {
+                personaProspecto = personasDAO.buscarPersonaRFC(this.txtCampoRFC.getText());
+                if (personaProspecto != null) {
+                    this.pnlInfoPersona.setVisible(true);
+                    personaProspecto.setNombreCompleto(encriptador.getDesencriptado(personaProspecto.getNombreCompleto()));
+                    setearInfo(personaProspecto);
+                    this.txtCosto.setText("Costo: $" + generarCosto());
+                    this.btnSolicitar.setEnabled(true);
+                }
+
+            } catch (PersistenciaException ex) {
+                JOptionPane.showMessageDialog(this, "El RFC no pertenece a ninguna persona");
+
+            }
+        }
     }
 
 }

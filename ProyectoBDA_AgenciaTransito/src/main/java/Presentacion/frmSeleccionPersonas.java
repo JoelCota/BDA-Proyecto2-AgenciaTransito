@@ -11,8 +11,8 @@ import Dominio.Placa;
 import Persistencia.LicenciasDAO;
 import Persistencia.PersonasDAO;
 import Persistencia.PlacasDAO;
+import Validadores.Validadores;
 import excepciones.PersistenciaException;
-import java.awt.event.KeyEvent;
 import static java.lang.Integer.parseInt;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,27 +20,59 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import utilidades.EncriptadoCesar;
 
 /**
  * Descripción de la clase: Clase que permite poder seleccionar las personas de
- * las cuales se desea consultar las placas y licencias
+ * las cuales se desea consultar las placas y licencias.
  *
  * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox
  * ID:229384
  */
 public class frmSeleccionPersonas extends javax.swing.JFrame {
-
+    /**
+     * Es el logger
+     */
     private static final Logger LOG = Logger.getLogger(frmSeleccionPersonas.class.getName());
+    /**
+     * Es el elemento seleccionado en el comand box.
+     */
     private Integer elementoSeleccionado;
+    /**
+     * Es la lista de las personas que tienen coincidencia con el parametro .
+     */
     private List<Persona> listaPersonas;
+    /**
+     * Es el objeto para acceder a la clase encriptado cesar.
+     */
+    private EncriptadoCesar encriptador = new EncriptadoCesar();
+    /**
+     * Es el objeto para acceder a la clase personasDAO.
+     */
     private PersonasDAO personasDAO;
+    /**
+     * Es el objeto para acceder a la clase placasDAO.
+     */
     private PlacasDAO placasDAO;
+     /**
+     * Es el objeto para acceder a la clase licenciasDAO.
+     */
     private LicenciasDAO licenciasDAO;
-    int largo = 15;
-    int opcion = 1;
+    /**
+     * Es el largo de caracteres disponible en el campo de texto.
+     */
+    private int largo = 15;
+    /**
+     * Es la opcion del combo box.
+     */
+    private int opcion = 1;
+    /**
+     * Es el objeto para acceder a la clase validadores.
+     */
+    private Validadores validador = new Validadores();
 
     /**
-     * Creates new form frmSeleccionPersonas
+     * Inicializa el frame.
      */
     public frmSeleccionPersonas() {
         initComponents();
@@ -269,40 +301,11 @@ public class frmSeleccionPersonas extends javax.swing.JFrame {
     }//GEN-LAST:event_cbxTipoConsultaActionPerformed
 
     private void cbxTipoConsultaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxTipoConsultaItemStateChanged
-        try {
-            switch (this.cbxTipoConsulta.getModel().getSelectedItem().toString()) {
-                case "RFC":
-                    largo = 15;
-                    opcion = 1;
-                    break;
-                case "NOMBRE":
-                    largo = 20;
-                    opcion = 2;
-                    break;
-                case "AÑO NACIDO":
-                    largo = 3;
-                    opcion = 3;
-                    break;
-            }
-        } catch (NullPointerException nul) {
-            nul.getMessage();
-
-        }
+        this.gestionarTipo();
     }//GEN-LAST:event_cbxTipoConsultaItemStateChanged
 
     private void btnContinuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContinuarActionPerformed
-        if (elementoSeleccionado != null) {
-            Persona persona = listaPersonas.get(elementoSeleccionado);
-            List<Licencia> listaLicencias = licenciasDAO.listaLicencias(persona);
-            List<Placa> listaPlacas = placasDAO.listaPlacas(persona);
-            if (listaPlacas.isEmpty() && listaLicencias.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "El cliente no cuenta con un historial");
-            } else {
-                new frmConsultas(listaLicencias, listaPlacas).setVisible(true);
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "No ha seleccionado un elemento");
-        }
+        this.continuarConsulta();
     }//GEN-LAST:event_btnContinuarActionPerformed
 
     private void listaResultadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaResultadosMouseClicked
@@ -310,21 +313,7 @@ public class frmSeleccionPersonas extends javax.swing.JFrame {
     }//GEN-LAST:event_listaResultadosMouseClicked
 
     private void txtCampoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCampoKeyTyped
-        if (!(txtCampo.getText().length() > largo)) {
-            switch (opcion) {
-                case 1:
-                    validacionRFC(evt);
-                    break;
-                case 2:
-                    validacionCamposAlfabeto(evt);
-                    break;
-                default:
-                    validacionNumero(evt);
-                    break;
-            }
-        } else {
-            evt.consume();
-        }
+        this.cambioDeValidacion(evt);
     }//GEN-LAST:event_txtCampoKeyTyped
 
 
@@ -337,7 +326,7 @@ public class frmSeleccionPersonas extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
     /**
      *
-     * Metodo para cargar la tabla de los resutados
+     * Metodo para cargar la tabla de los resutados.
      *
      * @param personas Lista de personas
      */
@@ -352,57 +341,18 @@ public class frmSeleccionPersonas extends javax.swing.JFrame {
     }
 
     /**
-     * Metodo para cargar las opciones de busqueda
+     * Metodo para cargar las opciones de busqueda.
      */
     private void cargarOpcionesBusqueda() {
         this.cbxTipoConsulta.removeAllItems();
         this.cbxTipoConsulta.addItem("INDIQUE OPCION DE CONSULTA");
         this.cbxTipoConsulta.addItem("RFC");
         this.cbxTipoConsulta.addItem("NOMBRE");
-        this.cbxTipoConsulta.addItem("AÑO NACIDO");
+        this.cbxTipoConsulta.addItem("AÑO NACIMIENTO");
 
     }
 
     /**
-     * Metodo para validar el numero
-     *
-     * @param evt evento
-     */
-    private void validacionNumero(java.awt.event.KeyEvent evt) {
-        char txt = evt.getKeyChar();
-        if (!(Character.isDigit(txt))) {
-            evt.consume();
-        }
-    }
-
-    /**
-     *
-     * Metodo para validar el campo alfabetico
-     *
-     * @param evt evento
-     */
-    private void validacionCamposAlfabeto(java.awt.event.KeyEvent evt) {
-        char txt = evt.getKeyChar();
-        if (!(Character.isAlphabetic(txt) || txt == KeyEvent.VK_SPACE)) {
-            evt.consume();
-        }
-    }
-
-    /**
-     *
-     * Metodo para validar el RFC de la persona
-     *
-     * @param evt evento
-     */
-    private void validacionRFC(java.awt.event.KeyEvent evt) {
-        char txt = evt.getKeyChar();
-        if (!(Character.isLetterOrDigit(txt))) {
-            evt.consume();
-        }
-    }
-
-    /**
-     *
      * Metodo para generar las personas.
      */
     private void generarPersonas() {
@@ -417,6 +367,7 @@ public class frmSeleccionPersonas extends javax.swing.JFrame {
                         Persona persona = personasDAO.buscarPersonaRFC(this.txtCampo.getText());
                         if (persona != null) {
                             listaPersonas = new ArrayList<>();
+                            persona.setNombreCompleto(encriptador.getDesencriptado(persona.getNombreCompleto()));
                             listaPersonas.add(persona);
                             cargarTablaResultados(listaPersonas);
                             this.pnlTablas.setVisible(true);
@@ -429,29 +380,106 @@ public class frmSeleccionPersonas extends javax.swing.JFrame {
                 }
                 break;
                 case "NOMBRE":
-                    listaPersonas = personasDAO.buscarPersonasPorNombre(this.txtCampo.getText());
-                    if (listaPersonas != null) {
+                    listaPersonas = personasDAO.buscarPersonasPorNombre(encriptador.setEncriptado(this.txtCampo.getText()));
+                    if (!listaPersonas.isEmpty()) {
+                        for (Persona listaConsultada : listaPersonas) {
+                            listaConsultada.setNombreCompleto(encriptador.getDesencriptado(listaConsultada.getNombreCompleto()));
+                        }
                         cargarTablaResultados(listaPersonas);
                         this.pnlTablas.setVisible(true);
                     } else {
-                        this.pnlTablas.setVisible(false);
                         JOptionPane.showMessageDialog(this, "No se encontraron resultados");
                     }
                     break;
-                case "AÑO NACIDO":
+                case "AÑO NACIMIENTO":
                     listaPersonas = personasDAO.buscarFecha(parseInt(this.txtCampo.getText()));
-                    if (listaPersonas != null) {
+                    if (!listaPersonas.isEmpty()) {
+                        for (Persona listaConsultada : listaPersonas) {
+                            listaConsultada.setNombreCompleto(encriptador.getDesencriptado(listaConsultada.getNombreCompleto()));
+                        }
                         cargarTablaResultados(listaPersonas);
                         this.pnlTablas.setVisible(true);
                     } else {
                         JOptionPane.showMessageDialog(this, "No se encontraron resultados");
                     }
                     break;
-                default:
             }
         }
     }
 
+    /**
+     * Metodo apra gestionar el tipo seleccionado y en base a eso restringir el
+     * campo de texto.
+     */
+    private void gestionarTipo() {
+        try {
+            switch (this.cbxTipoConsulta.getModel().getSelectedItem().toString()) {
+                case "RFC":
+                    largo = 15;
+                    opcion = 1;
+                    this.txtCampo.setText("");
+                    this.pnlTablas.setVisible(false);
+                    break;
+                case "NOMBRE":
+                    largo = 20;
+                    opcion = 2;
+                    this.txtCampo.setText("");
+                    this.pnlTablas.setVisible(false);
+
+                    break;
+                case "AÑO NACIMIENTO":
+                    largo = 3;
+                    opcion = 3;
+                    this.txtCampo.setText("");
+                    this.pnlTablas.setVisible(false);
+                    break;
+            }
+        } catch (NullPointerException nul) {
+            nul.getMessage();
+
+        }
+    }
+
+    /**
+     * Metodo para gestionar la consulta y cargar el frame
+     */
+    private void continuarConsulta() {
+        if (elementoSeleccionado != null) {
+            Persona persona = listaPersonas.get(elementoSeleccionado);
+            List<Licencia> listaLicencias = licenciasDAO.listaLicencias(persona);
+            List<Placa> listaPlacas = placasDAO.listaPlacas(persona);
+            if (listaPlacas.isEmpty() && listaLicencias.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "El cliente no cuenta con un historial");
+            } else {
+                new frmConsultas(listaLicencias, listaPlacas).setVisible(true);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "No ha seleccionado un elemento");
+        }
+    }
+
+    /**
+     * Metodo para gestionar la validacion depende la opcion seleccionada
+     *
+     * @param evt es el cambio en el combo box
+     */
+    private void cambioDeValidacion(java.awt.event.KeyEvent evt) {
+        if (!(txtCampo.getText().length() > largo)) {
+            switch (opcion) {
+                case 1:
+                    validador.validacionRFC(evt);
+                    break;
+                case 2:
+                    validador.validacionCamposAlfabeto(evt);
+                    break;
+                default:
+                    validador.validacionNumero(evt);
+                    break;
+            }
+        } else {
+            evt.consume();
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;

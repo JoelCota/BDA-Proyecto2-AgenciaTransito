@@ -27,16 +27,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.accessibility.AccessibleContext;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JRootPane;
-import javax.swing.JTextField;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperPrint;
+import utilidades.EncriptadoCesar;
 import utilidades.JasperReportes;
 
 /**
@@ -55,6 +49,7 @@ public class frmSolicitarReporte extends javax.swing.JFrame {
     private LicenciasDAO licenciasDAO;
     private TramitesDAO tramitesDAO;
     private JasperPrint jasperPrint;
+    private EncriptadoCesar encriptador = new EncriptadoCesar();
 
     /**
      * Creates new form frmSeleccionPersonas
@@ -418,9 +413,10 @@ public class frmSolicitarReporte extends javax.swing.JFrame {
     }
 
     /**
-     * 
+     *
      * Metodo para hacer las validaciones del campo alfabetico
-     * @param evt 
+     *
+     * @param evt
      */
     private void validacionCamposAlfabeto(java.awt.event.KeyEvent evt) {
         char txt = evt.getKeyChar();
@@ -429,28 +425,8 @@ public class frmSolicitarReporte extends javax.swing.JFrame {
         }
     }
 
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnExportar;
-    private javax.swing.JButton btnGenerarReporte;
-    private javax.swing.JComboBox<String> cbxTipoConsulta;
-    private javax.swing.JComboBox<String> cbxTipoTramite;
-    private com.github.lgooddatepicker.components.DatePicker dpFechaFin;
-    private com.github.lgooddatepicker.components.DatePicker dpFechaInicio;
-    private javax.swing.JPanel pnlComponentes;
-    private javax.swing.JPanel pnlConsultas;
-    private javax.swing.JPanel pnlFondo;
-    private javax.swing.JPanel pnlTitulo;
-    private javax.swing.JTextField txtCampoNombre;
-    private javax.swing.JLabel txtFechaFin;
-    private javax.swing.JLabel txtFechaInicio;
-    private javax.swing.JLabel txtNombre;
-    private javax.swing.JLabel txtSolicitarPlacas;
-    private javax.swing.JLabel txtTipoTramite;
-    // End of variables declaration//GEN-END:variables
-
     /**
-     * 
+     *
      * Metodo para cargar el tipo de tramite
      */
     private void cargarTipoTramite() {
@@ -465,16 +441,16 @@ public class frmSolicitarReporte extends javax.swing.JFrame {
         JasperReportes reportes = new JasperReportes();
         switch (opcion) {
             case "NOMBRE":
-                listaPersonas = personasDAO.buscarPersonasPorNombre(this.txtCampoNombre.getText());
+                listaPersonas = personasDAO.buscarPersonasPorNombre(encriptador.setEncriptado(this.txtCampoNombre.getText()));
                 if (listaPersonas != null) {
-                    List<Tramite> listaTramites = tramitesDAO.listaTramites(this.txtCampoNombre.getText());
+                    List<Tramite> listaTramites = tramitesDAO.consultaListaTramitesNombre(encriptador.setEncriptado(this.txtCampoNombre.getText()));
                     jasperPrint = reportes.generarReporte(this.generarListaReporte(listaTramites));
                 } else {
                     JOptionPane.showMessageDialog(this, "No se encontraron resultados");
                 }
                 break;
             case "PERIODO":
-                List<Tramite> listaTramites = tramitesDAO.buscarTramitesPorFechas(convertirFecha(this.dpFechaInicio), convertirFecha(this.dpFechaFin));
+                List<Tramite> listaTramites = tramitesDAO.consultarListaTramitesPorFechas(convertirFecha(this.dpFechaInicio), convertirFecha(this.dpFechaFin));
                 if (!listaTramites.isEmpty()) {
                     jasperPrint = reportes.generarReporte(this.generarListaReporte(listaTramites));
                 } else {
@@ -482,7 +458,7 @@ public class frmSolicitarReporte extends javax.swing.JFrame {
                 }
                 break;
             case "TIPO TRAMITE":
-                List<Tramite> lista = tramitesDAO.buscarTramites();
+                List<Tramite> lista = tramitesDAO.consultaListaTramites();
                 List<Tramite> listaLicencias = new ArrayList<>();
                 List<Tramite> listaPlacas = new ArrayList<>();
                 for (Tramite tramite : lista) {
@@ -520,8 +496,11 @@ public class frmSolicitarReporte extends javax.swing.JFrame {
             } else {
                 tipoTramite = "Placa";
             }
+
+            listaTramite.getPersona().setNombreCompleto(encriptador.getDesencriptado(listaTramite.getPersona().getNombreCompleto()));
             reporte = new Reportes(listaTramite.getPersona().getNombreCompleto(), tipoTramite, sdf.format(listaTramite.getFechaExpedicion().getTime()), listaTramite.getCosto());
             listaInfo.add(reporte);
+            listaTramite.getPersona().setNombreCompleto(encriptador.setEncriptado(listaTramite.getPersona().getNombreCompleto()));
         }
         return listaInfo;
     }
@@ -560,4 +539,23 @@ public class frmSolicitarReporte extends javax.swing.JFrame {
         }
         return null;
     }
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnExportar;
+    private javax.swing.JButton btnGenerarReporte;
+    private javax.swing.JComboBox<String> cbxTipoConsulta;
+    private javax.swing.JComboBox<String> cbxTipoTramite;
+    private com.github.lgooddatepicker.components.DatePicker dpFechaFin;
+    private com.github.lgooddatepicker.components.DatePicker dpFechaInicio;
+    private javax.swing.JPanel pnlComponentes;
+    private javax.swing.JPanel pnlConsultas;
+    private javax.swing.JPanel pnlFondo;
+    private javax.swing.JPanel pnlTitulo;
+    private javax.swing.JTextField txtCampoNombre;
+    private javax.swing.JLabel txtFechaFin;
+    private javax.swing.JLabel txtFechaInicio;
+    private javax.swing.JLabel txtNombre;
+    private javax.swing.JLabel txtSolicitarPlacas;
+    private javax.swing.JLabel txtTipoTramite;
+    // End of variables declaration//GEN-END:variables
+
 }

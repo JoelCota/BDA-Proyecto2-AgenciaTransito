@@ -20,8 +20,7 @@ import javax.persistence.criteria.Root;
 
 /**
  *
- * Clase DAO para hacer todos las consultas relacionada con la tabla de "Placas"
- * en la base de datos.
+ * Clase DAO para gestionar todos los tramites relacionados con las placas.
  *
  * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox
  * ID:229384
@@ -30,6 +29,12 @@ public class PlacasDAO implements IPlacasDAO {
 
     //Conexion a la base de datos
     ConexionBD conexion = new ConexionBD();
+
+    /**
+     * Metodo constructor por defecto.
+     */
+    public PlacasDAO() {
+    }
 
     /**
      *
@@ -90,12 +95,14 @@ public class PlacasDAO implements IPlacasDAO {
     }
 
     /**
+     * Metodo para conocer si hay una persona la cual cuenta con una placa
+     * activa del mismo carro.
      *
-     *
-     * @param serie
-     * @return
+     * @param seriePlaca es la serie de la placa 
+     * @return la placa que cuenta que esta activa
      */
-    public Placa buscarPersonaSerie(String serie) {
+    @Override
+    public Placa buscarPersonaSerie(String seriePlaca) {
         EntityManager em = conexion.obtenerConexion();
 
         try {
@@ -104,7 +111,7 @@ public class PlacasDAO implements IPlacasDAO {
             CriteriaQuery<Placa> consulta = builder.createQuery(Placa.class);//solo se conecta en el java
             Root<Placa> root = consulta.from(Placa.class);
             consulta.select(root);
-            Predicate predicateLicencia = builder.equal(root.get("numeroPlaca"), serie);
+            Predicate predicateLicencia = builder.equal(root.get("numeroPlaca"), seriePlaca);
             Predicate activo = builder.equal(root.get("activa"), true);
             consulta.where(predicateLicencia, activo);
             TypedQuery<Placa> resultado = em.createQuery(consulta); // se conecta a la base de datos
@@ -113,11 +120,17 @@ public class PlacasDAO implements IPlacasDAO {
             return placa;
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
         }
         return null;
     }
 
+    /**
+     * Metodo para buscar todas las placas de una persona.
+     *
+     * @param personaProspecto es la persona a la cual pertenecen las placas.
+     * @return la lista de las placas que pertenecen a la persona del parametro.
+     */
+    @Override
     public List<Placa> listaPlacas(Persona personaProspecto) {
         EntityManager em = conexion.obtenerConexion();
         try {
@@ -132,13 +145,19 @@ public class PlacasDAO implements IPlacasDAO {
         }
     }
 
+    /**
+     * Metodo para buscar todas las placas existentes.
+     *
+     * @return la lista de todas las placas existentes.
+     */
+    @Override
     public List<Placa> listaPlacas() {
         EntityManager em = conexion.obtenerConexion();
         em.getTransaction().begin();
         List<Placa> placas = em.createQuery("Select p from Placa p", Placa.class).getResultList();
         em.getTransaction().commit();
         return placas;
- 
+
     }
 
 }

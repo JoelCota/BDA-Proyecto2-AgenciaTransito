@@ -6,6 +6,7 @@ package Persistencia;
 //importanciones
 
 import Dominio.Tramite;
+import Interfaces.ITramitesDAO;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -13,24 +14,31 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
- 
+
 /**
- *
+ * Clase DAO para gestionar todos los tramites relacionados con los tramites.
  *
  * @author Joel Antonio Lopez Cota ID:228926
  */
-public class TramitesDAO {
+public class TramitesDAO implements ITramitesDAO {
 
     ConexionBD conexion = new ConexionBD();
 
     /**
-     *
+     * Metodo constructor por defecto.
      */
     public TramitesDAO() {
 
     }
 
-    public List<Tramite> listaTramites(String nombre) {
+    /**
+     * Metodo para consultar todos los tramites por nombre de usuario similar.
+     *
+     * @param nombre es el nombre del cliente
+     * @return la lista de tramites de todos los usuarios con nombre similar
+     */
+    @Override
+    public List<Tramite> consultaListaTramitesNombre(String nombre) {
         EntityManager em = conexion.obtenerConexion();
         em.getTransaction().begin();
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -43,7 +51,16 @@ public class TramitesDAO {
         return listaTramites;
     }
 
-    public List<Tramite> buscarTramitesPorFechas(Date fechaInicio, Date fechaFin) {
+    /**
+     * Metodo para consultar todos los tramites por periodo de tiempo.
+     *
+     * @param fechaInicio es la fecha de inicio del periodo
+     * @param fechaFin es la fecha de fin del periodo
+     * @return la lista de tramites de todos los usuarios que tienen un tramite
+     * realizado durante el periodo
+     */
+    @Override
+    public List<Tramite> consultarListaTramitesPorFechas(Date fechaInicio, Date fechaFin) {
         EntityManager em = conexion.obtenerConexion();
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<Tramite> query = builder.createQuery(Tramite.class);
@@ -55,8 +72,14 @@ public class TramitesDAO {
         List<Tramite> tramites = em.createQuery(query).getResultList();
         return tramites;
     }
-    
-     public List<Tramite> buscarTramites(){
+
+    /**
+     * Metodo para consultar todos los tramites realizados
+     *
+     * @return todos los tramites realizados
+     */
+    @Override
+    public List<Tramite> consultaListaTramites() {
         EntityManager em = conexion.obtenerConexion();
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<Tramite> query = builder.createQuery(Tramite.class);
@@ -64,5 +87,5 @@ public class TramitesDAO {
         query.select(root);
         List<Tramite> tramites = em.createQuery(query).getResultList();
         return tramites;
-     }
+    }
 }

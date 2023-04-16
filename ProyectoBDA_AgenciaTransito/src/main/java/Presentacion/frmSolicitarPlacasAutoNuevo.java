@@ -9,6 +9,7 @@ import Dominio.Automovil;
 import Validadores.Validadores;
 import Dominio.Persona;
 import Dominio.Placa;
+import Dominio.tipoLicencia;
 import Persistencia.AutomovilesDAO;
 import Persistencia.LicenciasDAO;
 import Persistencia.PersonasDAO;
@@ -21,21 +22,48 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import utilidades.EncriptadoCesar;
 
 /**
- * 
+ *
  * Clase tipo frame para solicitar las placas del automovil nuevo.
+ *
  * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox
  * ID:229384
  */
 public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
 
-    private Validadores validadores = new Validadores();
-    private PersonasDAO personaDAO;
-    private PlacasDAO placasDAO;
-    private LicenciasDAO licenciasDAO;
+    /**
+     * Es la persona a la cual se le desea sacar la licencia.
+     */
     private Persona personaProspecto;
+    /**
+     * Es el objeto para acceder a la clase personasDAO.
+     */
+    private PersonasDAO personasDAO;
+    /**
+     * Es el objeto para acceder a la clase licenciasDAO.
+     */
+    private LicenciasDAO licenciasDAO;
+    /**
+     * Es la vigencia de la licencia.
+     */
+    private Validadores validador = new Validadores();
+    /**
+     * Es el objeto para acceder a la clase encriptado cesar.
+     */
+    private EncriptadoCesar encriptador = new EncriptadoCesar();
+    /**
+     * Es el objeto para acceder a la clase placasDAO.
+     */
+    private PlacasDAO placasDAO;
+    /**
+     * Es el objeto para acceder a la clase automovilesDAO.
+     */
     private AutomovilesDAO automovilesDAO;
+    /**
+     * Es el costo del tramite
+     */
     private final float costo = 1500;
 
     /**
@@ -45,7 +73,7 @@ public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
         initComponents();
         this.pnlInfoPersona.setVisible(false);
         this.txtCostoPlacas.setVisible(false);
-        this.personaDAO = new PersonasDAO();
+        this.personasDAO = new PersonasDAO();
         this.placasDAO = new PlacasDAO();
         this.licenciasDAO = new LicenciasDAO();
         this.automovilesDAO = new AutomovilesDAO();
@@ -84,7 +112,7 @@ public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
         btnSolicitar = new javax.swing.JButton();
         btnBorrarCampos = new javax.swing.JButton();
         txtCostoPlacas = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnBusquedaRFC = new javax.swing.JButton();
         txtSeñal = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -163,8 +191,8 @@ public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
             }
         });
 
-        txtRFC.setForeground(new java.awt.Color(0, 0, 0));
         txtRFC.setText("RFC");
+        txtRFC.setForeground(new java.awt.Color(0, 0, 0));
 
         txtCampoSerie.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         txtCampoSerie.addActionListener(new java.awt.event.ActionListener() {
@@ -199,20 +227,20 @@ public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
             }
         });
 
-        txtSerieCarro.setForeground(new java.awt.Color(0, 0, 0));
         txtSerieCarro.setText("Serie");
+        txtSerieCarro.setForeground(new java.awt.Color(0, 0, 0));
 
-        txtModeloCarro.setForeground(new java.awt.Color(0, 0, 0));
         txtModeloCarro.setText("Modelo");
+        txtModeloCarro.setForeground(new java.awt.Color(0, 0, 0));
 
-        txtLineaCarro.setForeground(new java.awt.Color(0, 0, 0));
         txtLineaCarro.setText("Linea");
+        txtLineaCarro.setForeground(new java.awt.Color(0, 0, 0));
 
-        txtColorCarro.setForeground(new java.awt.Color(0, 0, 0));
         txtColorCarro.setText("Color");
+        txtColorCarro.setForeground(new java.awt.Color(0, 0, 0));
 
-        txtMarcaCarro.setForeground(new java.awt.Color(0, 0, 0));
         txtMarcaCarro.setText("Marca");
+        txtMarcaCarro.setForeground(new java.awt.Color(0, 0, 0));
 
         txtCampoMarca.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         txtCampoMarca.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -235,18 +263,18 @@ public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
             }
         });
 
-        txtCostoPlacas.setForeground(new java.awt.Color(0, 0, 0));
         txtCostoPlacas.setText("Costo: 1500");
+        txtCostoPlacas.setForeground(new java.awt.Color(0, 0, 0));
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnBusquedaRFC.setText("jButton1");
+        btnBusquedaRFC.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnBusquedaRFCActionPerformed(evt);
             }
         });
 
-        txtSeñal.setForeground(new java.awt.Color(0, 0, 0));
         txtSeñal.setText("Ingrese el RFC:");
+        txtSeñal.setForeground(new java.awt.Color(0, 0, 0));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -259,7 +287,7 @@ public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(28, 28, 28)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
                         .addComponent(txtMarcaCarro)
                         .addGap(38, 38, 38)
                         .addComponent(txtCampoMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -287,7 +315,7 @@ public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
                                 .addComponent(txtSeñal)
                                 .addComponent(txtCampoRFC, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnBusquedaRFC, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pnlInfoPersona, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -303,9 +331,9 @@ public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(23, Short.MAX_VALUE)
                 .addComponent(txtSeñal)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(0, 0, 0)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -313,7 +341,7 @@ public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(txtRFC)
                                     .addComponent(txtCampoRFC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton1))
+                                    .addComponent(btnBusquedaRFC))
                                 .addGap(18, 18, 18)
                                 .addComponent(txtCampoSerie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(txtSerieCarro))
@@ -330,12 +358,16 @@ public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
                             .addComponent(txtCampoColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtColorCarro)))
                     .addComponent(pnlInfoPersona, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtMarcaCarro)
-                    .addComponent(txtCampoMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtCostoPlacas))
-                .addGap(36, 36, 36)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtMarcaCarro))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtCampoMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtCostoPlacas))))
+                .addGap(38, 38, 38)
                 .addComponent(Separator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -357,17 +389,17 @@ public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, 0)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jPanel2.setBackground(new java.awt.Color(117, 37, 37));
 
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Solicitar Placas");
         jLabel2.setBackground(new java.awt.Color(0, 0, 0));
         jLabel2.setFont(new java.awt.Font("Segoe UI Black", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Solicitar Placas");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -409,76 +441,13 @@ public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCampoRFCActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if (this.txtCampoRFC.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Ingrese un rfc valido");
-        } else {
-            try {
-                if (licenciasDAO.buscarLicenciaRFC(personaDAO.buscarPersonaRFC(txtCampoRFC.getText())) != null && personaDAO.buscarPersonaRFC(txtCampoRFC.getText()) != null) {
-                    personaProspecto = personaDAO.buscarPersonaRFC(txtCampoRFC.getText());
-                    this.pnlInfoPersona.setVisible(true);
-                    setearInfo(personaProspecto);
-                    this.btnSolicitar.setEnabled(true);
-                }
-            } catch (PersistenciaException ex) {
-                JOptionPane.showMessageDialog(this, "El usuario no cuenta con una licencia vigente");
-
-            }
-        }
-    }//GEN-LAST:event_jButton1ActionPerformed
-    /**
-     * 
-     * Metodo para validar los campos alfabeticos.
-     * @param evt 
-     */
-    private void validacionCamposAlfabeto(java.awt.event.KeyEvent evt) {
-        char txt = evt.getKeyChar();
-        if (!(Character.isAlphabetic(txt) || txt == KeyEvent.VK_SPACE)) {
-            evt.consume();
-        }
-    }
-
-    /**
-     * 
-     * Metodo para validar los numeros de letras.
-     * @param evt 
-     */
-    private void validacionNumeroLetra(java.awt.event.KeyEvent evt) {
-        char txt = evt.getKeyChar();
-        if (!(Character.isLetterOrDigit(txt))) {
-            evt.consume();
-        }
-    }
-
-    /**
-     * Metodo para validar los campos de la serie.
-     * @param evt 
-     */
-    private void validacionCamposSerie(java.awt.event.KeyEvent evt) {
-        char txt = evt.getKeyChar();
-        if (!(txt == KeyEvent.VK_MINUS || Character.isLetterOrDigit(txt))) {
-            evt.consume();
-        }
-    }
-
-    /**
-     * 
-     * Metodo que ayuda a validar los numeros.
-     * @param evt 
-     */
-    private void validacionNumero(java.awt.event.KeyEvent evt) {
-        char txt = evt.getKeyChar();
-        if (!(Character.isDigit(txt))) {
-            evt.consume();
-        }
-    }
-    
-    
-    
+    private void btnBusquedaRFCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBusquedaRFCActionPerformed
+        this.busquedaRFC();
+    }//GEN-LAST:event_btnBusquedaRFCActionPerformed
 
     private void txtCampoRFCKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCampoRFCKeyTyped
         if (!(txtCampoRFC.getText().length() > 12)) {
-            validacionNumeroLetra(evt);
+            validador.validacionRFC(evt);
         } else {
             evt.consume();
         }
@@ -487,7 +456,7 @@ public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
 
     private void txtCampoSerieKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCampoSerieKeyTyped
         if (!(txtCampoSerie.getText().length() > 6)) {
-            validacionCamposSerie(evt);
+            validador.validacionCamposSerie(evt);
         } else {
             evt.consume();
         }
@@ -495,7 +464,7 @@ public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
 
     private void txtCampoModeloKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCampoModeloKeyTyped
         if (!(txtCampoModelo.getText().length() > 3)) {
-            validacionNumero(evt);
+            validador.validacionNumero(evt);
         } else {
             evt.consume();
         }
@@ -503,7 +472,7 @@ public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
 
     private void txtCampoLineaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCampoLineaKeyTyped
         if (!(txtCampoLinea.getText().length() > 15)) {
-            validacionCamposAlfabeto(evt);
+            validador.validacionCamposAlfabeto(evt);
         } else {
             evt.consume();
         }
@@ -511,7 +480,7 @@ public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
 
     private void txtCampoColorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCampoColorKeyTyped
         if (!(txtCampoColor.getText().length() > 15)) {
-            validacionCamposAlfabeto(evt);
+            validador.validacionCamposAlfabeto(evt);
         } else {
             evt.consume();
         }
@@ -519,7 +488,7 @@ public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
 
     private void txtCampoMarcaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCampoMarcaKeyTyped
         if (!(txtCampoMarca.getText().length() > 15)) {
-            validacionCamposAlfabeto(evt);
+            validador.validacionCamposAlfabeto(evt);
         } else {
             evt.consume();
         }
@@ -555,10 +524,11 @@ public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
     private void txtCampoSerieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCampoSerieActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCampoSerieActionPerformed
-    
+
     /**
-     * 
+     *
      * Metodo para setear la informacion de la persona.
+     *
      * @param persona Objeto persona.
      */
     private void setearInfo(Persona persona) {
@@ -570,28 +540,34 @@ public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
     }
 
     /**
-     * 
-     * Metodo para generar la placa
+     * Metodo para generar la placa.
+     *
      * @return objeto placa
      */
     private Placa generarPlaca() {
         String numSerie = "";
-        if (validadores.validarSerie(this.txtCampoSerie.getText())) {
+        if (validador.validarSerie(this.txtCampoSerie.getText())) {
             numSerie = this.txtCampoSerie.getText();
             String modelo = this.txtCampoModelo.getText();
             String linea = this.txtCampoLinea.getText().toUpperCase();
             String color = this.txtCampoColor.getText().toUpperCase();
             String marca = this.txtCampoMarca.getText().toUpperCase();
-            if (!(color.isEmpty() && modelo.isEmpty() && linea.isEmpty() && marca.isEmpty())) {
+            if (!(color.isEmpty() || modelo.isEmpty() || linea.isEmpty() || marca.isEmpty())) {
                 try {
-                    automovilesDAO.agregar(new Automovil(numSerie, modelo, linea, marca, color));
+                    Automovil autoNuevo = new Automovil(numSerie, modelo, linea, marca, color);
+                    if (automovilesDAO.consultarAutomovil(autoNuevo.getNumSerie()) == null) {
+                        automovilesDAO.agregar(autoNuevo);
+                    } else {
+                        JOptionPane.showMessageDialog(this, "El numero de serie del carro ya existe");
+                        return null;
+                    }
                 } catch (PersistenciaException ex) {
                     Logger.getLogger(frmSolicitarPlacasAutoNuevo.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 Calendar fechaVencimiento = Calendar.getInstance();
                 fechaVencimiento.add(Calendar.YEAR, 4);
                 return new Placa(generarNumeroSerie(), true, automovilesDAO.consultarAutomovil(numSerie),
-                        costo, Calendar.getInstance(), fechaVencimiento, licenciasDAO.buscarLicenciaRFC(personaProspecto));
+                        costo, Calendar.getInstance(), fechaVencimiento, licenciasDAO.buscarLicenciaPersona(personaProspecto));
             } else {
                 JOptionPane.showMessageDialog(this, "Alguno de los campos esta en blanco");
             }
@@ -602,8 +578,9 @@ public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
     }
 
     /**
-     * 
+     *
      * Metodo para generar el numero de serie.
+     *
      * @return numero de serie (String)
      */
     public static String generarNumeroSerie() {
@@ -621,11 +598,48 @@ public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
         }
         return numeroSerie.toString();
     }
+
+    /**
+     * Metodo para limpiar todos los campos del frame.
+     */
+    private void limpiarCampos() {
+        this.txtCampoRFC.setText("");
+        this.txtCampoSerie.setText("");
+        this.txtCampoModelo.setText("");
+        this.txtCampoLinea.setText("");
+        this.txtCampoColor.setText("");
+        this.txtCampoMarca.setText("");
+        this.btnSolicitar.setEnabled(false);
+        this.pnlInfoPersona.setVisible(false);
+    }
+
+    /**
+     * Metodo para realizar la busqueda del RFC.
+     */
+    private void busquedaRFC() {
+        if (this.txtCampoRFC.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingrese un rfc valido");
+        } else {
+            try {
+                if (licenciasDAO.buscarLicenciaPersona(personasDAO.buscarPersonaRFC(txtCampoRFC.getText())) != null && personasDAO.buscarPersonaRFC(txtCampoRFC.getText()) != null) {
+                    personaProspecto = personasDAO.buscarPersonaRFC(txtCampoRFC.getText());
+                    personaProspecto.setNombreCompleto(encriptador.getDesencriptado(personaProspecto.getNombreCompleto()));
+                    this.pnlInfoPersona.setVisible(true);
+                    setearInfo(personaProspecto);
+                    this.btnSolicitar.setEnabled(true);
+                }
+            } catch (PersistenciaException ex) {
+                JOptionPane.showMessageDialog(this, "El usuario no cuenta con una licencia vigente");
+
+            }
+        }
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSeparator Separator1;
     private javax.swing.JButton btnBorrarCampos;
+    private javax.swing.JButton btnBusquedaRFC;
     private javax.swing.JButton btnSolicitar;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -650,16 +664,5 @@ public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
     private javax.swing.JLabel txtSerieCarro;
     private javax.swing.JLabel txtSeñal;
     // End of variables declaration//GEN-END:variables
-
-    private void limpiarCampos() {
-        this.txtCampoRFC.setText("");
-        this.txtCampoSerie.setText("");
-        this.txtCampoModelo.setText("");
-        this.txtCampoLinea.setText("");
-        this.txtCampoColor.setText("");
-        this.txtCampoMarca.setText("");
-        this.btnSolicitar.setEnabled(false);
-        this.pnlInfoPersona.setVisible(false);
-    }
 
 }

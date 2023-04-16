@@ -11,34 +11,64 @@ import Persistencia.AutomovilesDAO;
 import Persistencia.LicenciasDAO;
 import Persistencia.PersonasDAO;
 import Persistencia.PlacasDAO;
+import Validadores.Validadores;
 import excepciones.PersistenciaException;
-import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import utilidades.EncriptadoCesar;
 
 /**
  *
- * Clase de tipo frame para solicitar las placas de un automovil usado
+ * Descripción de la clase: Clase de tipo frame para solicitar las placas de un
+ * automovil usado.
  *
  * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox
  * ID:229384
  */
 public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
-//objetos - atributos
-
-    private PersonasDAO personasDAO;
-    private PlacasDAO placasDAO;
-    private AutomovilesDAO automovilesDAO;
-    private Persona personaProspecto;
-    private Placa placaSolicitud;
-    private LicenciasDAO licenciasDAO;
-    private float costo = 1000;
 
     /**
-     * Creates new form frmSolicitarPlacasAutoUsado
+     * Es la persona a la cual se le desea sacar la licencia.
+     */
+    private Persona personaProspecto;
+    /**
+     * Es el objeto para acceder a la clase personasDAO.
+     */
+    private PersonasDAO personasDAO;
+    /**
+     * Es el objeto para acceder a la clase licenciasDAO.
+     */
+    private LicenciasDAO licenciasDAO;
+    /**
+     * Es la vigencia de la licencia.
+     */
+    private Validadores validador = new Validadores();
+    /**
+     * Es el objeto para acceder a la clase encriptado cesar.
+     */
+    private EncriptadoCesar encriptador = new EncriptadoCesar();
+    /**
+     * Es el objeto para acceder a la clase placasDAO.
+     */
+    private PlacasDAO placasDAO;
+    /**
+     * Es el objeto para acceder a la clase automovilesDAO.
+     */
+    private AutomovilesDAO automovilesDAO;
+    /**
+     * Es el costo del tramite
+     */
+    private final float costo = 1000;
+    /**
+     * Es la placa a la cual se desea hacer el cambio
+     */
+    private Placa placaSolicitud;
+
+    /**
+     * Creates new form frmSolicitarPlacasAutoUsado.
      */
     public frmSolicitarPlacasAutoUsado() {
         initComponents();
@@ -72,8 +102,8 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
         btnSolicitar = new javax.swing.JButton();
         txtCostoPlacas = new javax.swing.JLabel();
         btnBorrarCampos = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnBusquedaRFC = new javax.swing.JButton();
+        btnBusquedaPlacas = new javax.swing.JButton();
         pnlPanelesInfo = new javax.swing.JPanel();
         pnlInfoPersona = new javax.swing.JPanel();
         txtRFCCliente = new javax.swing.JLabel();
@@ -110,12 +140,12 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
 
         pnlInformacion.setBackground(new java.awt.Color(255, 204, 153));
 
-        txtRFC.setForeground(new java.awt.Color(0, 0, 0));
         txtRFC.setText("RFC");
         txtRFC.setAutoscrolls(true);
+        txtRFC.setForeground(new java.awt.Color(0, 0, 0));
 
-        txtPlacas.setForeground(new java.awt.Color(0, 0, 0));
         txtPlacas.setText("Placas");
+        txtPlacas.setForeground(new java.awt.Color(0, 0, 0));
 
         txtCampoPlacas.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         txtCampoPlacas.addActionListener(new java.awt.event.ActionListener() {
@@ -153,22 +183,27 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
             }
         });
 
-        txtCostoPlacas.setForeground(new java.awt.Color(0, 0, 0));
         txtCostoPlacas.setText("Costo: 1000");
+        txtCostoPlacas.setForeground(new java.awt.Color(0, 0, 0));
 
         btnBorrarCampos.setText("Borrar datos");
-
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnBorrarCampos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnBorrarCamposActionPerformed(evt);
             }
         });
 
-        jButton2.setText("jButton1");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnBusquedaRFC.setText("jButton1");
+        btnBusquedaRFC.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnBusquedaRFCActionPerformed(evt);
+            }
+        });
+
+        btnBusquedaPlacas.setText("jButton1");
+        btnBusquedaPlacas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBusquedaPlacasActionPerformed(evt);
             }
         });
 
@@ -196,11 +231,11 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
         txtNumeroCliente.setMinimumSize(new java.awt.Dimension(0, 20));
         txtNumeroCliente.setPreferredSize(new java.awt.Dimension(10, 20));
 
+        txtSolicitarPlacas2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        txtSolicitarPlacas2.setText("Informacion Cliente");
         txtSolicitarPlacas2.setBackground(new java.awt.Color(0, 0, 0));
         txtSolicitarPlacas2.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
         txtSolicitarPlacas2.setForeground(new java.awt.Color(0, 0, 0));
-        txtSolicitarPlacas2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        txtSolicitarPlacas2.setText("Informacion Cliente");
 
         javax.swing.GroupLayout pnlInfoPersonaLayout = new javax.swing.GroupLayout(pnlInfoPersona);
         pnlInfoPersona.setLayout(pnlInfoPersonaLayout);
@@ -260,11 +295,11 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
         txtMarca.setMinimumSize(new java.awt.Dimension(0, 20));
         txtMarca.setPreferredSize(new java.awt.Dimension(10, 20));
 
+        txtSolicitarPlacas1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        txtSolicitarPlacas1.setText("Informacion Placa");
         txtSolicitarPlacas1.setBackground(new java.awt.Color(0, 0, 0));
         txtSolicitarPlacas1.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
         txtSolicitarPlacas1.setForeground(new java.awt.Color(0, 0, 0));
-        txtSolicitarPlacas1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        txtSolicitarPlacas1.setText("Informacion Placa");
 
         javax.swing.GroupLayout pnlInfoPlacasLayout = new javax.swing.GroupLayout(pnlInfoPlacas);
         pnlInfoPlacas.setLayout(pnlInfoPlacasLayout);
@@ -337,11 +372,11 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
                             .addGroup(pnlInformacionLayout.createSequentialGroup()
                                 .addComponent(txtCampoPlacas, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(btnBusquedaPlacas, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(pnlInformacionLayout.createSequentialGroup()
                                 .addComponent(txtCampoRFC, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(btnBusquedaRFC, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(52, 52, 52))
                     .addGroup(pnlInformacionLayout.createSequentialGroup()
                         .addContainerGap()
@@ -373,12 +408,12 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
                         .addGroup(pnlInformacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtRFC)
                             .addComponent(txtCampoRFC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1))
+                            .addComponent(btnBusquedaRFC))
                         .addGap(49, 49, 49)
                         .addGroup(pnlInformacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtPlacas)
                             .addComponent(txtCampoPlacas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton2))
+                            .addComponent(btnBusquedaPlacas))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(txtCostoPlacas)
                         .addGap(18, 18, 18)))
@@ -393,11 +428,11 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
         pnlTitulo.setBackground(new java.awt.Color(117, 37, 37));
         pnlTitulo.setPreferredSize(new java.awt.Dimension(221, 66));
 
+        txtSolicitarPlacas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        txtSolicitarPlacas.setText("Solicitar Placas");
         txtSolicitarPlacas.setBackground(new java.awt.Color(0, 0, 0));
         txtSolicitarPlacas.setFont(new java.awt.Font("Segoe UI Black", 1, 24)); // NOI18N
         txtSolicitarPlacas.setForeground(new java.awt.Color(0, 0, 0));
-        txtSolicitarPlacas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        txtSolicitarPlacas.setText("Solicitar Placas");
 
         javax.swing.GroupLayout pnlTituloLayout = new javax.swing.GroupLayout(pnlTitulo);
         pnlTitulo.setLayout(pnlTituloLayout);
@@ -464,45 +499,19 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
 
     private void txtCampoRFCKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCampoRFCKeyTyped
         if (!(txtCampoRFC.getText().length() > 12)) {
-            validacionNumeroLetra(evt);
+            validador.validacionRFC(evt);
         } else {
             evt.consume();
         }
     }//GEN-LAST:event_txtCampoRFCKeyTyped
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if (this.txtCampoRFC.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Ingrese un RFC valido");
-        } else {
-            try {
-                if (licenciasDAO.buscarLicenciaRFC(personasDAO.buscarPersonaRFC(txtCampoRFC.getText())) != null) {
-                    personaProspecto = personasDAO.buscarPersonaRFC(this.txtCampoRFC.getText());
-                    setearInfoPersona(personaProspecto);
-                    if (this.pnlInfoPlacas.isVisible()) {
-                        this.btnSolicitar.setEnabled(true);
-                    }
-                }
-            } catch (PersistenciaException ex) {
-                JOptionPane.showMessageDialog(this, "El cliente no cuenta con una licencia valida");
-            }
-        }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btnBusquedaRFCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBusquedaRFCActionPerformed
+        this.busquedaRFC();
+    }//GEN-LAST:event_btnBusquedaRFCActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if (this.txtCampoPlacas.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Ingrese una placa valido");
-        } else {
-            if (placasDAO.buscarPersonaSerie(txtCampoPlacas.getText()) != null) {
-                placaSolicitud = placasDAO.buscarPersonaSerie(txtCampoPlacas.getText());
-                setearInfoPlaca(placaSolicitud);
-                if (this.pnlInfoPersona.isVisible()) {
-                    this.btnSolicitar.setEnabled(true);
-                }
-            } else {
-                JOptionPane.showMessageDialog(this, "La placa no existe");
-            }
-        }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void btnBusquedaPlacasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBusquedaPlacasActionPerformed
+        this.busquedaPlacas();
+    }//GEN-LAST:event_btnBusquedaPlacasActionPerformed
 
     private void btnSolicitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolicitarActionPerformed
         generarCambiosPlacas();
@@ -510,28 +519,23 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         new frmMenu().setVisible(true);
-
     }//GEN-LAST:event_formWindowClosed
-
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         new frmMenu().setVisible(true);
-
     }//GEN-LAST:event_formWindowClosing
 
     private void txtCampoPlacasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCampoPlacasKeyTyped
         if (!(this.txtCampoPlacas.getText().length() > 6)) {
-            validacionCamposSerie(evt);
+            validador.validacionCamposSerie(evt);
         } else {
             evt.consume();
         }
     }//GEN-LAST:event_txtCampoPlacasKeyTyped
-    private void validacionCamposSerie(java.awt.event.KeyEvent evt) {
-        char txt = evt.getKeyChar();
-        if (!(txt == KeyEvent.VK_MINUS || Character.isLetterOrDigit(txt))) {
-            evt.consume();
-        }
-    }
+
+    private void btnBorrarCamposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarCamposActionPerformed
+        this.limpiarCampos();
+    }//GEN-LAST:event_btnBorrarCamposActionPerformed
 
     /**
      *
@@ -561,7 +565,6 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
         this.txtLinea.setText("Linea: " + placa.getTransporte().getLinea());
         this.txtColor.setText("Color: " + placa.getTransporte().getColor());
         this.txtMarca.setText("Marca: " + placa.getTransporte().getMarca());
-
     }
 
     /**
@@ -586,12 +589,85 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
         return numeroSerie.toString();
     }
 
+    /**
+     * Metodo para generar la actualizacion de placas del carro.
+     */
+    private void generarCambiosPlacas() {
+
+        try {
+            placaSolicitud.setNumeroPlaca(generarNumeroSerie());
+            placaSolicitud.setCosto(costo);
+            placasDAO.actualizar(placaSolicitud);
+            JOptionPane.showMessageDialog(this, "Se ha generado el cambio de placa\nNueva Placa: "
+                    + "" + placaSolicitud.getNumeroPlaca() + "\nCosto: $" + placaSolicitud.getCosto());
+            lanzarConfirmacion();
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(frmSolicitarPlacasAutoUsado.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Metodo para realizar la busqueda de la licencia con el RFC.
+     */
+    private void busquedaRFC() {
+        if (this.txtCampoRFC.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingrese un RFC valido");
+        } else {
+            try {
+                if (licenciasDAO.buscarLicenciaPersona(personasDAO.buscarPersonaRFC(txtCampoRFC.getText())) != null) {
+                    personaProspecto = personasDAO.buscarPersonaRFC(this.txtCampoRFC.getText());
+                    personaProspecto.setNombreCompleto(encriptador.getDesencriptado(personaProspecto.getNombreCompleto()));
+                    setearInfoPersona(personaProspecto);
+                    if (this.pnlInfoPlacas.isVisible()) {
+                        this.btnSolicitar.setEnabled(true);
+                    }
+                }
+            } catch (PersistenciaException ex) {
+                JOptionPane.showMessageDialog(this, "El cliente no cuenta con una licencia valida");
+            }
+        }
+    }
+
+    /**
+     * Metodo para lanzar confirmacion.
+     */
+    private void lanzarConfirmacion() {
+        int respuesta = JOptionPane.showOptionDialog(null, "¿Deseas realizar otro?", "Confirmación",
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+        if (respuesta == JOptionPane.YES_OPTION) {
+            limpiarCampos();
+        } else {
+            new frmMenu().setVisible(true);
+            this.setVisible(false);
+        }
+    }
+
+    /**
+     * Metodo para realizar la busqueda por las placas.
+     */
+    private void busquedaPlacas() {
+        if (this.txtCampoPlacas.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingrese una placa valido");
+        } else {
+            if (placasDAO.buscarPersonaSerie(txtCampoPlacas.getText()) != null) {
+                placaSolicitud = placasDAO.buscarPersonaSerie(txtCampoPlacas.getText());
+                placaSolicitud.getPersona().setNombreCompleto(encriptador.getDesencriptado(placaSolicitud.getPersona().getNombreCompleto()));
+                setearInfoPlaca(placaSolicitud);
+                if (this.pnlInfoPersona.isVisible()) {
+                    this.btnSolicitar.setEnabled(true);
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "La placa no existe");
+            }
+        }
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSeparator Separator1;
     private javax.swing.JButton btnBorrarCampos;
+    private javax.swing.JButton btnBusquedaPlacas;
+    private javax.swing.JButton btnBusquedaRFC;
     private javax.swing.JButton btnSolicitar;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JPanel pnlInfoPersona;
     private javax.swing.JPanel pnlInfoPlacas;
@@ -617,23 +693,15 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
     private javax.swing.JLabel txtSolicitarPlacas1;
     private javax.swing.JLabel txtSolicitarPlacas2;
     // End of variables declaration//GEN-END:variables
-
-    private void validacionNumeroLetra(KeyEvent evt) {
-        char txt = evt.getKeyChar();
-        if (!(Character.isLetterOrDigit(txt))) {
-            evt.consume();
-        }
-    }
-
-    private void generarCambiosPlacas() {
-
-        try {
-            placaSolicitud.setNumeroPlaca(generarNumeroSerie());
-            placaSolicitud.setCosto(costo);
-            placasDAO.actualizar(placaSolicitud);
-        } catch (PersistenciaException ex) {
-            Logger.getLogger(frmSolicitarPlacasAutoUsado.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    /**
+     * Metodo que limpia todos los datos.
+     */
+    private void limpiarCampos() {
+      this.txtCampoPlacas.setText("");
+      this.txtCampoRFC.setText("");
+      this.pnlInfoPersona.setVisible(false);
+      this.pnlInfoPlacas.setVisible(false);
+      this.btnSolicitar.setEnabled(false);
     }
 
 }

@@ -5,21 +5,22 @@
 package excepciones;
 
 /**
+ * Clase para gestionar la excepcion de persistencia.
  *
- * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox ID:229384
+ * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox
+ * ID:229384
  */
-public class PersistenciaException extends Exception{
-    
+public class PersistenciaException extends Exception {
+
     /**
-     * 
-     * Constructor por default
+     * Constructor por default.
      */
     public PersistenciaException() {
     }
 
     /**
-     * 
-     * Constructor de Persistencia Exception para errores que recibe el mensaje 
+     * Constructor de Persistencia Exception para errores que recibe el mensaje.
+     *
      * @param message mensaje
      */
     public PersistenciaException(String message) {
@@ -27,8 +28,8 @@ public class PersistenciaException extends Exception{
     }
 
     /**
-     * 
-     * Constructor de Persistencia Exception para errores y imprime la causa
+     * Constructor de Persistencia Exception para errores y imprime la causa.
+     *
      * @param message mensaje
      * @param cause causa
      */
@@ -37,8 +38,9 @@ public class PersistenciaException extends Exception{
     }
 
     /**
-     * 
-     * Constructor de Persistencia Exception para errores que solamente recibe la causa y la excusa.
+     * Constructor de Persistencia Exception para errores que solamente recibe
+     * la causa y la excusa.
+     *
      * @param cause causa
      */
     public PersistenciaException(Throwable cause) {
@@ -46,15 +48,15 @@ public class PersistenciaException extends Exception{
     }
 
     /**
-     * 
      * Constructor de Persistencia Exception para errores.
+     *
      * @param message mensaje
      * @param cause causa
      * @param enableSuppression
-     * @param writableStackTrace 
+     * @param writableStackTrace
      */
     public PersistenciaException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
-    
+
 }

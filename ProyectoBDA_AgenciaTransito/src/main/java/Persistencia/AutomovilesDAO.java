@@ -6,7 +6,6 @@ package Persistencia;
 //Imports
 
 import Dominio.Automovil;
-import Dominio.Persona;
 import Interfaces.IAutomovilesDAO;
 import excepciones.PersistenciaException;
 import javax.persistence.EntityManager;
@@ -17,7 +16,8 @@ import javax.persistence.criteria.Root;
 
 /**
  *
- * Clase DAO para todos los movimientos relacionados con los vehiculos
+ * Clase DAO para gestionar todos los movimientos relacionados con los
+ * vehiculos.
  *
  * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox
  * ID:229384
@@ -26,6 +26,12 @@ public class AutomovilesDAO implements IAutomovilesDAO {
 
     //Conexion a la base de datos
     ConexionBD conexion = new ConexionBD();
+
+    /**
+     * Metodo constructor por defecto.
+     */
+    public AutomovilesDAO() {
+    }
 
     /**
      *
@@ -44,7 +50,8 @@ public class AutomovilesDAO implements IAutomovilesDAO {
             bd.getTransaction().commit();//cerre conexion
         } catch (Exception e) {
             bd.getTransaction().rollback();
-            throw new PersistenciaException("No se puedo guardar el automovil." + e.getMessage());
+            throw new PersistenciaException("No se puedo guardar el automovil."
+                    + e.getMessage());
         } finally {
             bd.close();
         }
@@ -64,16 +71,17 @@ public class AutomovilesDAO implements IAutomovilesDAO {
         try {
             bd.getTransaction().begin();
             CriteriaBuilder builder = bd.getCriteriaBuilder();
-            CriteriaQuery<Automovil> consulta = builder.createQuery(Automovil.class);//solo se conecta en el java
+            CriteriaQuery<Automovil> consulta
+                    = builder.createQuery(Automovil.class);
             Root<Automovil> root = consulta.from(Automovil.class);
-            consulta.select(root).where(builder.equal(root.get("numSerie"), numSerie));
-            TypedQuery<Automovil> resultado = bd.createQuery(consulta); // se conecta a la base de datos
-            Automovil automovil = resultado.getSingleResult(); // devuelve la persona con el rfc que mande.
+            consulta.select(root).where(builder.equal(root.get("numSerie"),
+                    numSerie));
+            TypedQuery<Automovil> resultado = bd.createQuery(consulta);
+            Automovil automovil = resultado.getSingleResult();
             bd.getTransaction().commit();
             return automovil;
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
         }
         return null;
     }

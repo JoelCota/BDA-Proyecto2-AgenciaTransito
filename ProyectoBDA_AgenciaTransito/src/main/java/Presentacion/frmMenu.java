@@ -14,16 +14,24 @@ import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
+import utilidades.EncriptadoCesar;
 
 /**
  * Descripción de la clase: FRAME Menu principal del programa, donde el usuario
- * iniciara
+ * iniciara.
  *
  * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox
  * ID:229384
  */
 public class frmMenu extends javax.swing.JFrame {
 
+    /**
+     * Es el objeto para acceder a la clase encriptado cesar.
+     */
+    private EncriptadoCesar encriptador = new EncriptadoCesar();
+    /**
+     * Es el objeto para acceder a la clase personasDAO.
+     */
     private PersonasDAO personaDAO;
 
     /**
@@ -458,16 +466,7 @@ public class frmMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_txtAutomovilUsadoMouseClicked
 
     private void txtGenerarClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtGenerarClientesMouseClicked
-        if (this.pnlDatosClientes.isVisible()) {
-            JOptionPane.showMessageDialog(this, "Los clientes ya han sido generados");
-        } else {
-            try {
-                personaDAO.invocarPersonas();
-                generarTablaClientes(personaDAO.consultaPersonasTotal());
-            } catch (PersistenciaException ex) {
-                Logger.getLogger(frmMenu.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+        this.generarCliente();
     }//GEN-LAST:event_txtGenerarClientesMouseClicked
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
@@ -507,7 +506,7 @@ public class frmMenu extends javax.swing.JFrame {
 
     /**
      *
-     * Metodo para generar la tabla de clientes
+     * Metodo para generar la tabla clientes con la lista de clientes.
      *
      * @param listaPersonas Lista de personas
      */
@@ -518,12 +517,32 @@ public class frmMenu extends javax.swing.JFrame {
         modeloTabla.setRowCount(0);
         for (Persona persona : listaPersonas) {
             Object[] fila = {
-                persona.getNombreCompleto(),
+                encriptador.getDesencriptado(persona.getNombreCompleto()),
                 sdf.format(persona.getFechaNacimiento().getTime()),
                 persona.getRFC(),
                 persona.getTelefono()
             };
             modeloTabla.addRow(fila);
+        }
+    }
+
+    /**
+     * Metodo para generar los clientes e insertarlos en la tabla.
+     */
+    private void generarCliente() {
+        if (this.pnlDatosClientes.isVisible()) {
+            JOptionPane.showMessageDialog(this, "Los clientes ya han sido generados");
+        } else {
+            try {
+                personaDAO.invocarPersonas();
+                List<Persona> listaConsultadas = personaDAO.consultaPersonasTotal();
+                for (Persona listaConsultada : listaConsultadas) {
+                    listaConsultada.setNombreCompleto(encriptador.getDesencriptado(listaConsultada.getNombreCompleto()));
+                }
+                generarTablaClientes(listaConsultadas);
+            } catch (PersistenciaException ex) {
+                Logger.getLogger(frmMenu.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 }

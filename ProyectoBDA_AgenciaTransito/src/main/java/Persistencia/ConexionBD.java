@@ -10,21 +10,25 @@ import javax.persistence.Persistence;
 
 /**
  *
- * Clase relacionada con la conexion directa a la base de datos
- * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox ID:229384
+ * Clase relacionada con la conexion directa a la base de datos.
+ *
+ * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox
+ * ID:229384
  */
 public class ConexionBD {
+
     /**
      * Se creo el objeto EntityManagerFactory para la conexion.
      */
-    private final EntityManagerFactory conexion = Persistence.createEntityManagerFactory("persistenciaDatos"); 
-    
-    
+    private final EntityManagerFactory conexion = Persistence.createEntityManagerFactory("persistenciaDatos");
+
     /**
-     * Metodo encargado de obtener una nueva conexion creandola con el EntityManagerFactory.
-     * @return 
+     * Metodo encargado de obtener una nueva conexion creandola con el
+     * EntityManagerFactory.
+     *
+     * @return la conxion a la base de datos.
      */
-    public EntityManager obtenerConexion (){
+    public EntityManager obtenerConexion() {
         return (conexion.createEntityManager());
     }
 }
