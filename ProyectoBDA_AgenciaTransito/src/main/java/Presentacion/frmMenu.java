@@ -536,9 +536,6 @@ public class frmMenu extends javax.swing.JFrame {
             try {
                 personaDAO.invocarPersonas();
                 List<Persona> listaConsultadas = personaDAO.consultaPersonasTotal();
-                for (Persona listaConsultada : listaConsultadas) {
-                    listaConsultada.setNombreCompleto(encriptador.getDesencriptado(listaConsultada.getNombreCompleto()));
-                }
                 generarTablaClientes(listaConsultadas);
             } catch (PersistenciaException ex) {
                 Logger.getLogger(frmMenu.class.getName()).log(Level.SEVERE, null, ex);

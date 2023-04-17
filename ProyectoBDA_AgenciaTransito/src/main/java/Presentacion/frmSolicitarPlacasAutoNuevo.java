@@ -509,7 +509,6 @@ public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSolicitarActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        new frmMenu().setVisible(true);
     }//GEN-LAST:event_formWindowClosed
 
     private void btnBorrarCamposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarCamposActionPerformed
