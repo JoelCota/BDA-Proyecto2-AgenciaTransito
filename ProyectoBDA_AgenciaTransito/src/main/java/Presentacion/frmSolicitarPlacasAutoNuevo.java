@@ -627,10 +627,11 @@ public class frmSolicitarPlacasAutoNuevo extends javax.swing.JFrame {
                     this.pnlInfoPersona.setVisible(true);
                     setearInfo(personaProspecto);
                     this.btnSolicitar.setEnabled(true);
+                } else {
+                    JOptionPane.showMessageDialog(this, "El usuario no cuenta con una licencia vigente");
                 }
             } catch (PersistenciaException ex) {
                 JOptionPane.showMessageDialog(this, "El usuario no cuenta con una licencia vigente");
-
             }
         }
     }

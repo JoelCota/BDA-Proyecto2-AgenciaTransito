@@ -144,6 +144,11 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
         txtRFC.setText("RFC");
 
         txtCampoRFC.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        txtCampoRFC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCampoRFCActionPerformed(evt);
+            }
+        });
         txtCampoRFC.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtCampoRFCKeyTyped(evt);
@@ -360,7 +365,11 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void txtCampoRFCKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCampoRFCKeyTyped
-        validador.validacionRFC(evt);
+        if (!(txtCampoRFC.getText().length() > 12)) {
+            validador.validacionRFC(evt);
+        } else {
+            evt.consume();
+        }
     }//GEN-LAST:event_txtCampoRFCKeyTyped
 
     private void btnSolicitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolicitarActionPerformed
@@ -386,6 +395,10 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         new frmMenu().setVisible(true);
     }//GEN-LAST:event_formWindowClosing
+
+    private void txtCampoRFCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCampoRFCActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCampoRFCActionPerformed
 
     /**
      *
@@ -565,8 +578,9 @@ public class frmSolicitarLicencia extends javax.swing.JFrame {
                     setearInfo(personaProspecto);
                     this.txtCosto.setText("Costo: $" + generarCosto());
                     this.btnSolicitar.setEnabled(true);
+                } else {
+                    JOptionPane.showMessageDialog(this, "El RFC no pertenece a ninguna persona");
                 }
-
             } catch (PersistenciaException ex) {
                 JOptionPane.showMessageDialog(this, "El RFC no pertenece a ninguna persona");
 

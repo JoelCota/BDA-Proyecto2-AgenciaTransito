@@ -7,6 +7,7 @@ package Principal;
 import Presentacion.frmMenu;
 import excepciones.PersistenciaException;
 
+
 /**
  * Clase principal
  * @author Joel Antonio Lopez Cota ID:228926 y David de Jesus Sotelo Palafox

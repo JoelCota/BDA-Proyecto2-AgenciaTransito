@@ -621,6 +621,8 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
                     if (this.pnlInfoPlacas.isVisible()) {
                         this.btnSolicitar.setEnabled(true);
                     }
+                } else {
+                    JOptionPane.showMessageDialog(this, "El cliente no cuenta con una licencia valida");
                 }
             } catch (PersistenciaException ex) {
                 JOptionPane.showMessageDialog(this, "El cliente no cuenta con una licencia valida");
@@ -657,7 +659,7 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
                     this.btnSolicitar.setEnabled(true);
                 }
             } else {
-                JOptionPane.showMessageDialog(this, "La placa no existe");
+                JOptionPane.showMessageDialog(this, "La placa no existe\nEl formato de placa es:\nAAA-111");
             }
         }
     }
@@ -697,11 +699,11 @@ public class frmSolicitarPlacasAutoUsado extends javax.swing.JFrame {
      * Metodo que limpia todos los datos.
      */
     private void limpiarCampos() {
-      this.txtCampoPlacas.setText("");
-      this.txtCampoRFC.setText("");
-      this.pnlInfoPersona.setVisible(false);
-      this.pnlInfoPlacas.setVisible(false);
-      this.btnSolicitar.setEnabled(false);
+        this.txtCampoPlacas.setText("");
+        this.txtCampoRFC.setText("");
+        this.pnlInfoPersona.setVisible(false);
+        this.pnlInfoPlacas.setVisible(false);
+        this.btnSolicitar.setEnabled(false);
     }
 
 }

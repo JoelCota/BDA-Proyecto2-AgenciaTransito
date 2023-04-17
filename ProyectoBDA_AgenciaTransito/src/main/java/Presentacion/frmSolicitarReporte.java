@@ -41,18 +41,38 @@ import utilidades.JasperReportes;
  * ID:229384
  */
 public class frmSolicitarReporte extends javax.swing.JFrame {
-
+    /**
+     * Es el log.
+     */
     private static final Logger LOG = Logger.getLogger(frmSolicitarReporte.class.getName());
+    /**
+     * Es la lista de las personas que generaron un tramite con el parametro del tipo.
+     */
     private List<Persona> listaPersonas;
+    /**
+     * Es el objeto para acceder a la clase personasDAO.
+     */
     private PersonasDAO personasDAO;
+    /**
+     * Es el objeto para acceder a la clase placasDAO.
+     */
     private PlacasDAO placasDAO;
+    /**
+     * Es el objeto para acceder a la clase licenciasDAO.
+     */
     private LicenciasDAO licenciasDAO;
+    /**
+     * Es el objeto para acceder a la clase tramitesDAO.
+     */
     private TramitesDAO tramitesDAO;
+    /**
+     * Es el objeto para acceder a la clase jasperPrin.
+     */
     private JasperPrint jasperPrint;
     private EncriptadoCesar encriptador = new EncriptadoCesar();
 
     /**
-     * Creates new form frmSeleccionPersonas
+     * Creates new form frmSeleccionPersonas.
      */
     public frmSolicitarReporte() {
         initComponents();
@@ -403,7 +423,9 @@ public class frmSolicitarReporte extends javax.swing.JFrame {
             this.btnGenerarReporte.setEnabled(false);
         }
     }//GEN-LAST:event_cbxTipoTramiteItemStateChanged
-
+    /**
+     * Metodo para cargar las opciones de reporte
+     */
     private void cargarOpcionesBusqueda() {
         this.cbxTipoConsulta.removeAllItems();
         this.cbxTipoConsulta.addItem("INDIQUE OPCION DE REPORTE");
@@ -414,7 +436,7 @@ public class frmSolicitarReporte extends javax.swing.JFrame {
 
     /**
      *
-     * Metodo para hacer las validaciones del campo alfabetico
+     * Metodo para hacer las validaciones del campo alfabetico.
      *
      * @param evt
      */
@@ -427,7 +449,7 @@ public class frmSolicitarReporte extends javax.swing.JFrame {
 
     /**
      *
-     * Metodo para cargar el tipo de tramite
+     * Metodo para cargar el tipo de tramite.
      */
     private void cargarTipoTramite() {
         this.cbxTipoTramite.removeAllItems();
@@ -436,6 +458,12 @@ public class frmSolicitarReporte extends javax.swing.JFrame {
         this.cbxTipoTramite.addItem("PLACAS");
     }
 
+    /**
+     * Metodo para generar el reporte
+     *
+     * @throws JRException se lanza si no se pudo generar el jasper report
+     * @throws FileNotFoundException se lanza si no se encontro el archivo
+     */
     private void generarReporte() throws JRException, FileNotFoundException {
         String opcion = this.cbxTipoConsulta.getModel().getSelectedItem().toString();
         JasperReportes reportes = new JasperReportes();
@@ -485,6 +513,13 @@ public class frmSolicitarReporte extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Metodo para generar la lista de reportes
+     *
+     * @param listaTramites es la lista de todos los tramites correspondientes
+     * al parametro
+     * @return la lista de reportes
+     */
     private List<Reportes> generarListaReporte(List<Tramite> listaTramites) {
         List<Reportes> listaInfo = new ArrayList<>();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -505,13 +540,22 @@ public class frmSolicitarReporte extends javax.swing.JFrame {
         return listaInfo;
     }
 
+    /**
+     * Metodo para exportar el documento
+     *
+     * @throws FileNotFoundException se lanza si no encuentra el archivo
+     * @throws JRException se lanza si hubo error en el jasper reports
+     */
     private void exportarReporte() throws FileNotFoundException, JRException {
         JasperReportes reportes = new JasperReportes();
         reportes.exportarReporte(jasperPrint);
     }
 
+    /**
+     * Metodo para abrir la carpeta en la cual se encuentra el documento
+     */
     private void abrirCarpeta() {
-        String rutaArchivo = "C:\\Users\\aroco\\OneDrive - potros.itson.edu.mx\\Escritorio\\Proyecto2_BDA\\BDA-Proyecto2-AgenciaTransito\\ProyectoBDA_AgenciaTransito\\Reportes\\";
+        String rutaArchivo = "target/ReportesTramite/";
         if (Desktop.isDesktopSupported()) {
             Desktop desktop = Desktop.getDesktop();
             File archivo = new File(rutaArchivo);
@@ -529,6 +573,12 @@ public class frmSolicitarReporte extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Metodo que permite convertir un date picker en date
+     *
+     * @param date es la fecha seleccionada en el date picker
+     * @return la fecha en tipo Date
+     */
     private Date convertirFecha(DatePicker date) {
         LocalDate localDate = date.getDate();
         if (localDate != null) {
