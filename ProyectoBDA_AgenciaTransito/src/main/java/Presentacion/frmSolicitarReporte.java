@@ -555,7 +555,7 @@ public class frmSolicitarReporte extends javax.swing.JFrame {
      * Metodo para abrir la carpeta en la cual se encuentra el documento
      */
     private void abrirCarpeta() {
-        String rutaArchivo = "target/ReportesTramite/";
+        String rutaArchivo = "src/ReporteTramites/";
         if (Desktop.isDesktopSupported()) {
             Desktop desktop = Desktop.getDesktop();
             File archivo = new File(rutaArchivo);

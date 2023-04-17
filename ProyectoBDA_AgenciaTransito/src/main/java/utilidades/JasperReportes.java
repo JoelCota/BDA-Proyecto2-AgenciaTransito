@@ -61,8 +61,8 @@ public class JasperReportes {
         JRBeanCollectionDataSource itemsJRBean = new JRBeanCollectionDataSource(listItems);
         Map<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("CollectionBeanParam", itemsJRBean);
-        String jasperFilePath="target/classes/ReporteTramites.jrxml";
-        InputStream input= new FileInputStream(jasperFilePath);
+        String jasperFilePath = "src/ReporteTramites.jrxml";
+        InputStream input = new FileInputStream(jasperFilePath);
         JasperDesign jasperDesign = JRXmlLoader.load(input);
         JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());
@@ -80,28 +80,8 @@ public class JasperReportes {
      * @throws JRException se lanza en caso de que no se pueda exportar
      */
     public void exportarReporte(JasperPrint jasperPrint) throws FileNotFoundException, JRException {
-        String outputFile = "target/ReportesTramite/"+ "ReporteTramites.pdf";
+        String outputFile = "src/ReporteTramites/" + "ReporteTramites.pdf";
         OutputStream outputStream = new FileOutputStream(new File(outputFile));
         JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
-    }
-    
-    public URI obtenerRuta(){
-         String nombreArchivo = "ReporteTramites.jrxml";
-
-        // Obtener el sistema de archivos predeterminado
-        String sistemaArchivo = FileSystems.getDefault().toString();
-
-        // Crear un objeto Path con el nombre del archivo o directorio
-        Path rutaArchivo = Path.of(sistemaArchivo, nombreArchivo);
-
-        // Obtener el URI del archivo o directorio
-        URI uri = rutaArchivo.toUri();
-
-        // Imprimir la ruta del archivo o directorio en el sistema de archivos
-        System.out.println("La ruta del archivo o directorio es: " + rutaArchivo.toString());
-
-        // Imprimir el URI del archivo o directorio
-        System.out.println("El URI del archivo o directorio es: " + uri.toString());
-    return uri;
     }
 }

@@ -183,9 +183,11 @@
 		<band height="45" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="54" splitType="Stretch"/>
+		<band height="82" splitType="Stretch">
+			<textField>
+				<reportElement x="530" y="52" width="30" height="30" uuid="19aaaf2a-f3b2-4a89-a463-b66e598e906e"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
 	</pageFooter>
-	<summary>
-		<band height="50" splitType="Stretch"/>
-	</summary>
 </jasperReport>
